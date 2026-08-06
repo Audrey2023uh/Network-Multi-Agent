@@ -1,0 +1,193 @@
+{
+  "ablations": {
+    "cpu_only": {
+      "n_features": 2,
+      "features": [
+        "cpu_mean",
+        "cpu_max"
+      ],
+      "test": {
+        "roc_auc": 0.7255320546505517,
+        "ap": 0.1092199142607551,
+        "brier": 0.26244223870640715,
+        "precision": 0.013250883392226149,
+        "recall": 0.9375,
+        "f1": 0.02613240418118467,
+        "support_pos": 16,
+        "support_neg": 1903,
+        "prior": 0.008337675872850442
+      }
+    },
+    "mem_only": {
+      "n_features": 1,
+      "features": [
+        "mem_mean"
+      ],
+      "test": {
+        "roc_auc": 0.4459898843930636,
+        "ap": 0.010615019702120362,
+        "brier": 0.21143205748322536,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support_pos": 16,
+        "support_neg": 1903,
+        "prior": 0.008337675872850442
+      }
+    },
+    "interface_counters": {
+      "n_features": 3,
+      "features": [
+        "err_sum",
+        "disc_sum",
+        "car_sum"
+      ],
+      "test": {
+        "roc_auc": 0.7265173410404625,
+        "ap": 0.016976413084510162,
+        "brier": 0.28236552936379156,
+        "precision": 0.0076481835564053535,
+        "recall": 0.25,
+        "f1": 0.014842300556586271,
+        "support_pos": 16,
+        "support_neg": 1903,
+        "prior": 0.008337675872850442
+      }
+    },
+    "role_only": {
+      "n_features": 5,
+      "features": [
+        "role_access",
+        "role_aggregation",
+        "role_ap",
+        "role_core",
+        "role_wan_edge"
+      ],
+      "test": {
+        "roc_auc": 0.791907514450867,
+        "ap": 0.019801980198019802,
+        "brier": 0.21334429137113467,
+        "precision": 0.019801980198019802,
+        "recall": 1.0,
+        "f1": 0.038834951456310676,
+        "support_pos": 16,
+        "support_neg": 1903,
+        "prior": 0.008337675872850442
+      }
+    },
+    "cpu+iface": {
+      "n_features": 5,
+      "features": [
+        "cpu_mean",
+        "cpu_max",
+        "err_sum",
+        "disc_sum",
+        "car_sum"
+      ],
+      "test": {
+        "roc_auc": 0.7227404098791381,
+        "ap": 0.07782713648349553,
+        "brier": 0.2743290077049141,
+        "precision": 0.01570048309178744,
+        "recall": 0.8125,
+        "f1": 0.030805687203791468,
+        "support_pos": 16,
+        "support_neg": 1903,
+        "prior": 0.008337675872850442
+      }
+    },
+    "full": {
+      "n_features": 12,
+      "features": [
+        "role_access",
+        "role_aggregation",
+        "role_ap",
+        "role_core",
+        "role_wan_edge",
+        "cpu_mean",
+        "cpu_max",
+        "mem_mean",
+        "err_sum",
+        "disc_sum",
+        "car_sum",
+        "n_samples"
+      ],
+      "test": {
+        "roc_auc": 0.8642275354703102,
+        "ap": 0.109700441619023,
+        "brier": 0.13402857379272348,
+        "precision": 0.024574669187145556,
+        "recall": 0.8125,
+        "f1": 0.047706422018348627,
+        "support_pos": 16,
+        "support_neg": 1903,
+        "prior": 0.008337675872850442
+      }
+    },
+    "oracle_leak": {
+      "n_features": 14,
+      "features": [
+        "role_access",
+        "role_aggregation",
+        "role_ap",
+        "role_core",
+        "role_wan_edge",
+        "cpu_mean",
+        "cpu_max",
+        "mem_mean",
+        "err_sum",
+        "disc_sum",
+        "car_sum",
+        "n_samples",
+        "leak_has_incident_id",
+        "leak_y_score"
+      ],
+      "test": {
+        "roc_auc": 1.0,
+        "ap": 1.0,
+        "brier": 3.248580537043867e-08,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support_pos": 16,
+        "support_neg": 1903,
+        "prior": 0.008337675872850442
+      }
+    }
+  },
+  "ranking_by_ap": [
+    {
+      "name": "oracle_leak",
+      "ap": 1.0
+    },
+    {
+      "name": "full",
+      "ap": 0.109700441619023
+    },
+    {
+      "name": "cpu_only",
+      "ap": 0.1092199142607551
+    },
+    {
+      "name": "cpu+iface",
+      "ap": 0.07782713648349553
+    },
+    {
+      "name": "role_only",
+      "ap": 0.019801980198019802
+    },
+    {
+      "name": "interface_counters",
+      "ap": 0.016976413084510162
+    },
+    {
+      "name": "mem_only",
+      "ap": 0.010615019702120362
+    }
+  ],
+  "interpretation": [
+    "Oracle leak features dominate \u2014 confirms label proxies must stay excluded",
+    "full AP=0.1097; cpu_only=0.1092; iface=0.0170",
+    "CPU load features are primary drivers vs interface counters in this setup"
+  ]
+}

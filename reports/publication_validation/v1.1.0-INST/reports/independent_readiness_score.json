@@ -1,0 +1,31 @@
+{
+  "index_name": "Independent Publication Readiness Index (IPRI)",
+  "version_evaluated": "1.1.0-INST",
+  "score": 88.1,
+  "score_numerator": 92.5,
+  "score_denominator": 105,
+  "dimensions": {
+    "statistical_fidelity": 10.0,
+    "causal_consistency": 10.0,
+    "leakage_resistance": 12.0,
+    "split_hygiene": 10.0,
+    "prediction_difficulty": 10.0,
+    "baseline_credibility": 8.0,
+    "temporal_holdout": 9.0,
+    "cross_topology": 5.0,
+    "ablation_coherence": 5.0,
+    "seed_reproducibility": 5.5,
+    "external_comparability": 4.0,
+    "engineer_checklist": 4.0
+  },
+  "gates": {
+    "no_critical_leakage_failures": true,
+    "temporal_holdout_evaluated": true,
+    "simple_model_not_perfect": true,
+    "checksums_present": true,
+    "multi_seed_generation_verified": false
+  },
+  "publication_ready_claim": false,
+  "claim_text": "CONDITIONAL \u2014 credible under temporal holdout and leakage protocol, but NOT fully publication-ready until alternate generation seeds are produced and compared",
+  "contrast_with_realism_audit": "Prior REALISM_AUDIT scored generative fidelity (up to 100/100). IPRI scores benchmark scientific validity (holdout, leakage, baselines, seed). A high realism score does not imply IPRI publication readiness."
+}

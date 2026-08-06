@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+title: "ECNetBench and Enterprise Cognitive Network (ECN)"
+message: "If you use this software and dataset, please cite it as below."
+type: software
+authors:
+  - family-names: "ECNetBench Contributors"
+version: "1.1.0"
+date-released: "2026-08-06"
+url: "https://github.com/Audrey2023uh/Network-Multi-Agent"
+repository-code: "https://github.com/Audrey2023uh/Network-Multi-Agent"
+license: MIT
+abstract: >-
+  ECNetBench is an enterprise cognitive networking benchmark with multi-seed
+  frozen instances. This repository also provides the Enterprise Cognitive
+  Network multi-agent framework and reproducible evaluation against B01 baselines.
+keywords:
+  - network management
+  - digital twin
+  - multi-agent systems
+  - anomaly detection
+  - root cause analysis
+  - benchmark

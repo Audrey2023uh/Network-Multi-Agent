@@ -1,0 +1,48 @@
+# Statistical Validation
+
+Pass rate: 100.00%
+
+## Checks
+
+- [PASS] `cpu_non_gaussian`: CPU rejects normality (mixture/diurnal)
+- [PASS] `flow_heavy_tail`: in_bytes skew=30.32 (expect >>1)
+- [PASS] `temp_resolution`: unique_ratio=0.1027
+- [PASS] `cpu_acf_positive_short`: lag-5min ACF=0.861
+- [PASS] `cpu_acf_diurnal`: lag-1d ACF=0.699
+- [PASS] `traffic_diurnal`: biz/night traffic delta ratio=3.17
+
+## Metrics
+```json
+{
+  "cpu": {
+    "mean": 15.394420013228764,
+    "std": 5.490389675442584,
+    "skew": 1.1497787747907136,
+    "kurtosis": 1.711263808397217,
+    "p01": 7.6218,
+    "p99": 31.904199999999996,
+    "ks_norm_pvalue": 0.0
+  },
+  "flow_in_bytes": {
+    "skew": 30.320263169091113,
+    "log_mean": 8.51071549128342,
+    "log_std": 1.4040749038616038,
+    "gini": 0.6776816646752615
+  },
+  "temperature": {
+    "nunique": 7608,
+    "unique_ratio": 0.10269839769981506,
+    "std": 1.4563898916650029
+  },
+  "cpu_acf_mean": {
+    "5min": 0.8607747505623355,
+    "1h": 0.8164399153208148,
+    "1d": 0.6993315191803307
+  },
+  "traffic_biz_vs_night": {
+    "biz": 14604793324.468084,
+    "night": 4600900514.6801815,
+    "ratio": 3.1743336494005807
+  }
+}
+```

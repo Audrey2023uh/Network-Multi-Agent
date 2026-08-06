@@ -1,0 +1,52 @@
+# Seed Sensitivity Report — ECNetBench v1.1.0-INST
+
+**Instance generation seed:** `20260806` (FROZEN)
+
+**Multi-seed regeneration performed:** `False`
+
+Alternate data-generation seeds were not run because v1.1.0-INST is frozen. This report measures model-RNG and bootstrap sensitivity on the single frozen instance only.
+
+## Model RNG sensitivity (frozen data)
+```json
+{
+  "seeds": [
+    0,
+    1,
+    2,
+    7,
+    42,
+    20260806
+  ],
+  "roc_auc": [
+    0.8642275354703102,
+    0.8642275354703102,
+    0.8642275354703102,
+    0.8642275354703102,
+    0.8642275354703102,
+    0.8642275354703102
+  ],
+  "ap": [
+    0.109700441619023,
+    0.109700441619023,
+    0.109700441619023,
+    0.109700441619023,
+    0.109700441619023,
+    0.109700441619023
+  ],
+  "roc_auc_range": 0.0,
+  "ap_range": 0.0
+}
+```
+
+## Bootstrap AP (temporal test)
+```json
+{
+  "n": 50,
+  "mean": 0.10579383132400007,
+  "std": 0.06932253979715221,
+  "p05": 0.01939951861734191,
+  "p95": 0.22426958998919885
+}
+```
+
+**Verdict:** PARTIAL — frozen-instance metrics stable under model RNG; generation-seed robustness UNVERIFIED

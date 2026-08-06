@@ -1,0 +1,38 @@
+{
+  "v1": {
+    "path": "benchmark/instances/v1/ecnetbench_v1.sqlite",
+    "exists": true,
+    "bytes": 206643200,
+    "sha256": "5cb782d18a3e20c2ddca1351306a21640c09b51a62f86ba08c487d85ad7ee249"
+  },
+  "v1.1-seed101": {
+    "path": "benchmark/instances/v1.1-seed101/ecnetbench_v1.sqlite",
+    "exists": true,
+    "bytes": 206893056,
+    "sha256": "848f04d8216a295760dafab84abdab5f175fe088d3814cb34d0e6fbbbae411b1"
+  },
+  "v1.1-seed202": {
+    "path": "benchmark/instances/v1.1-seed202/ecnetbench_v1.sqlite",
+    "exists": true,
+    "bytes": 206974976,
+    "sha256": "375a078d752475bb6050ba3ca6e68d02f824ec8bbecdb6c8a686d9fb137d009e"
+  },
+  "v1.1-seed303": {
+    "path": "benchmark/instances/v1.1-seed303/ecnetbench_v1.sqlite",
+    "exists": true,
+    "bytes": 206839808,
+    "sha256": "5502e513ffe9b006682f5b5fd0400537832cfc06a1618ec4f3042a351985b29b"
+  },
+  "v1.1-seed404": {
+    "path": "benchmark/instances/v1.1-seed404/ecnetbench_v1.sqlite",
+    "exists": true,
+    "bytes": 207089664,
+    "sha256": "3be3a42b9ade0acd8f2cf7e87c3a73632ba1ad0bfb647fefdee8eb3725d51b6c"
+  },
+  "v1.1-seed505": {
+    "path": "benchmark/instances/v1.1-seed505/ecnetbench_v1.sqlite",
+    "exists": true,
+    "bytes": 207405056,
+    "sha256": "afcf91073fc35fb9361fd63875f682d88fdd8957fe21f6128c659658a0c9ff21"
+  }
+}

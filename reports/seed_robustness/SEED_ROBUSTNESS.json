@@ -1,0 +1,915 @@
+{
+  "generated_at_utc": "2026-08-06T18:01:33.647789+00:00",
+  "seeds": [
+    101,
+    202,
+    303,
+    404,
+    505
+  ],
+  "frozen_instance": "C:\\Users\\audre\\OneDrive\\Network_Journal\\Data\\09_artifacts\\instances\\v1",
+  "frozen_untouched_policy": true,
+  "variability": {
+    "n_devices": {
+      "n": 5,
+      "mean": 19.0,
+      "std": 0.0,
+      "ci95": [
+        19.0,
+        19.0
+      ],
+      "min": 19.0,
+      "max": 19.0,
+      "cv": 0.0
+    },
+    "n_interfaces": {
+      "n": 5,
+      "mean": 168.0,
+      "std": 0.0,
+      "ci95": [
+        168.0,
+        168.0
+      ],
+      "min": 168.0,
+      "max": 168.0,
+      "cv": 0.0
+    },
+    "n_links": {
+      "n": 5,
+      "mean": 31.0,
+      "std": 0.0,
+      "ci95": [
+        31.0,
+        31.0
+      ],
+      "min": 31.0,
+      "max": 31.0,
+      "cv": 0.0
+    },
+    "n_incidents": {
+      "n": 5,
+      "mean": 37.6,
+      "std": 2.0736441353327724,
+      "ci95": [
+        35.02523073207092,
+        40.17476926792908
+      ],
+      "min": 36.0,
+      "max": 41.0,
+      "cv": 0.05515010998225458
+    },
+    "cpu_mean": {
+      "n": 5,
+      "mean": 15.392714542021157,
+      "std": 0.009731490164111633,
+      "ci95": [
+        15.380631301035505,
+        15.404797783006808
+      ],
+      "min": 15.384657614383467,
+      "max": 15.407569968489943,
+      "cv": 0.0006322140346035306
+    },
+    "cpu_std": {
+      "n": 5,
+      "mean": 5.484114736819065,
+      "std": 0.008129292752694054,
+      "ci95": [
+        5.474020886677186,
+        5.494208586960944
+      ],
+      "min": 5.476043911325046,
+      "max": 5.494485003232559,
+      "cv": 0.0014823345503907645
+    },
+    "cpu_biz_night_ratio": {
+      "n": 5,
+      "mean": 1.425780736587818,
+      "std": 0.001647354861746529,
+      "ci95": [
+        1.4237352753637214,
+        1.4278261978119144
+      ],
+      "min": 1.422978704564867,
+      "max": 1.427002340978103,
+      "cv": 0.0011554054697701856
+    },
+    "cpu_acf_1d_mean": {
+      "n": 5,
+      "mean": 0.6432779343134489,
+      "std": 0.06292297828794369,
+      "ci95": [
+        0.5651487375135521,
+        0.7214071311133458
+      ],
+      "min": 0.5473346687470654,
+      "max": 0.7133153008692584,
+      "cv": 0.09781616146230708
+    },
+    "flow_skew": {
+      "n": 5,
+      "mean": 18.769230010760037,
+      "std": 11.101223343045929,
+      "ci95": [
+        4.985240649680673,
+        32.553219371839404
+      ],
+      "min": 10.12423977094721,
+      "max": 35.80879792981139,
+      "cv": 0.5914586446370902
+    },
+    "temp_unique_ratio": {
+      "n": 5,
+      "mean": 0.10238056314161445,
+      "std": 0.00013053983697497464,
+      "ci95": [
+        0.10221847652571124,
+        0.10254264975751766
+      ],
+      "min": 0.10219154861363361,
+      "max": 0.1025233833523989,
+      "cv": 0.0012750451156867523
+    },
+    "anomaly_prior": {
+      "n": 5,
+      "mean": 0.010041448345976381,
+      "std": 0.000817601003436936,
+      "ci95": [
+        0.009026262615113466,
+        0.011056634076839296
+      ],
+      "min": 0.009306326738093377,
+      "max": 0.011339641823727223,
+      "cv": 0.08142261706345874
+    },
+    "svi_ipv4_frac": {
+      "n": 5,
+      "mean": 1.0,
+      "std": 0.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "min": 1.0,
+      "max": 1.0,
+      "cv": 0.0
+    },
+    "mac_frac": {
+      "n": 5,
+      "mean": 1.0,
+      "std": 0.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "min": 1.0,
+      "max": 1.0,
+      "cv": 0.0
+    },
+    "stp_blocking_or_alternate": {
+      "n": 5,
+      "mean": 6.0,
+      "std": 0.0,
+      "ci95": [
+        6.0,
+        6.0
+      ],
+      "min": 6.0,
+      "max": 6.0,
+      "cv": 0.0
+    },
+    "n_alerts": {
+      "n": 5,
+      "mean": 65.4,
+      "std": 5.319774431308155,
+      "ci95": [
+        58.794627610079765,
+        72.00537238992024
+      ],
+      "min": 60.0,
+      "max": 73.0,
+      "cv": 0.08134211668666903
+    },
+    "n_syslog": {
+      "n": 5,
+      "mean": 267.2,
+      "std": 14.324803663575986,
+      "ci95": [
+        249.4134070096003,
+        284.9865929903997
+      ],
+      "min": 256.0,
+      "max": 290.0,
+      "cv": 0.05361079215410175
+    }
+  },
+  "baseline_ci": {
+    "logistic_ap": {
+      "n": 5,
+      "mean": 0.06805845558036491,
+      "std": 0.04081600129827803,
+      "ci95": [
+        0.01737869621765499,
+        0.11873821494307484
+      ],
+      "min": 0.01767270736770408,
+      "max": 0.12857410107008585,
+      "cv": 0.5997197695748709
+    },
+    "logistic_roc_auc": {
+      "n": 5,
+      "mean": 0.751815821469474,
+      "std": 0.09586594149482565,
+      "ci95": [
+        0.6327825332614406,
+        0.8708491096775074
+      ],
+      "min": 0.6614116094986807,
+      "max": 0.9021567596002105,
+      "cv": 0.12751253532740145
+    },
+    "rf_ap": {
+      "n": 5,
+      "mean": 0.04662615233019293,
+      "std": 0.025557006785463077,
+      "ci95": [
+        0.014892937102834125,
+        0.07835936755755174
+      ],
+      "min": 0.019227186119448174,
+      "max": 0.07920200715672987,
+      "cv": 0.5481260088646334
+    },
+    "ipri": {
+      "n": 5,
+      "mean": 89.6,
+      "std": 0.5477225575051661,
+      "ci95": [
+        88.91991261934174,
+        90.28008738065824
+      ],
+      "min": 89.0,
+      "max": 90.0,
+      "cv": 0.006112974972155872
+    },
+    "realism_score": {
+      "n": 5,
+      "mean": 100.0,
+      "std": 0.0,
+      "ci95": [
+        100.0,
+        100.0
+      ],
+      "min": 100.0,
+      "max": 100.0,
+      "cv": 0.0
+    }
+  },
+  "incident_category_jaccard": 1.0,
+  "criteria": {
+    "topology_invariant_across_seeds": true,
+    "incident_category_jaccard": 1.0,
+    "incident_category_set_stable": true,
+    "protocol_behaviors_present_all_seeds": true,
+    "cpu_biz_night_ratio_cv_lt_0.25": true,
+    "anomaly_prior_cv_lt_0.5": true,
+    "logistic_ap_ci_above_prior": true,
+    "logistic_not_perfect_auc": true,
+    "realism_score_mean_ge_90": true,
+    "realism_score_min_ge_85": true,
+    "causal_pass_all_seeds": true,
+    "structural_causal_ok": true,
+    "stats_pass_all_seeds": true,
+    "leakage_controlled_all_seeds": true,
+    "n_seeds": 5
+  },
+  "generator_robust_across_seeds": true,
+  "publication_ready": true,
+  "verdict": "FULLY PUBLICATION-READY \u2014 ECNetBench generator is robust across independent seeds (101/202/303/404/505), with consistent topology, protocol dynamics, incident coverage, causal consistency, controlled leakage, and non-trivial temporal-holdout baselines. Suitable for submission to IEEE TNSM, Computer Networks, or IEEE Network as a synthetic enterprise cognitive-networking benchmark, provided papers disclose synthetic generation, seed set, and leakage-safe evaluation protocols.",
+  "per_seed_stats": [
+    {
+      "seed": 101,
+      "n_devices": 19,
+      "n_interfaces": 168,
+      "n_links": 31,
+      "n_vlans": 9,
+      "n_incidents": 37,
+      "incident_categories": {
+        "interface_failure": 3,
+        "cable_failure": 3,
+        "congestion": 3,
+        "routing_instability": 3,
+        "acl_misconfiguration": 3,
+        "vlan_mismatch": 3,
+        "stp_loop": 3,
+        "firmware_incompatibility": 3,
+        "qos_problems": 3,
+        "authentication_failures": 2,
+        "hardware_degradation": 2,
+        "power_issues": 2,
+        "intermittent_failures": 2,
+        "vsx_split_brain": 2
+      },
+      "stp_blocking_or_alternate": 6,
+      "n_vsx_pairs": 2,
+      "n_bgp_neighbors": 2,
+      "svi_ipv4_frac": 1.0,
+      "wan_ipv4_frac": 1.0,
+      "mac_frac": 1.0,
+      "cpu_mean": 15.388476589731512,
+      "cpu_std": 5.476043911325046,
+      "cpu_biz": 19.70328496468214,
+      "cpu_night": 13.818879416353125,
+      "cpu_biz_night_ratio": 1.4258236409487475,
+      "cpu_acf_1d_mean": 0.6613896298348106,
+      "flow_skew": 24.30979871591516,
+      "temp_unique_ratio": 0.1025233833523989,
+      "anomaly_prior": 0.009540940017204973,
+      "degradation_link_rate": 1.0,
+      "n_alerts": 61,
+      "n_syslog": 262,
+      "alert_fp": 14,
+      "bgp_states": {
+        "active": 2,
+        "established": 2686,
+        "idle": 6,
+        "opensent": 4
+      },
+      "vsx_states": {
+        "split": 6,
+        "sync": 1342,
+        "sync_progress": 8
+      },
+      "if_oper_states": {
+        "down": 510,
+        "up": 39059
+      },
+      "roles": {
+        "access": 8,
+        "ap": 5,
+        "core": 2,
+        "aggregation": 2,
+        "wan_edge": 2
+      }
+    },
+    {
+      "seed": 202,
+      "n_devices": 19,
+      "n_interfaces": 168,
+      "n_links": 31,
+      "n_vlans": 9,
+      "n_incidents": 36,
+      "incident_categories": {
+        "interface_failure": 3,
+        "cable_failure": 3,
+        "congestion": 3,
+        "routing_instability": 3,
+        "acl_misconfiguration": 3,
+        "vlan_mismatch": 3,
+        "stp_loop": 3,
+        "firmware_incompatibility": 3,
+        "qos_problems": 2,
+        "authentication_failures": 2,
+        "hardware_degradation": 2,
+        "power_issues": 2,
+        "intermittent_failures": 2,
+        "vsx_split_brain": 2
+      },
+      "stp_blocking_or_alternate": 6,
+      "n_vsx_pairs": 2,
+      "n_bgp_neighbors": 2,
+      "svi_ipv4_frac": 1.0,
+      "wan_ipv4_frac": 1.0,
+      "mac_frac": 1.0,
+      "cpu_mean": 15.397433076374595,
+      "cpu_std": 5.482609236663326,
+      "cpu_biz": 19.71949714776112,
+      "cpu_night": 13.827135449910129,
+      "cpu_biz_night_ratio": 1.426144787383503,
+      "cpu_acf_1d_mean": 0.6210173073128868,
+      "flow_skew": 10.12423977094721,
+      "temp_unique_ratio": 0.10219154861363361,
+      "anomaly_prior": 0.009306326738093377,
+      "degradation_link_rate": 1.0,
+      "n_alerts": 68,
+      "n_syslog": 256,
+      "alert_fp": 14,
+      "bgp_states": {
+        "active": 2,
+        "established": 2688,
+        "idle": 6,
+        "opensent": 4
+      },
+      "vsx_states": {
+        "split": 6,
+        "sync": 1342,
+        "sync_progress": 8
+      },
+      "if_oper_states": {
+        "down": 485,
+        "up": 38851
+      },
+      "roles": {
+        "access": 8,
+        "ap": 5,
+        "core": 2,
+        "aggregation": 2,
+        "wan_edge": 2
+      }
+    },
+    {
+      "seed": 303,
+      "n_devices": 19,
+      "n_interfaces": 168,
+      "n_links": 31,
+      "n_vlans": 9,
+      "n_incidents": 41,
+      "incident_categories": {
+        "interface_failure": 3,
+        "cable_failure": 3,
+        "congestion": 3,
+        "routing_instability": 3,
+        "acl_misconfiguration": 3,
+        "vlan_mismatch": 3,
+        "stp_loop": 3,
+        "firmware_incompatibility": 3,
+        "qos_problems": 3,
+        "authentication_failures": 3,
+        "hardware_degradation": 3,
+        "power_issues": 3,
+        "intermittent_failures": 3,
+        "vsx_split_brain": 2
+      },
+      "stp_blocking_or_alternate": 6,
+      "n_vsx_pairs": 2,
+      "n_bgp_neighbors": 2,
+      "svi_ipv4_frac": 1.0,
+      "wan_ipv4_frac": 1.0,
+      "mac_frac": 1.0,
+      "cpu_mean": 15.407569968489943,
+      "cpu_std": 5.494485003232559,
+      "cpu_biz": 19.724644633901704,
+      "cpu_night": 13.822899506645559,
+      "cpu_biz_night_ratio": 1.4269542090638683,
+      "cpu_acf_1d_mean": 0.5473346687470654,
+      "flow_skew": 11.60949311160451,
+      "temp_unique_ratio": 0.10242115752336323,
+      "anomaly_prior": 0.011339641823727223,
+      "degradation_link_rate": 1.0,
+      "n_alerts": 73,
+      "n_syslog": 290,
+      "alert_fp": 14,
+      "bgp_states": {
+        "active": 4,
+        "established": 2686,
+        "idle": 6,
+        "opensent": 2
+      },
+      "vsx_states": {
+        "split": 4,
+        "sync": 1342,
+        "sync_progress": 8
+      },
+      "if_oper_states": {
+        "down": 720,
+        "up": 38482
+      },
+      "roles": {
+        "access": 8,
+        "ap": 5,
+        "core": 2,
+        "aggregation": 2,
+        "wan_edge": 2
+      }
+    },
+    {
+      "seed": 404,
+      "n_devices": 19,
+      "n_interfaces": 168,
+      "n_links": 31,
+      "n_vlans": 9,
+      "n_incidents": 36,
+      "incident_categories": {
+        "interface_failure": 3,
+        "cable_failure": 3,
+        "congestion": 3,
+        "routing_instability": 3,
+        "acl_misconfiguration": 3,
+        "vlan_mismatch": 3,
+        "stp_loop": 3,
+        "firmware_incompatibility": 3,
+        "qos_problems": 2,
+        "authentication_failures": 2,
+        "hardware_degradation": 2,
+        "power_issues": 2,
+        "intermittent_failures": 2,
+        "vsx_split_brain": 2
+      },
+      "stp_blocking_or_alternate": 6,
+      "n_vsx_pairs": 2,
+      "n_bgp_neighbors": 2,
+      "svi_ipv4_frac": 1.0,
+      "wan_ipv4_frac": 1.0,
+      "mac_frac": 1.0,
+      "cpu_mean": 15.384657614383467,
+      "cpu_std": 5.490391567876678,
+      "cpu_biz": 19.720476780655606,
+      "cpu_night": 13.819512563456412,
+      "cpu_biz_night_ratio": 1.427002340978103,
+      "cpu_acf_1d_mean": 0.6733327648032228,
+      "flow_skew": 35.80879792981139,
+      "temp_unique_ratio": 0.10245538709244599,
+      "anomaly_prior": 0.009697348869946039,
+      "degradation_link_rate": 1.0,
+      "n_alerts": 65,
+      "n_syslog": 256,
+      "alert_fp": 14,
+      "bgp_states": {
+        "active": 4,
+        "established": 2686,
+        "idle": 6,
+        "opensent": 2
+      },
+      "vsx_states": {
+        "split": 4,
+        "sync": 1344,
+        "sync_progress": 8
+      },
+      "if_oper_states": {
+        "down": 553,
+        "up": 39309
+      },
+      "roles": {
+        "access": 8,
+        "ap": 5,
+        "core": 2,
+        "aggregation": 2,
+        "wan_edge": 2
+      }
+    },
+    {
+      "seed": 505,
+      "n_devices": 19,
+      "n_interfaces": 168,
+      "n_links": 31,
+      "n_vlans": 9,
+      "n_incidents": 38,
+      "incident_categories": {
+        "interface_failure": 3,
+        "cable_failure": 3,
+        "congestion": 3,
+        "routing_instability": 3,
+        "acl_misconfiguration": 3,
+        "vlan_mismatch": 3,
+        "stp_loop": 3,
+        "firmware_incompatibility": 3,
+        "qos_problems": 3,
+        "authentication_failures": 3,
+        "hardware_degradation": 2,
+        "power_issues": 2,
+        "intermittent_failures": 2,
+        "vsx_split_brain": 2
+      },
+      "stp_blocking_or_alternate": 6,
+      "n_vsx_pairs": 2,
+      "n_bgp_neighbors": 2,
+      "svi_ipv4_frac": 1.0,
+      "wan_ipv4_frac": 1.0,
+      "mac_frac": 1.0,
+      "cpu_mean": 15.38543546112626,
+      "cpu_std": 5.47704396499772,
+      "cpu_biz": 19.686463206973446,
+      "cpu_night": 13.83468574926453,
+      "cpu_biz_night_ratio": 1.422978704564867,
+      "cpu_acf_1d_mean": 0.7133153008692584,
+      "flow_skew": 11.993820525521922,
+      "temp_unique_ratio": 0.10231133912623054,
+      "anomaly_prior": 0.010322984280910299,
+      "degradation_link_rate": 1.0,
+      "n_alerts": 60,
+      "n_syslog": 272,
+      "alert_fp": 14,
+      "bgp_states": {
+        "active": 4,
+        "established": 2688,
+        "idle": 8,
+        "opensent": 4
+      },
+      "vsx_states": {
+        "split": 8,
+        "sync": 1342,
+        "sync_progress": 8
+      },
+      "if_oper_states": {
+        "down": 596,
+        "up": 39093
+      },
+      "roles": {
+        "access": 8,
+        "ap": 5,
+        "core": 2,
+        "aggregation": 2,
+        "wan_edge": 2
+      }
+    }
+  ],
+  "per_seed_publication": [
+    {
+      "version": "1.1.0-seed101",
+      "instance": "C:\\Users\\audre\\OneDrive\\Network_Journal\\Data\\09_artifacts\\instances\\v1.1-seed101",
+      "ipri_score": 90.0,
+      "claim": "CONDITIONAL \u2014 credible under temporal holdout and leakage protocol, but NOT fully publication-ready until alternate generation seeds are produced and compared",
+      "publication_ready_claim": false,
+      "gates": {
+        "no_critical_leakage_failures": true,
+        "temporal_holdout_evaluated": true,
+        "simple_model_not_perfect": true,
+        "checksums_present": true,
+        "multi_seed_generation_verified": true
+      },
+      "stats_pass_rate": 1.0,
+      "causal_pass_rate": 1.0,
+      "leakage_failures": 1,
+      "baseline_logistic_test_ap": 0.12857410107008585,
+      "baseline_logistic_test_roc_auc": 0.9021567596002105,
+      "baseline_rf_test_ap": 0.02590667715856702,
+      "baseline_rf_test_roc_auc": 0.8186626921503302,
+      "class_imbalance": {
+        "temporal_train_prior": 0.009721756620851492,
+        "temporal_val_prior": 0.008858780614903595,
+        "temporal_test_prior": 0.009379885356956748
+      },
+      "split_meta_counts": {
+        "temporal_train": {
+          "n": 8949,
+          "positives": 87,
+          "prior": 0.009721756620851492
+        },
+        "temporal_val": {
+          "n": 1919,
+          "positives": 17,
+          "prior": 0.008858780614903595
+        },
+        "temporal_test": {
+          "n": 1919,
+          "positives": 18,
+          "prior": 0.009379885356956748
+        },
+        "topology_train_hq": {
+          "n": 10095,
+          "positives": 91,
+          "prior": 0.009014363546310054
+        },
+        "topology_test_branch": {
+          "n": 2692,
+          "positives": 31,
+          "prior": 0.011515601783060922
+        }
+      },
+      "multi_seed_suite": true
+    },
+    {
+      "version": "1.1.0-seed202",
+      "instance": "C:\\Users\\audre\\OneDrive\\Network_Journal\\Data\\09_artifacts\\instances\\v1.1-seed202",
+      "ipri_score": 89.0,
+      "claim": "CONDITIONAL \u2014 credible under temporal holdout and leakage protocol, but NOT fully publication-ready until alternate generation seeds are produced and compared",
+      "publication_ready_claim": false,
+      "gates": {
+        "no_critical_leakage_failures": true,
+        "temporal_holdout_evaluated": true,
+        "simple_model_not_perfect": true,
+        "checksums_present": true,
+        "multi_seed_generation_verified": true
+      },
+      "stats_pass_rate": 1.0,
+      "causal_pass_rate": 0.9,
+      "leakage_failures": 1,
+      "baseline_logistic_test_ap": 0.04780849842068624,
+      "baseline_logistic_test_roc_auc": 0.7493351800554016,
+      "baseline_rf_test_ap": 0.019227186119448174,
+      "baseline_rf_test_roc_auc": 0.6758725761772854,
+      "class_imbalance": {
+        "temporal_train_prior": 0.009274779304950274,
+        "temporal_val_prior": 0.008858780614903595,
+        "temporal_test_prior": 0.009900990099009901
+      },
+      "split_meta_counts": {
+        "temporal_train": {
+          "n": 8949,
+          "positives": 83,
+          "prior": 0.009274779304950274
+        },
+        "temporal_val": {
+          "n": 1919,
+          "positives": 17,
+          "prior": 0.008858780614903595
+        },
+        "temporal_test": {
+          "n": 1919,
+          "positives": 19,
+          "prior": 0.009900990099009901
+        },
+        "topology_train_hq": {
+          "n": 10095,
+          "positives": 92,
+          "prior": 0.009113422486379396
+        },
+        "topology_test_branch": {
+          "n": 2692,
+          "positives": 27,
+          "prior": 0.010029717682020803
+        }
+      },
+      "multi_seed_suite": true
+    },
+    {
+      "version": "1.1.0-seed303",
+      "instance": "C:\\Users\\audre\\OneDrive\\Network_Journal\\Data\\09_artifacts\\instances\\v1.1-seed303",
+      "ipri_score": 89.0,
+      "claim": "CONDITIONAL \u2014 credible under temporal holdout and leakage protocol, but NOT fully publication-ready until alternate generation seeds are produced and compared",
+      "publication_ready_claim": false,
+      "gates": {
+        "no_critical_leakage_failures": true,
+        "temporal_holdout_evaluated": true,
+        "simple_model_not_perfect": true,
+        "checksums_present": true,
+        "multi_seed_generation_verified": true
+      },
+      "stats_pass_rate": 1.0,
+      "causal_pass_rate": 1.0,
+      "leakage_failures": 1,
+      "baseline_logistic_test_ap": 0.01767270736770408,
+      "baseline_logistic_test_roc_auc": 0.6614116094986807,
+      "baseline_rf_test_ap": 0.043202132606204376,
+      "baseline_rf_test_roc_auc": 0.7886103781882146,
+      "class_imbalance": {
+        "temporal_train_prior": 0.01117443289753045,
+        "temporal_val_prior": 0.010943199583116207,
+        "temporal_test_prior": 0.012506513809275664
+      },
+      "split_meta_counts": {
+        "temporal_train": {
+          "n": 8949,
+          "positives": 100,
+          "prior": 0.01117443289753045
+        },
+        "temporal_val": {
+          "n": 1919,
+          "positives": 21,
+          "prior": 0.010943199583116207
+        },
+        "temporal_test": {
+          "n": 1919,
+          "positives": 24,
+          "prior": 0.012506513809275664
+        },
+        "topology_train_hq": {
+          "n": 10095,
+          "positives": 117,
+          "prior": 0.011589895988112928
+        },
+        "topology_test_branch": {
+          "n": 2692,
+          "positives": 28,
+          "prior": 0.010401188707280832
+        }
+      },
+      "multi_seed_suite": true
+    },
+    {
+      "version": "1.1.0-seed404",
+      "instance": "C:\\Users\\audre\\OneDrive\\Network_Journal\\Data\\09_artifacts\\instances\\v1.1-seed404",
+      "ipri_score": 90.0,
+      "claim": "CONDITIONAL \u2014 credible under temporal holdout and leakage protocol, but NOT fully publication-ready until alternate generation seeds are produced and compared",
+      "publication_ready_claim": false,
+      "gates": {
+        "no_critical_leakage_failures": true,
+        "temporal_holdout_evaluated": true,
+        "simple_model_not_perfect": true,
+        "checksums_present": true,
+        "multi_seed_generation_verified": true
+      },
+      "stats_pass_rate": 1.0,
+      "causal_pass_rate": 1.0,
+      "leakage_failures": 1,
+      "baseline_logistic_test_ap": 0.07402631396201546,
+      "baseline_logistic_test_roc_auc": 0.6765633698274263,
+      "baseline_rf_test_ap": 0.07920200715672987,
+      "baseline_rf_test_roc_auc": 0.7100884517844992,
+      "class_imbalance": {
+        "temporal_train_prior": 0.010056989607777405,
+        "temporal_val_prior": 0.008858780614903595,
+        "temporal_test_prior": 0.008858780614903595
+      },
+      "split_meta_counts": {
+        "temporal_train": {
+          "n": 8949,
+          "positives": 90,
+          "prior": 0.010056989607777405
+        },
+        "temporal_val": {
+          "n": 1919,
+          "positives": 17,
+          "prior": 0.008858780614903595
+        },
+        "temporal_test": {
+          "n": 1919,
+          "positives": 17,
+          "prior": 0.008858780614903595
+        },
+        "topology_train_hq": {
+          "n": 10095,
+          "positives": 108,
+          "prior": 0.010698365527488856
+        },
+        "topology_test_branch": {
+          "n": 2692,
+          "positives": 16,
+          "prior": 0.005943536404160475
+        }
+      },
+      "multi_seed_suite": true
+    },
+    {
+      "version": "1.1.0-seed505",
+      "instance": "C:\\Users\\audre\\OneDrive\\Network_Journal\\Data\\09_artifacts\\instances\\v1.1-seed505",
+      "ipri_score": 90.0,
+      "claim": "CONDITIONAL \u2014 credible under temporal holdout and leakage protocol, but NOT fully publication-ready until alternate generation seeds are produced and compared",
+      "publication_ready_claim": false,
+      "gates": {
+        "no_critical_leakage_failures": true,
+        "temporal_holdout_evaluated": true,
+        "simple_model_not_perfect": true,
+        "checksums_present": true,
+        "multi_seed_generation_verified": true
+      },
+      "stats_pass_rate": 1.0,
+      "causal_pass_rate": 1.0,
+      "leakage_failures": 1,
+      "baseline_logistic_test_ap": 0.0722106570813329,
+      "baseline_logistic_test_roc_auc": 0.7696121883656509,
+      "baseline_rf_test_ap": 0.06559275861001523,
+      "baseline_rf_test_roc_auc": 0.7915373961218837,
+      "class_imbalance": {
+        "temporal_train_prior": 0.010503966923678623,
+        "temporal_val_prior": 0.009900990099009901,
+        "temporal_test_prior": 0.009900990099009901
+      },
+      "split_meta_counts": {
+        "temporal_train": {
+          "n": 8949,
+          "positives": 94,
+          "prior": 0.010503966923678623
+        },
+        "temporal_val": {
+          "n": 1919,
+          "positives": 19,
+          "prior": 0.009900990099009901
+        },
+        "temporal_test": {
+          "n": 1919,
+          "positives": 19,
+          "prior": 0.009900990099009901
+        },
+        "topology_train_hq": {
+          "n": 10095,
+          "positives": 103,
+          "prior": 0.01020307082714215
+        },
+        "topology_test_branch": {
+          "n": 2692,
+          "positives": 29,
+          "prior": 0.010772659732540862
+        }
+      },
+      "multi_seed_suite": true
+    }
+  ],
+  "per_seed_realism_scores": [
+    {
+      "seed": 101,
+      "realism_score": 100,
+      "n_issues": 0
+    },
+    {
+      "seed": 202,
+      "realism_score": 100,
+      "n_issues": 1
+    },
+    {
+      "seed": 303,
+      "realism_score": 100,
+      "n_issues": 0
+    },
+    {
+      "seed": 404,
+      "realism_score": 100,
+      "n_issues": 0
+    },
+    {
+      "seed": 505,
+      "realism_score": 100,
+      "n_issues": 0
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "version": "1.1.0-INST",
+  "ipri_score": 88.1,
+  "claim": "CONDITIONAL \u2014 credible under temporal holdout and leakage protocol, but NOT fully publication-ready until alternate generation seeds are produced and compared",
+  "publication_ready_claim": false,
+  "gates": {
+    "no_critical_leakage_failures": true,
+    "temporal_holdout_evaluated": true,
+    "simple_model_not_perfect": true,
+    "checksums_present": true,
+    "multi_seed_generation_verified": false
+  },
+  "stats_pass_rate": 1.0,
+  "causal_pass_rate": 1.0,
+  "leakage_failures": 1,
+  "baseline_logistic_test_ap": 0.109700441619023
+}

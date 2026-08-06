@@ -1,0 +1,73 @@
+{
+  "findings": [
+    {
+      "id": "label_fields_excluded_from_honest_features",
+      "severity": "info",
+      "pass": true,
+      "note": "honest_features=['role_access', 'role_aggregation', 'role_ap', 'role_core', 'role_wan_edge', 'cpu_mean', 'cpu_max', 'mem_mean', 'err_sum', 'disc_sum', 'car_sum', 'n_samples']; leak_probe_features include incident_id indicator and y_score"
+    },
+    {
+      "id": "window_id_label_correlation",
+      "severity": "info",
+      "pass": true,
+      "note": "corr(first_hex_nibble,y)=0.0043"
+    },
+    {
+      "id": "incident_id_is_label_proxy",
+      "severity": "critical",
+      "pass": true,
+      "note": "incident_id present in 100% of positives and 0% of negatives \u2014 this field is a near-perfect label proxy and is excluded from honest feature sets",
+      "must_exclude": true
+    },
+    {
+      "id": "y_anomaly_score_gt_is_oracle",
+      "severity": "critical",
+      "pass": true,
+      "note": "AUC(y_anomaly_score_gt\u2192y)=1.0000; oracle field \u2014 exclude from features",
+      "must_exclude": true
+    },
+    {
+      "id": "incident_description_encodes_category",
+      "severity": "high",
+      "pass": false,
+      "note": "37/37 descriptions contain category token \u2014 RCA from description is trivial; use telemetry-only RCA protocol",
+      "recommendation": "Benchmark RCA tasks must forbid description/category/subcategory text features"
+    },
+    {
+      "id": "window_id_split_overlap",
+      "severity": "critical",
+      "pass": true,
+      "note": "window_id overlap train\u2229test=0"
+    },
+    {
+      "id": "timestamp_only_predictability",
+      "severity": "info",
+      "pass": true,
+      "note": "AUC using hour-of-week empirical prior=0.838 (high \u21d2 schedule leakage / too regular injection)"
+    },
+    {
+      "id": "leaky_vs_honest_gap",
+      "severity": "critical",
+      "pass": true,
+      "note": "temporal-test ROC-AUC honest={'roc_auc': 0.8813058328954282, 'ap': 0.11733532750827967} leaky={'roc_auc': 1.0, 'ap': 1.0}",
+      "metrics": {
+        "honest": {
+          "roc_auc": 0.8813058328954282,
+          "ap": 0.11733532750827967
+        },
+        "leaky": {
+          "roc_auc": 1.0,
+          "ap": 1.0
+        }
+      }
+    }
+  ],
+  "n_findings": 8,
+  "n_failures": 1,
+  "critical_open": [],
+  "protocol_requirements": [
+    "Exclude incident_id, y_anomaly_score_gt, category, subcategory, description from model features",
+    "Use temporal split manifests under manifests/",
+    "RCA evaluation must use telemetry/graph only \u2014 not free-text description"
+  ]
+}

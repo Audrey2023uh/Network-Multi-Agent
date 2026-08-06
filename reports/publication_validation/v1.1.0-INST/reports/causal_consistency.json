@@ -1,0 +1,59 @@
+{
+  "checks": [
+    {
+      "id": "incident_order",
+      "pass": true,
+      "note": "violations=0"
+    },
+    {
+      "id": "recovery_fk",
+      "pass": true,
+      "note": "orphan_recovery=0"
+    },
+    {
+      "id": "incident_entities",
+      "pass": true,
+      "note": "missing=0"
+    },
+    {
+      "id": "rca_category_match",
+      "pass": true,
+      "note": "label_rca vs failure_incident"
+    },
+    {
+      "id": "if_failure_oper_down",
+      "pass": true,
+      "note": "3/3 interface_failures show oper=down"
+    },
+    {
+      "id": "routing_bgp_state",
+      "pass": true,
+      "note": "3/3 routing incidents co-occur with non-established BGP"
+    },
+    {
+      "id": "vsx_split_state",
+      "pass": true,
+      "note": "2/2 vsx incidents show split state"
+    },
+    {
+      "id": "syslog_burst_near_onset",
+      "pass": true,
+      "note": "30/37 incidents have >=2 syslog near onset"
+    },
+    {
+      "id": "service_impact_coverage",
+      "pass": true,
+      "note": "36/37 incidents have service_impact"
+    },
+    {
+      "id": "alerts_not_perfect",
+      "pass": true,
+      "note": "false_negative_incidents_without_alert=2 (imperfect monitoring is realistic)"
+    }
+  ],
+  "summary": {
+    "n_checks": 10,
+    "n_pass": 10,
+    "pass_rate": 1.0
+  }
+}

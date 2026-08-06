@@ -1,0 +1,79 @@
+# ECNetBench v1 instance generator configuration
+# All sampling uses seeded distributional models — not independent Uniform noise.
+
+dataset:
+  name: ECNetBench
+  version: "1.1.0-INST"
+  profile: campus_hybrid_v1
+  seed: 20260806
+  timezone_storage: UTC
+
+time:
+  start: "2025-01-06T00:00:00Z"   # Monday
+  days: 14
+  telemetry_cadence_s: 300        # 5-minute NMS-style polling (documented downsample)
+  config_cadence_hours: 6
+  topology_cadence_hours: 1
+  service_kpi_cadence_s: 300
+
+topology:
+  org_name: "Contoso Research Enterprises"
+  sites:
+    - code: HQ-CAM
+      name: Headquarters Campus
+      type: campus
+      timezone: America/Chicago
+      criticality_tier: 1
+    - code: BR-01
+      name: Branch Office 01
+      type: branch
+      timezone: America/Chicago
+      criticality_tier: 3
+
+statistics:
+  # Diurnal multipliers for weekday hours 0..23 (business campus)
+  weekday_hour_mult: [0.18,0.14,0.12,0.11,0.12,0.20,0.35,0.55,0.75,0.88,0.95,0.98,0.92,0.96,0.97,0.94,0.85,0.70,0.55,0.42,0.35,0.30,0.25,0.20]
+  weekend_hour_mult: [0.16,0.14,0.13,0.12,0.12,0.14,0.18,0.22,0.28,0.35,0.40,0.42,0.40,0.38,0.36,0.34,0.32,0.30,0.28,0.26,0.24,0.22,0.20,0.18]
+  night_backup_hour_boost: {2: 1.8, 3: 2.2}  # server VLAN boost
+  flow_lognormal_mu: 8.5
+  flow_lognormal_sigma: 1.4
+  sensor_noise_sigma: 0.35
+  cpu_base_by_role:
+    core: 18.0
+    aggregation: 22.0
+    access: 12.0
+    wan_edge: 25.0
+    ap: 15.0
+    spine: 20.0
+    leaf: 16.0
+    border: 24.0
+    oob: 8.0
+
+incidents:
+  target_count: 42
+  max_concurrent_fraction: 0.08
+  categories:
+    - interface_failure
+    - cable_failure
+    - congestion
+    - routing_instability
+    - acl_misconfiguration
+    - vlan_mismatch
+    - stp_loop
+    - firmware_incompatibility
+    - qos_problems
+    - authentication_failures
+    - hardware_degradation
+    - power_issues
+    - intermittent_failures
+    - vsx_split_brain
+
+splits:
+  freeze_frac: 0.70
+  val_frac: 0.15
+  # remainder test
+
+export:
+  csv: true
+  parquet: true
+  sqlite: true

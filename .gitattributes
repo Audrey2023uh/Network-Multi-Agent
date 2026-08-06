@@ -1,0 +1,2 @@
+# Do not LFS-track sqlite in-repo (disk/hosting limits). Use GitHub Releases.
+# See docs/DATA_ACCESS.md and scripts/download_instances.py

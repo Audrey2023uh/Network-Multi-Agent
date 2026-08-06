@@ -1,0 +1,943 @@
+{
+  "n_files": 187,
+  "total_bytes": 498794274,
+  "instance_root": "C:\\Users\\audre\\OneDrive\\Network_Journal\\Data\\09_artifacts\\instances\\v1",
+  "computed_at_utc": "2026-08-06T16:58:01.926369+00:00",
+  "files": [
+    {
+      "path": "ecnetbench_v1.sqlite",
+      "sha256": "5cb782d18a3e20c2ddca1351306a21640c09b51a62f86ba08c487d85ad7ee249",
+      "bytes": 206643200
+    },
+    {
+      "path": "csv/aaa_method.csv",
+      "sha256": "9bfdb1296295e41bcf8c0a4c278c515965e45eefbd2da4a964978891b51a31fd",
+      "bytes": 1438
+    },
+    {
+      "path": "csv/access_point.csv",
+      "sha256": "7e39b0475b50c0d7e46fe0b1aabeda91dc5c72a0d0147e6c96cbf1f21eb61014",
+      "bytes": 978
+    },
+    {
+      "path": "csv/acl.csv",
+      "sha256": "0e695326c7a8a6696f86001ea21d40c8bc063a306e8114e0bfb3328c48d43330",
+      "bytes": 790
+    },
+    {
+      "path": "csv/acl_binding.csv",
+      "sha256": "faeadcba44f79f47d9355e3583d5dc78658d564594f3731fe480ff42cb6294dd",
+      "bytes": 1178
+    },
+    {
+      "path": "csv/acl_entry.csv",
+      "sha256": "0fd446c204d1811fbac8d1b9ace678ac927385c1b4f6320dd54c89c74d581a42",
+      "bytes": 3157
+    },
+    {
+      "path": "csv/alert.csv",
+      "sha256": "d5c2b9a58df4610846ba065b24842c82cf202fb6048f0d13318214554f3f35ce",
+      "bytes": 15978
+    },
+    {
+      "path": "csv/api_response_archive.csv",
+      "sha256": "5aa2e7e8b573e7c80f9ae8fdba15430f8cfee4b040bb7393fe9242fd1886461b",
+      "bytes": 374629
+    },
+    {
+      "path": "csv/application.csv",
+      "sha256": "b953c821cad56507aaee46e675085c2f16bf55f2d227b5afb77f0e4d1f287b75",
+      "bytes": 573
+    },
+    {
+      "path": "csv/arp_entry.csv",
+      "sha256": "9973d76cc7a243c78627a651f2a739f12490865db295d4dfb0f1097c764f31ec",
+      "bytes": 17931
+    },
+    {
+      "path": "csv/bfd_session.csv",
+      "sha256": "0857c64b0a353aeded6f409e5d6446bfdab4bfb6dafe7481085521cfc7ab705a",
+      "bytes": 415
+    },
+    {
+      "path": "csv/bgp_neighbor.csv",
+      "sha256": "2221096329bfe00c43a1c82892f1fa266ec349800edd92d37dbaf654aa7ce369",
+      "bytes": 467
+    },
+    {
+      "path": "csv/bgp_process.csv",
+      "sha256": "69aa245d042dfa39edd62d9c9d81bc908cc5892bfec8c566f386dd9f398d1699",
+      "bytes": 321
+    },
+    {
+      "path": "csv/bgp_session_sample.csv",
+      "sha256": "b4c4ca4ba170a7f3a7a770c4d6fb6d3ee80c203ce746bbaba2d73b361f211bbe",
+      "bytes": 304669
+    },
+    {
+      "path": "csv/building.csv",
+      "sha256": "36fbe98eba46833c34cf7f10b46be8423a08f51415bce24b3a973400db3d31f6",
+      "bytes": 224
+    },
+    {
+      "path": "csv/cable.csv",
+      "sha256": "b76ff26edbc59f45fe1f271232db3447971e0ec18f385bebadb21bd4d3456ebe",
+      "bytes": 1843
+    },
+    {
+      "path": "csv/config_object_diff.csv",
+      "sha256": "a081c101c7d2658ce3d96c9c787d9c743b51f1382e59221640b437b8dbef9b19",
+      "bytes": 12903
+    },
+    {
+      "path": "csv/config_snapshot.csv",
+      "sha256": "3650195026770a2737eaec9888373c2bc015ec9ffba34ffcbf9ba0277e593849",
+      "bytes": 335331
+    },
+    {
+      "path": "csv/device.csv",
+      "sha256": "8408dae4ed3a51a9befea932d4625368fbd821b1688b176ea6111e40c49d5401",
+      "bytes": 5152
+    },
+    {
+      "path": "csv/device_firmware_history.csv",
+      "sha256": "d5ef4bf943d23e0c73a7b97678148fc9d269a78ed19b8728d0dcaac36d300722",
+      "bytes": 1532
+    },
+    {
+      "path": "csv/device_resource_sample.csv",
+      "sha256": "de8064f57e688b378dbcf71ac40351bec6b59fd8290fb825b967ac9826fde491",
+      "bytes": 11228001
+    },
+    {
+      "path": "csv/endpoint.csv",
+      "sha256": "62ab4a8b4195b42967f3867f908f24d01aab96c11f7029c241b83c647d3d4f99",
+      "bytes": 19604
+    },
+    {
+      "path": "csv/env_sensor_sample.csv",
+      "sha256": "fbc988e9fa98fae3bfc2e2f167e776fe68ee1e57b2e8510780978859f80e7acb",
+      "bytes": 9400432
+    },
+    {
+      "path": "csv/event_correlation.csv",
+      "sha256": "924b1d1f558dd3a88d491b4c1a5f19d90fd26307f0721032f2b8c02561dd8091",
+      "bytes": 4724
+    },
+    {
+      "path": "csv/evpn_esi.csv",
+      "sha256": "364b19acd36087035ec33022964c2c731177828985d74e7bd2cec375ece7ed56",
+      "bytes": 14
+    },
+    {
+      "path": "csv/evpn_instance.csv",
+      "sha256": "364b19acd36087035ec33022964c2c731177828985d74e7bd2cec375ece7ed56",
+      "bytes": 14
+    },
+    {
+      "path": "csv/failure_incident.csv",
+      "sha256": "a6fd5fca836f86395988daccfc701a7b41a8801e65970914b56a4d0ca75a64c4",
+      "bytes": 15212
+    },
+    {
+      "path": "csv/fib_entry_sample.csv",
+      "sha256": "8d77a45d4a1af3679235977ceebfd4521b22fdd7fee43161b4eb129847fb1aea",
+      "bytes": 463157
+    },
+    {
+      "path": "csv/firmware_image.csv",
+      "sha256": "58bc126551965823e14b2e8fbd703deb87f9813b540742598b637cab050db951",
+      "bytes": 366
+    },
+    {
+      "path": "csv/floor.csv",
+      "sha256": "68ec301a47724b92ec4139f3b6bdb54961d6868e96c1a388419e5ba77beece54",
+      "bytes": 287
+    },
+    {
+      "path": "csv/flow_aggregate_5m.csv",
+      "sha256": "a5077ef616ec4b38b8fddf7c428a7a06d500549a53c3afe188703066201988c4",
+      "bytes": 1207911
+    },
+    {
+      "path": "csv/graph_edge.csv",
+      "sha256": "cbc722ae2b4ecc6015b4b10e2bff0008bb3c2a32e6820aa253101d134356f3b0",
+      "bytes": 15397287
+    },
+    {
+      "path": "csv/graph_node.csv",
+      "sha256": "0b6e2f5e13c6974d7f85f39356e05bad0cfee7eece5c46eee03a801fd3b4e180",
+      "bytes": 13056130
+    },
+    {
+      "path": "csv/graph_snapshot.csv",
+      "sha256": "3fdfe22fdba8fb3a6626cf831edddff7fbcae53dac2cb6cfb858b04aabe98985",
+      "bytes": 36126
+    },
+    {
+      "path": "csv/hardware_component.csv",
+      "sha256": "b998f1f599d9b5dfdbd3fe7bea6f6e9f01156d073462f8ad99c9117cc85cf03b",
+      "bytes": 8691
+    },
+    {
+      "path": "csv/if_counter_sample.csv",
+      "sha256": "bf2df668352aac3515d3f63908e2a99e6f41e775aed0ccc6d6f28fecdd9ef01e",
+      "bytes": 108470039
+    },
+    {
+      "path": "csv/incident_entity.csv",
+      "sha256": "4b240a6457da930e3a939b2157959459b716c8a33ea2b1ea9464652ab5ff4625",
+      "bytes": 10404
+    },
+    {
+      "path": "csv/interface.csv",
+      "sha256": "2ed2a7edb0d0e37f105dc45175ad1f1ba2341a99651be5ffdeb1a481209ad1b6",
+      "bytes": 37776
+    },
+    {
+      "path": "csv/interface_state_sample.csv",
+      "sha256": "b593f6465c1a9adabb5c263351ab022587615d39e67a7795d11b886bef6cea23",
+      "bytes": 5563024
+    },
+    {
+      "path": "csv/ipfix_exporter.csv",
+      "sha256": "29b008c0c26e92e70b3252d97123a3f94bb57d699b555eaeae5a70da2d19f239",
+      "bytes": 283
+    },
+    {
+      "path": "csv/ipfix_record.csv",
+      "sha256": "638d6eadec30b94d250427bad7dcdd322b126dff9fa60f0c2d91a063c179fdd9",
+      "bytes": 12696264
+    },
+    {
+      "path": "csv/label_anomaly_window.csv",
+      "sha256": "5442239570c5b315cbd234c4d435a7c12a6117783d5b0abc683ee717cab1ba83",
+      "bytes": 1820356
+    },
+    {
+      "path": "csv/label_config_risk.csv",
+      "sha256": "b4c15ebb6d1b86227cfdb1cbcdf6fa849963cea632c16d747beae4774805a1f1",
+      "bytes": 8724
+    },
+    {
+      "path": "csv/label_degradation.csv",
+      "sha256": "5e6c91639201b442bbbbd89b3f5b35e9806b96101199021b8070b4119688f4fb",
+      "bytes": 544793
+    },
+    {
+      "path": "csv/label_failure_horizon.csv",
+      "sha256": "91f1de7297910a0a1894dfa70f9fcb8846fca704515ad3aa79ac617e5ffc0629",
+      "bytes": 5962383
+    },
+    {
+      "path": "csv/label_impact.csv",
+      "sha256": "87b39444a478b18b6f68e1173eb4537542e4f222fa47e6087fea72a40eef71cb",
+      "bytes": 9772
+    },
+    {
+      "path": "csv/label_rca.csv",
+      "sha256": "da9ecd35ebb251119cf005fa5e4640c7f73c07ff6a01eab0b2bcfe232683ce46",
+      "bytes": 7391
+    },
+    {
+      "path": "csv/lag_group.csv",
+      "sha256": "8d96f59d56dd7d7f708e0e0900f7f97feddc0813caf88111ae5e30d707f5f4b8",
+      "bytes": 639
+    },
+    {
+      "path": "csv/lag_member.csv",
+      "sha256": "63a9a0fc93b0021f8b60211a52071f62e3bab90de09e80cde3178e649818885e",
+      "bytes": 950
+    },
+    {
+      "path": "csv/link.csv",
+      "sha256": "654f3ae443680c791638ab86c2925b065736beb5f2a0354e4bbd334d2cbad590",
+      "bytes": 6230
+    },
+    {
+      "path": "csv/mac_address_table.csv",
+      "sha256": "e89ff3e1576064b6e16e77472ff02e51211d385dd3e4ad0e0ea6a91efa777822",
+      "bytes": 42069
+    },
+    {
+      "path": "csv/mac_ip_binding.csv",
+      "sha256": "364b19acd36087035ec33022964c2c731177828985d74e7bd2cec375ece7ed56",
+      "bytes": 14
+    },
+    {
+      "path": "csv/maintenance_window.csv",
+      "sha256": "70dd968d66af8259e98ac1777b0b2203c97bbaca37e36fe24cb56031c306910e",
+      "bytes": 368
+    },
+    {
+      "path": "csv/nae_agent.csv",
+      "sha256": "9e4662b799c75cfa3b2e9ff2dae9b13463019a638e6b7fe3c0399e6b83f4129f",
+      "bytes": 2655
+    },
+    {
+      "path": "csv/nae_monitor.csv",
+      "sha256": "6dddfa7fb8de78f4a64d3756e183f4dfa38c1ef0c03c5ccf26f02b0d8019edde",
+      "bytes": 1972
+    },
+    {
+      "path": "csv/nae_script.csv",
+      "sha256": "d6fd988590b39ca766defa37d23fe82dd86a190678067d08e9282f9cc8ef9833",
+      "bytes": 297
+    },
+    {
+      "path": "csv/nae_timeseries_point.csv",
+      "sha256": "781c1a36ded09f55659c5a5b233fe760746499bff445c8ff7eafcd4a4b3eb024",
+      "bytes": 802802
+    },
+    {
+      "path": "csv/organization.csv",
+      "sha256": "5fb895a041b8b21ebd223baf4150c099d7bc4ea2181ec2abec36f9ce8d01b80f",
+      "bytes": 154
+    },
+    {
+      "path": "csv/ospf_interface.csv",
+      "sha256": "cf26cc1fb1f9ad950f6b738de8c6f7e2fc5cdf6d1e10095ff9cb700c3ed846c5",
+      "bytes": 4407
+    },
+    {
+      "path": "csv/ospf_process.csv",
+      "sha256": "6eedf708e6d046e0dbff5e9bcfed9fa71a6cd1c517f5b0a74295d86003a9d38d",
+      "bytes": 581
+    },
+    {
+      "path": "csv/power_sample.csv",
+      "sha256": "60e9935fcc64e80e3aa560fda4c17450540314851f3d51d26f0e3579e8052f51",
+      "bytes": 16786116
+    },
+    {
+      "path": "csv/qos_binding.csv",
+      "sha256": "6bd909c386314be163d858aa3529433286e11ce4ea61cca895643a7627c6bcd7",
+      "bytes": 1449
+    },
+    {
+      "path": "csv/qos_class.csv",
+      "sha256": "adc2d0899d8b4109f4c27ca261e596b2a2e88264c716369989709089b4a0f3f6",
+      "bytes": 1903
+    },
+    {
+      "path": "csv/qos_policy.csv",
+      "sha256": "98e9c413233bb44e674950e6358dfa859c3fe645b806a308679af3c424967283",
+      "bytes": 969
+    },
+    {
+      "path": "csv/qos_queue.csv",
+      "sha256": "a873ce422ad29d8f26ffcc60b3b05602a814a80d086a5f3aa595de28b3e43294",
+      "bytes": 2917
+    },
+    {
+      "path": "csv/qos_queue_counter_sample.csv",
+      "sha256": "1b9ab7eb87f5eddc451b71a83d2bf6ec90b7eff2005da2f529d092cfa9b360a2",
+      "bytes": 1620428
+    },
+    {
+      "path": "csv/rack.csv",
+      "sha256": "bc2d05807c105e62ee2e0490bfd362c4a42cd3d7c00ba578c1100b1dd5bdad69",
+      "bytes": 895
+    },
+    {
+      "path": "csv/radio.csv",
+      "sha256": "21c28abafc17e51539066be629369b543506e6fc9a56c7b34e508773cf0d54c1",
+      "bytes": 1351
+    },
+    {
+      "path": "csv/radius_server.csv",
+      "sha256": "eb89be2d8d6f837c41eb27633ce67927095b604d5b62475b60dfda9ae8246566",
+      "bytes": 247
+    },
+    {
+      "path": "csv/recovery_action.csv",
+      "sha256": "1b5b4ee5b58f65217a5521c7693d5a0564f3e38d23d050a5aa7481ea8a9ab595",
+      "bytes": 11323
+    },
+    {
+      "path": "csv/rib_entry_sample.csv",
+      "sha256": "7c5e45f0ea29f866171dd7e520b7a11a908de8f90d2a57c379ef572df4ccca10",
+      "bytes": 386193
+    },
+    {
+      "path": "csv/routing_instance.csv",
+      "sha256": "4da1b01eb38e8df831c41d6aeed063ee439819a9ea85ca492a19a9933a210a2a",
+      "bytes": 2323
+    },
+    {
+      "path": "csv/service.csv",
+      "sha256": "4d68e9f5af609764baa64bd394e16f57d0f162348a7cc688ac17230f9fd5f230",
+      "bytes": 1000
+    },
+    {
+      "path": "csv/service_dependency.csv",
+      "sha256": "be35a2801cc01d22385027989c587ee88e067274bb3ea6ee9983c69d878c25b8",
+      "bytes": 2620
+    },
+    {
+      "path": "csv/service_endpoint_bind.csv",
+      "sha256": "66b6d7689de955afce74b1fef3e83e575c5a170e224dbdcc1f463920a976ee46",
+      "bytes": 28597
+    },
+    {
+      "path": "csv/service_impact.csv",
+      "sha256": "ff2a465ec907dc8bd595ed62dc44a17e4068869a5198d564ca187df927edd96a",
+      "bytes": 20301
+    },
+    {
+      "path": "csv/service_kpi_sample.csv",
+      "sha256": "a6e49468a5e502874d1cdc07f3eced4ba92fd36fdba4849dc4f84bd87fe53552",
+      "bytes": 3543935
+    },
+    {
+      "path": "csv/site.csv",
+      "sha256": "664c010de98dadfe144c3dc19e9baf7b510bbab75c3896bc0222d1acca261d9c",
+      "bytes": 468
+    },
+    {
+      "path": "csv/sla_objective.csv",
+      "sha256": "9edbd5af06111ac5f2cd84f8165669ab8b0d8bd12252bd35e8b391df8f8de97f",
+      "bytes": 781
+    },
+    {
+      "path": "csv/static_route.csv",
+      "sha256": "1569b3d92b4a7b3394932b7e7db5ac05e9a770d170714aef4dacbc3d8f44d48a",
+      "bytes": 368
+    },
+    {
+      "path": "csv/stp_instance.csv",
+      "sha256": "dc22993629cdda51883f3b4ac83112e69ffa8d72ffe8c913944ec04b005b48cc",
+      "bytes": 1365
+    },
+    {
+      "path": "csv/stp_port.csv",
+      "sha256": "87f4d1e055f2cf935279f03a9c0d338d16ece0015ff2721218a0d7a784745030",
+      "bytes": 19077
+    },
+    {
+      "path": "csv/stp_port_sample.csv",
+      "sha256": "fe70e7e86dd114fed62053132e944338d7b0742452d8c6920fb3fbc04686a485",
+      "bytes": 5554958
+    },
+    {
+      "path": "csv/syslog_event.csv",
+      "sha256": "feafc782c6bca555114d952f8628f7a4b2cc3f4bb3769ee13a68830cb83b5fa6",
+      "bytes": 86297
+    },
+    {
+      "path": "csv/topology_edge.csv",
+      "sha256": "08f2ac45f17c5ccfac5760fdd6eb9fe6d1502741d4ef0118701e4ecaa1057f15",
+      "bytes": 1691806
+    },
+    {
+      "path": "csv/topology_profile.csv",
+      "sha256": "4fc2b84b388036c90fa7c984311dc7246e09413d9bb2ad015d69797ee7932753",
+      "bytes": 219
+    },
+    {
+      "path": "csv/topology_snapshot.csv",
+      "sha256": "81c62de8e8d09126c6741976809efd8cdaa185960aec84ecab9d703fdad6d295",
+      "bytes": 40521
+    },
+    {
+      "path": "csv/user_account.csv",
+      "sha256": "99b839842840c613b34b0f6b8a764ba0ff69f993793921a59a5a5c192934e178",
+      "bytes": 10817
+    },
+    {
+      "path": "csv/vlan.csv",
+      "sha256": "dec572c4b1bad4bcf258c4e812d65a9336c81bfd860ed2c49b093a37638527d0",
+      "bytes": 1243
+    },
+    {
+      "path": "csv/vlan_membership.csv",
+      "sha256": "ada0a9b03fb44b6c26e89f73776b70e652c73f2682886c97198ad693449de112",
+      "bytes": 28758
+    },
+    {
+      "path": "csv/vsx_pair.csv",
+      "sha256": "a979ff4e4d9dddc6eebd3c0e1ad97a339c31ed3667012bd3c2ffeb6ed04899ed",
+      "bytes": 622
+    },
+    {
+      "path": "csv/vsx_state_sample.csv",
+      "sha256": "9ab1f61a13a67c141ed478c3637feccff35a323d84b77809ec8da6bfbe6b25a7",
+      "bytes": 136876
+    },
+    {
+      "path": "csv/vtep.csv",
+      "sha256": "364b19acd36087035ec33022964c2c731177828985d74e7bd2cec375ece7ed56",
+      "bytes": 14
+    },
+    {
+      "path": "csv/vxlan_vni.csv",
+      "sha256": "364b19acd36087035ec33022964c2c731177828985d74e7bd2cec375ece7ed56",
+      "bytes": 14
+    },
+    {
+      "path": "parquet/aaa_method.parquet",
+      "sha256": "94739c34ca276531cc0851bab5c1ec38323f8588d824f5930e344f4cfb372af2",
+      "bytes": 5147
+    },
+    {
+      "path": "parquet/access_point.parquet",
+      "sha256": "c260731cab4d5b8ec3bf7e52e4d83ee4de56a3f1214761db81b4b8b53e59d800",
+      "bytes": 5654
+    },
+    {
+      "path": "parquet/acl.parquet",
+      "sha256": "291ab549d3c039e5d8acceb307050e583688c4bb29944a1b94ed95aa43e6729a",
+      "bytes": 4059
+    },
+    {
+      "path": "parquet/acl_binding.parquet",
+      "sha256": "447e4b5e21bda989622c323af89280cb11bf57d9f66ad10cccf57691078c8c69",
+      "bytes": 5603
+    },
+    {
+      "path": "parquet/acl_entry.parquet",
+      "sha256": "9ba7dc838b14fda3cd81c8b711f6c0d33a57d924dd8351b48afc8122d23e54da",
+      "bytes": 8541
+    },
+    {
+      "path": "parquet/alert.parquet",
+      "sha256": "828c3c222db7f0c7b03008fa81b6d995d67d657c549101193180de3e9ca1cd56",
+      "bytes": 15408
+    },
+    {
+      "path": "parquet/api_response_archive.parquet",
+      "sha256": "8ace6061c6c01d4e774966a1d7b08ef63d5c3a7148ec665e7542b2873c39f48a",
+      "bytes": 127719
+    },
+    {
+      "path": "parquet/application.parquet",
+      "sha256": "49c2b0fda68c5a6b2aa480f6266cd7b02bb4a7648c68f6bfc7013d2a8b01d835",
+      "bytes": 5362
+    },
+    {
+      "path": "parquet/arp_entry.parquet",
+      "sha256": "e3ab49e4c462a7b9fbbecc43f46c8adef31f929e55453603288aef11129954f6",
+      "bytes": 14649
+    },
+    {
+      "path": "parquet/bfd_session.parquet",
+      "sha256": "e594488562b894b4c4bf5ee971202b06d416ddfc00e45aa9c351c9ed4436c653",
+      "bytes": 6288
+    },
+    {
+      "path": "parquet/bgp_neighbor.parquet",
+      "sha256": "0f96db292fb2ad0affe85d377d152841926fbac95d1052914b38a07dda848673",
+      "bytes": 7791
+    },
+    {
+      "path": "parquet/bgp_process.parquet",
+      "sha256": "bfffb53cdea9e13315bd659b5ffe18323db117c3df67188c3ef0a17aba61c213",
+      "bytes": 4413
+    },
+    {
+      "path": "parquet/bgp_session_sample.parquet",
+      "sha256": "dd6de0b00ea790971490e957372e704b8fb3a440367810cbba83854b82375b69",
+      "bytes": 115250
+    },
+    {
+      "path": "parquet/building.parquet",
+      "sha256": "5d86342d3989da2bd68b80e3191d860f506868252585bb499f62c055eda1e69c",
+      "bytes": 3227
+    },
+    {
+      "path": "parquet/cable.parquet",
+      "sha256": "b967671e27007801620f7262322eb2db2d08076dddeef13ad5bcc9135d3b96fd",
+      "bytes": 4723
+    },
+    {
+      "path": "parquet/config_object_diff.parquet",
+      "sha256": "998aa4d939e72b3432e6ac775746cad1001aba021e8350b5f9abae515a099ad6",
+      "bytes": 13668
+    },
+    {
+      "path": "parquet/config_snapshot.parquet",
+      "sha256": "ab9ee138e08766a95c9fe644f75feaf5af477630147e15ff96ea1df8e1547827",
+      "bytes": 50084
+    },
+    {
+      "path": "parquet/device.parquet",
+      "sha256": "e237f77859f24c273ff84f7055d3c53eaa2ab0e49d97cc9497a59b5ba7dae7d1",
+      "bytes": 12616
+    },
+    {
+      "path": "parquet/device_firmware_history.parquet",
+      "sha256": "5de25175b3f88b10aac4b232165a1770ccb80d1d621856cbe1c23b5fe2cc8413",
+      "bytes": 4221
+    },
+    {
+      "path": "parquet/device_resource_sample.parquet",
+      "sha256": "a8ed310f919d12dc1707e4fba96126b5df924fc2e367d9aa229f4cf8874fe2a7",
+      "bytes": 4134163
+    },
+    {
+      "path": "parquet/endpoint.parquet",
+      "sha256": "02cbcd76a4599cf44d5ba1257639ba56be2d4935325f3792f8b339406b15608f",
+      "bytes": 16156
+    },
+    {
+      "path": "parquet/env_sensor_sample.parquet",
+      "sha256": "9b7e5982490d2d068b90fe810cc54424b22b575fcaeecce364861f0cb39ac813",
+      "bytes": 2897020
+    },
+    {
+      "path": "parquet/event_correlation.parquet",
+      "sha256": "87eb05f8b59223321c6e6363e9495ed2f963efdc5222515e019c7042548f315e",
+      "bytes": 8449
+    },
+    {
+      "path": "parquet/evpn_esi.parquet",
+      "sha256": "2c1caa5abbe4c3a7ffefe5b67586a199b20f65a6fda19aeb3e9c45de936e8849",
+      "bytes": 1100
+    },
+    {
+      "path": "parquet/evpn_instance.parquet",
+      "sha256": "2c1caa5abbe4c3a7ffefe5b67586a199b20f65a6fda19aeb3e9c45de936e8849",
+      "bytes": 1100
+    },
+    {
+      "path": "parquet/failure_incident.parquet",
+      "sha256": "547c5726a3a29384aff4769815d39784d0e49da3159e398061adc2d0ccad6275",
+      "bytes": 21374
+    },
+    {
+      "path": "parquet/fib_entry_sample.parquet",
+      "sha256": "312ab195b8ef7c6becd07dba8da252e6601b4e12d015d5f2abf2419a39691aed",
+      "bytes": 97029
+    },
+    {
+      "path": "parquet/firmware_image.parquet",
+      "sha256": "87f7586b502209e9474b5005c323df92465d674fe7564b6779b94e900d0e4ab7",
+      "bytes": 4508
+    },
+    {
+      "path": "parquet/floor.parquet",
+      "sha256": "f02fd5608c0fa02a673d8602b5c08c033da951bf112d3b0c664b01d4b79a31bf",
+      "bytes": 3293
+    },
+    {
+      "path": "parquet/flow_aggregate_5m.parquet",
+      "sha256": "e2018112a7a34b2a0e1208da9c81bc8edff4ade16bb4d6cea92ad7e58ac08adb",
+      "bytes": 400853
+    },
+    {
+      "path": "parquet/graph_edge.parquet",
+      "sha256": "94e7ee7c3a9834a33616517e358f8c26ca09223f1779c0c3d6e196b7dc740435",
+      "bytes": 6030265
+    },
+    {
+      "path": "parquet/graph_node.parquet",
+      "sha256": "3ba35fcaae5a332af2ac6b54293b61603c6e43b27f089c49e0f68e0f07885831",
+      "bytes": 2826253
+    },
+    {
+      "path": "parquet/graph_snapshot.parquet",
+      "sha256": "4c5e30944c5706232690172a4f8437451d10f382bd37859ee159149fdbdc6b0d",
+      "bytes": 31006
+    },
+    {
+      "path": "parquet/hardware_component.parquet",
+      "sha256": "06e8e0544132b93ab148a27a4f892958a11204986f48631e3e76aeecf31934d8",
+      "bytes": 10546
+    },
+    {
+      "path": "parquet/if_counter_sample.parquet",
+      "sha256": "f924f5dcc4070d86c5f4cd1194fc9b5c75898e74cdf496a29239cdabfc6b307c",
+      "bytes": 41679654
+    },
+    {
+      "path": "parquet/incident_entity.parquet",
+      "sha256": "b2f7fb6069881b33b47fdfae4406e2ae5986592bb5116464097ad9b4ea4d4427",
+      "bytes": 5888
+    },
+    {
+      "path": "parquet/interface.parquet",
+      "sha256": "fdd52b6f4caa490c9a6b675f7ba72a097c105cf207f2cfd5d287d77b65f49849",
+      "bytes": 24392
+    },
+    {
+      "path": "parquet/interface_state_sample.parquet",
+      "sha256": "d69e4e0bc813b85b389167134c5afa4a5351a9592b9abd5a228f8000e872af02",
+      "bytes": 1505011
+    },
+    {
+      "path": "parquet/ipfix_exporter.parquet",
+      "sha256": "07a7c655728197c8e0bad1f27cd64815781a593fafa51631bb7518fd7441142d",
+      "bytes": 4606
+    },
+    {
+      "path": "parquet/ipfix_record.parquet",
+      "sha256": "a9c1af8fd323e1d633300b652e4756d030a1885a12d6d8990d3b026e86f1f1ec",
+      "bytes": 2502424
+    },
+    {
+      "path": "parquet/label_anomaly_window.parquet",
+      "sha256": "219dc6cece1074859f3171fdccbd693dbd32b5f8fa4ca79569eec7b1cf14654f",
+      "bytes": 516157
+    },
+    {
+      "path": "parquet/label_config_risk.parquet",
+      "sha256": "579a230ce9882ddd3effa9076fc15b61b8bfef442a7a1215be1058fd1d84c71a",
+      "bytes": 12210
+    },
+    {
+      "path": "parquet/label_degradation.parquet",
+      "sha256": "7b358f883c882e51caaf56dc1c0db6e1574562fb416b506575a0505a07190286",
+      "bytes": 191539
+    },
+    {
+      "path": "parquet/label_failure_horizon.parquet",
+      "sha256": "cddd0b87a41bf9415c1f4da395c6b5264102c4bd556e3db86e045f1cad7c35a9",
+      "bytes": 1903816
+    },
+    {
+      "path": "parquet/label_impact.parquet",
+      "sha256": "ca48dc516c45647ee11cbe539ebd84c22f32c9bbdc50c5e716029c66c93f3224",
+      "bytes": 10112
+    },
+    {
+      "path": "parquet/label_rca.parquet",
+      "sha256": "ce76b6f7ff1a4870c0d80b76d429f0d0b459bc11749489b2eaea4fc31667472f",
+      "bytes": 11547
+    },
+    {
+      "path": "parquet/lag_group.parquet",
+      "sha256": "7e79c38bce814bd352c2d7c3f97dd2d3d13c25d82dd0bac872f1e94e47217691",
+      "bytes": 5620
+    },
+    {
+      "path": "parquet/lag_member.parquet",
+      "sha256": "a331f2f367c52057838bc56180384f3763eed97f5669ca3445563ce54cf02b58",
+      "bytes": 5084
+    },
+    {
+      "path": "parquet/link.parquet",
+      "sha256": "8d5780c7adf4b2a328f81334f32c58bbf1279349d4f225266a2ccd181610e175",
+      "bytes": 12372
+    },
+    {
+      "path": "parquet/mac_address_table.parquet",
+      "sha256": "4943f51fbc04fdf823b49b5a92fecf55da89845262b81d7e1f86c89b81fd16a8",
+      "bytes": 26031
+    },
+    {
+      "path": "parquet/mac_ip_binding.parquet",
+      "sha256": "2c1caa5abbe4c3a7ffefe5b67586a199b20f65a6fda19aeb3e9c45de936e8849",
+      "bytes": 1100
+    },
+    {
+      "path": "parquet/maintenance_window.parquet",
+      "sha256": "bb4f21ca4ee5bca263aa477298f0d2900088f4dd763e025bdf98c0d07d0ef8ea",
+      "bytes": 4898
+    },
+    {
+      "path": "parquet/nae_agent.parquet",
+      "sha256": "2fa913d77caad15d83ab6eb3cb6508315d4a5517d19620fb45112959e6d64230",
+      "bytes": 5730
+    },
+    {
+      "path": "parquet/nae_monitor.parquet",
+      "sha256": "d4673fcd63f43c516e54d24c6e036d1f9cdf622d501e6b89bb12731aed7a102a",
+      "bytes": 5212
+    },
+    {
+      "path": "parquet/nae_script.parquet",
+      "sha256": "e95f73bc5d48fc32880a6ced84f6731eb17f2c57148a51fc94a1e7ea7e57aa85",
+      "bytes": 3681
+    },
+    {
+      "path": "parquet/nae_timeseries_point.parquet",
+      "sha256": "a72a88cd92585e39b8e2889a5e2f58722ef158850b2301989f9608e81f18dea9",
+      "bytes": 238283
+    },
+    {
+      "path": "parquet/organization.parquet",
+      "sha256": "c664acab95eee4cd4a4947f8c74e2ff9e66b27b005bcb3899dcb08e0c1a54922",
+      "bytes": 3205
+    },
+    {
+      "path": "parquet/ospf_interface.parquet",
+      "sha256": "ae54b79ee8491192664d9d1475bf47997492dca8669693ec16deea1dbd6a78e5",
+      "bytes": 8494
+    },
+    {
+      "path": "parquet/ospf_process.parquet",
+      "sha256": "b718dbd7f7b0dd191691ce008a8eb6a482a9b0d5c6a195834935116dff289b30",
+      "bytes": 4720
+    },
+    {
+      "path": "parquet/power_sample.parquet",
+      "sha256": "526b8af6caed842d0325524e043b230900d4736a28760cfa992f857868d6a750",
+      "bytes": 4315832
+    },
+    {
+      "path": "parquet/qos_binding.parquet",
+      "sha256": "dc3e66e9dcb5deb92662ab575178bfcb56a68d39799dd9043a06e5f7fdbcb115",
+      "bytes": 5438
+    },
+    {
+      "path": "parquet/qos_class.parquet",
+      "sha256": "80044a7c5dacaa488857036b3a9855629d6c12159f9c0c10dd3be24cf87306bd",
+      "bytes": 5316
+    },
+    {
+      "path": "parquet/qos_policy.parquet",
+      "sha256": "e2fbcf72a9b0488705f749596c7e6b9ba614e3c42daac0653bda0fe97ed93f0b",
+      "bytes": 3893
+    },
+    {
+      "path": "parquet/qos_queue.parquet",
+      "sha256": "6cddbb06c66db454cb5f4eecd67c634c97b1ae2de03f76bb444063c707178595",
+      "bytes": 6397
+    },
+    {
+      "path": "parquet/qos_queue_counter_sample.parquet",
+      "sha256": "d302b3e0847f06d6eafea53e5dbc8a40a75787b4a5baacc7898c065eccb8b1de",
+      "bytes": 517555
+    },
+    {
+      "path": "parquet/rack.parquet",
+      "sha256": "c1c13824f4dd6496ec1ef8812e432dd48a5de8600a7615775bf20a1883512144",
+      "bytes": 5551
+    },
+    {
+      "path": "parquet/radio.parquet",
+      "sha256": "42dd4de20e1078fc304bb37b3910ace6ada40f690af9e7816032bc7b2b94f26a",
+      "bytes": 5491
+    },
+    {
+      "path": "parquet/radius_server.parquet",
+      "sha256": "90d2a425f4cfdae04b861bc0905bd2ac54dfe07033125a27928635fe9e47c9e0",
+      "bytes": 4244
+    },
+    {
+      "path": "parquet/recovery_action.parquet",
+      "sha256": "849d12b2faa4ca203f3097bba5f20c928d0e3332f86b85a1cb3df46464eb6700",
+      "bytes": 13473
+    },
+    {
+      "path": "parquet/rib_entry_sample.parquet",
+      "sha256": "dd2eca7454d35e5cebd76fb2c474510124ea4468fca01db5ca6255127f25ff3a",
+      "bytes": 96702
+    },
+    {
+      "path": "parquet/routing_instance.parquet",
+      "sha256": "ac1850621318ba30dabb05e9a8da95651c3a7ee57a915d1c504dae8f3ff17763",
+      "bytes": 5853
+    },
+    {
+      "path": "parquet/service.parquet",
+      "sha256": "36f87e8bae740c8da785d060d016f98602fae2ec1eed56b46b47f44ce9c6c828",
+      "bytes": 5077
+    },
+    {
+      "path": "parquet/service_dependency.parquet",
+      "sha256": "dbc64e43f3350ef8b4e3279237f09acd6899180e8dfc02c9a07b47b478efebe1",
+      "bytes": 6798
+    },
+    {
+      "path": "parquet/service_endpoint_bind.parquet",
+      "sha256": "b50d24710e140c15bc887bb890921212f63904e67d21604267635e99336f5762",
+      "bytes": 15606
+    },
+    {
+      "path": "parquet/service_impact.parquet",
+      "sha256": "8a0b0597d02f66754fc8c9891953f332da247b380c34d07653b14dd5eff69b89",
+      "bytes": 13194
+    },
+    {
+      "path": "parquet/service_kpi_sample.parquet",
+      "sha256": "0327c48a4b98fda28e768aee6b98d34b102cc7a8e20150e654a9fe63a12ab860",
+      "bytes": 1281529
+    },
+    {
+      "path": "parquet/site.parquet",
+      "sha256": "36e37413dc299b8b769d1e7896ca0aa75ee9dc24c73ba25842f9a0edb6b76d8e",
+      "bytes": 7672
+    },
+    {
+      "path": "parquet/sla_objective.parquet",
+      "sha256": "cd4db326d0592f7cec7e3a56fe527b2bc4ff2552ec425c19ed220724c029be86",
+      "bytes": 4168
+    },
+    {
+      "path": "parquet/static_route.parquet",
+      "sha256": "d6d3e0b92c2770c1e177a81983b198c8a173045949515306f4ed303bfeb13b60",
+      "bytes": 5078
+    },
+    {
+      "path": "parquet/stp_instance.parquet",
+      "sha256": "267d9951278c1ce15434dbcf94c84af47d9abf3fdf77b31b852bfd74aed1193a",
+      "bytes": 5067
+    },
+    {
+      "path": "parquet/stp_port.parquet",
+      "sha256": "fa726091e39af916ab5421232dbf65a11e0ca8e168420f71ab54abc9e0355602",
+      "bytes": 15487
+    },
+    {
+      "path": "parquet/stp_port_sample.parquet",
+      "sha256": "16abfe42b30897e99543bbc25334727e010a9a79bc507cfa34053694bf652d63",
+      "bytes": 1362427
+    },
+    {
+      "path": "parquet/syslog_event.parquet",
+      "sha256": "c69d65f1e5520c8bae0435977a97a47807e6bd9b82b3152ef2959de4344d0a57",
+      "bytes": 28147
+    },
+    {
+      "path": "parquet/topology_edge.parquet",
+      "sha256": "6be7318be764a64e335936008530ea9cecea5e9b8c2cf907507d8fd42b9c643a",
+      "bytes": 803369
+    },
+    {
+      "path": "parquet/topology_profile.parquet",
+      "sha256": "a74f06c868220142a4fa8b0acfb4dba256918e19519cfb09a04d97b72ac73a7c",
+      "bytes": 5213
+    },
+    {
+      "path": "parquet/topology_snapshot.parquet",
+      "sha256": "db3f72268660e3771e58c83f5707d9e6d2dc598d0b074e7d1e908b1ef03189e3",
+      "bytes": 25582
+    },
+    {
+      "path": "parquet/user_account.parquet",
+      "sha256": "5a20266d642b4969c91d7d26c24e11e2f9c3e875f232e3fc7f3cc6018d10997c",
+      "bytes": 9822
+    },
+    {
+      "path": "parquet/vlan.parquet",
+      "sha256": "68895f8f71c43788fbfd2f92aaef6d3d890f057e349a622601bc335a269cb898",
+      "bytes": 6203
+    },
+    {
+      "path": "parquet/vlan_membership.parquet",
+      "sha256": "8eba3900b01639ef9f992c1bdeafb1911da69478d478055c85c956bbe410c34d",
+      "bytes": 8701
+    },
+    {
+      "path": "parquet/vsx_pair.parquet",
+      "sha256": "6fad717936cdc16aafef76399097924f9755a2f3c4c923f4db4ed02e7ef7f5ea",
+      "bytes": 7374
+    },
+    {
+      "path": "parquet/vsx_state_sample.parquet",
+      "sha256": "abaa121c527013156d26481593de5ad5832a82eb9318e87def4449385ff7c55c",
+      "bytes": 58708
+    },
+    {
+      "path": "parquet/vtep.parquet",
+      "sha256": "2c1caa5abbe4c3a7ffefe5b67586a199b20f65a6fda19aeb3e9c45de936e8849",
+      "bytes": 1100
+    },
+    {
+      "path": "parquet/vxlan_vni.parquet",
+      "sha256": "2c1caa5abbe4c3a7ffefe5b67586a199b20f65a6fda19aeb3e9c45de936e8849",
+      "bytes": 1100
+    }
+  ]
+}

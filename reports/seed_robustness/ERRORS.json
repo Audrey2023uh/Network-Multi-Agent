@@ -1,0 +1,7 @@
+[
+  {
+    "seed": 404,
+    "error": "Generation failed for seed 404 rc=1",
+    "trace": "Traceback (most recent call last):\n  File \"C:\\Users\\audre\\OneDrive\\Network_Journal\\Data\\09_artifacts\\seed_robustness\\run_all_seeds.py\", line 443, in main\n    inst = generate_instance(seed)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\audre\\OneDrive\\Network_Journal\\Data\\09_artifacts\\seed_robustness\\run_all_seeds.py\", line 60, in generate_instance\n    raise RuntimeError(f\"Generation failed for seed {seed} rc={r.returncode}\")\nRuntimeError: Generation failed for seed 404 rc=1\n"
+  }
+]
