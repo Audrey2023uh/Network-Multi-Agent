@@ -17,7 +17,7 @@
     "cytoscape-fcose": "^2.2.0",
     "d3": "^7.9.0",
     "framer-motion": "^11.15.0",
-    "plotly.js": "^2.35.2",
+    "plotly.js-basic-dist-min": "^2.35.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-plotly.js": "^2.6.0",
@@ -26,6 +26,7 @@
   "devDependencies": {
     "@types/cytoscape": "^3.21.8",
     "@types/d3": "^7.4.3",
+    "@types/plotly.js": "^2.35.16",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-plotly.js": "^2.6.3",

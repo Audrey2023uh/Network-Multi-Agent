@@ -7,6 +7,17 @@ export default defineConfig({
   base: "/Network-Multi-Agent/",
   build: {
     outDir: "dist",
-    sourcemap: true,
+    // Sourcemaps blow CI memory with Plotly; enable locally via sourcemap=true if needed
+    sourcemap: false,
+    chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          plotly: ["plotly.js-basic-dist-min", "react-plotly.js"],
+          viz: ["cytoscape", "cytoscape-fcose", "d3"],
+          react: ["react", "react-dom", "react-router-dom", "framer-motion"],
+        },
+      },
+    },
   },
 });

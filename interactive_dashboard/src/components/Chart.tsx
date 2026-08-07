@@ -1,5 +1,8 @@
-import Plot from "react-plotly.js";
+import createPlotlyComponent from "react-plotly.js/factory";
+import Plotly from "plotly.js-basic-dist-min";
 import type { Data, Layout } from "plotly.js";
+
+const Plot = createPlotlyComponent(Plotly);
 
 const layoutBase: Partial<Layout> = {
   paper_bgcolor: "rgba(0,0,0,0)",
