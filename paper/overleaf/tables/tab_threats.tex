@@ -1,0 +1,18 @@
+\begin{table}[!t]
+\centering
+\caption{Threats to validity and corresponding mitigations.}
+\label{tab:threats}
+\renewcommand{\arraystretch}{1.2}
+{\footnotesize\begin{tabular}{p{2.3cm}p{5.4cm}}
+\toprule
+Threat & Mitigation / residual risk \\
+\midrule
+Synthetic data & Realism audits; still not a substitute for production traces. \\
+External validity & AOS-CX-style assumptions; other vendors/fabrics may differ. \\
+Label leakage & Temporal freeze and feature audits; healing full vs.\ \texttt{no\_rca\_cat}. \\
+Small $n$ seeds & Six seeds with confidence intervals; tests remain underpowered. \\
+Topology scale & 19 devices / 31 links; scalability to large fabrics unproven. \\
+Healing semantics & Decision support only; no live actuation evidence. \\
+\bottomrule
+\end{tabular}}
+\end{table}

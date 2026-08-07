@@ -1,0 +1,36 @@
+\begin{table}[!t]
+\centering
+\caption{Frozen evaluation instances used in this study (authoritative SQLite stores).}
+\label{tab:seeds}
+\renewcommand{\arraystretch}{1.15}
+{\footnotesize\begin{tabular}{llc}
+\toprule
+Instance folder & Role & Devices / links \\
+\midrule
+\texttt{v1} (v1.1.0-INST) & Primary frozen instance & 19 / 31 \\
+\texttt{v1.1-seed101} & Independent seed & 19 / 31 \\
+\texttt{v1.1-seed202} & Independent seed & 19 / 31 \\
+\texttt{v1.1-seed303} & Independent seed & 19 / 31 \\
+\texttt{v1.1-seed404} & Independent seed & 19 / 31 \\
+\texttt{v1.1-seed505} & Independent seed & 19 / 31 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[!t]
+\centering
+\caption{Summary of ECNetBench relational schema families.}
+\label{tab:schema}
+\renewcommand{\arraystretch}{1.15}
+{\footnotesize\begin{tabular}{p{2.4cm}p{5.3cm}}
+\toprule
+Family & Representative contents \\
+\midrule
+Inventory/topology & Devices, interfaces, topology snapshots, graph nodes/edges \\
+Configuration & VLAN/ACL/QoS, routing processes, configuration snapshots/diffs \\
+Telemetry & Interface counters, resources, syslog/alerts, flow aggregates \\
+Services & Applications, services, SLA and impact bindings \\
+Incidents/labels & Failure incidents, recovery actions, supervised label tables \\
+\bottomrule
+\end{tabular}}
+\end{table}

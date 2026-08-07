@@ -1,0 +1,17 @@
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Network digital twins and autonomous networks}
+Network digital twins (NDTs) aim to provide data-driven, near-real-time models for what-if analysis and closed-loop control~\cite{almasan2022ndt,itu_y3090}. Standards bodies and industry white papers discuss NDTs as enablers of autonomous networks and safe change validation~\cite{ietfdraftndt,etsi2024autonomous}. Our twin focuses on enterprise campus/DC inventory and telemetry graphs rather than packet-level WAN simulation, and is evaluated as a feature provider inside a multi-agent NetOps pipeline.
+
+\subsection{AIOps, anomaly detection, and RCA}
+Surveys of AIOps and network anomaly detection highlight class imbalance, concept drift, and the need for operationally meaningful metrics beyond accuracy~\cite{dang2019aiops,notaro2021survey,chandola2009anomaly}. Classical detectors (Isolation Forest~\cite{liu2008isolation}, EWMA) and strong tabular learners remain competitive when features are informative. RCA research spans log mining, causal graphs, and Clos-fabric diagnostics~\cite{notaro2021survey}. We evaluate explainable category-level RCA with ablations that remove twin or syslog cues, and we treat healing as \emph{decision support} rather than live switch actuation.
+
+\subsection{Graph learning for networks}
+Graph neural networks and message-passing proxies have been proposed for topology-aware prediction~\cite{hamilton2017inductive,rusek2019routenet}. We include a GraphSAGE-style proxy baseline for fairness, while the proposed ECN uses an explicit Digital Twin graph with neighbor aggregates rather than claiming end-to-end GNN superiority.
+
+\subsection{Benchmarks and datasets}
+Public resources include Topology Zoo~\cite{knight2011topologyzoo}, SNDlib~\cite{orlowski2010sndlib}, and security datasets such as UNSW-NB15~\cite{moustafa2015unsw}. Enterprise cognitive NetOps additionally needs configuration semantics, multi-modal telemetry, service impact, and recovery labels under temporal freeze rules. ECNetBench is synthetic by design; we therefore emphasize leakage audits, seed robustness, and explicit threats to external validity (Section~\ref{sec:limit}).
+
+\subsection{Intent-based and multi-agent network management}
+Intent-based networking and multi-agent orchestration are long-standing themes in automated management~\cite{clemm2019ibn,wooldridge2009mas}. ECN-v3 instantiates specialized agents with an orchestrator; fusion is constrained (anchored telemetry weight $\ge 0.5$) after architecture isolation showed nesting-safe stacking does not improve mean T1 AUPRC on ECNetBench. RCA explanations use TreeSHAP on a random-forest category model.

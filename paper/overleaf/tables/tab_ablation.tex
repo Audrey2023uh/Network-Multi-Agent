@@ -1,0 +1,16 @@
+\begin{table}[!t]
+\centering
+\caption{T1 architecture and fusion ablation under the frozen six-seed protocol. Stacking is a negative result relative to anchored fusion on enriched features.}
+\label{tab:ablation}
+\renewcommand{\arraystretch}{1.15}
+{\footnotesize\begin{tabular}{lcc}
+\toprule
+Configuration & Mean AUPRC & 95\% CI \\
+\midrule
+v2 legacy features + anchored & $0.0577$ & $[0.0214,\,0.0940]$ \\
+v3 enriched features + stacking (ablation) & $0.0997$ & $[0.0738,\,0.1257]$ \\
+\textbf{v3 enriched + anchored (final)} & $\mathbf{0.1152}$ & $[0.0609,\,0.1695]$ \\
+RF telem\_only (strongest baseline) & $0.0758$ & $[0.0505,\,0.1011]$ \\
+\bottomrule
+\end{tabular}}
+\end{table}

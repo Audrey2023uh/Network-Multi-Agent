@@ -1,0 +1,81 @@
+\section{Results}
+\label{sec:results}
+
+All numerical claims below are taken from verified artifacts \texttt{results/manuscript\_ready\_numbers.json}, \texttt{results/v3\_gated/t1\_architecture\_selection.json}, and \texttt{results/aggregate\_v3.json} (baselines/T2/RCA), without modifying frozen instances.
+
+\subsection{T1 anomaly and T2 failure prediction}
+Table~\ref{tab:t1t2} summarizes multi-seed mean ranking metrics. On T1, the final ECN-v3 anchored detector achieves mean AUPRC $0.11522078115707056$ (95\% CI $[0.0609,0.1695]$), exceeding random forest ($0.07583814878524626$) and the v2 legacy configuration ($0.05771284608153401$). Mean T1 ROC-AUC is $0.7533587867665612$. Fig.~\ref{fig:baseline} visualizes the same AUPRC means with 95\% confidence intervals for T1 and T2, highlighting the T1 lift of the final head and the T2 telem-logistic recommendation.
+
+\input{tables/tab_t1t2}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{baseline_auprc_mean_ci.pdf}
+\caption{Multi-seed mean AUPRC with 95\% confidence intervals. Left: T1 anomaly detection, where ECN-v3 denotes the final anchored head on enriched features. Right: T2 failure-horizon ranking; the ECN T2 column is the recommended telemetry logistic head.}
+\label{fig:baseline}
+\end{figure}
+
+On T2, the recommended head is telemetry logistic regression with mean AUPRC $0.038043099063649714$, higher than RF ($0.017610244849363122$). We do not claim that multi-agent fusion improves T2 under ultra-rare positives.
+
+Paired Wilcoxon tests and Cliff's $\delta$ (Table~\ref{tab:sig}) show that the T1 mean advantage versus random forest is not significant at $\alpha{=}0.05$ ($p{=}0.688$, $\delta{=}{+}0.389$), consistent with $n{=}6$ underpowering. Versus logistic and several weaker baselines, paired $p$-values reach $0.031$. Stacking versus anchored is not significant ($p{=}0.375$).
+
+\input{tables/tab_significance}
+
+Representative ROC and precision--recall curves on the primary frozen instance appear in Fig.~\ref{fig:t1curves}. Curve geometry remains consistent with rare-positive ranking: ROC discrimination is moderate, while precision--recall is challenging for all methods. (Stored per-seed curves include a historical stacking proposed trace for continuity; mean claims use the final anchored artifact.)
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{T1_v1.1.0-INST_roc_pr.pdf}
+\caption{T1 ROC (left) and precision--recall (right) curves on frozen instance v1.1.0-INST for representative detectors. Legend values report ROC-AUC and average precision on this instance.}
+\label{fig:t1curves}
+\end{figure}
+
+\subsection{Architecture selection and fusion ablation}
+Fig.~\ref{fig:archsel} and Table~\ref{tab:ablation} isolate the sources of the T1 improvement. Leakage-safe feature enrichment accounts for the dominant gain; replacing anchored fusion with stacking on the same enriched features \emph{reduces} mean AUPRC from $0.1152$ to $0.0997$. Accordingly, stacking is reported as an ablation/negative result rather than as the final T1 architecture.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.92\columnwidth]{architecture_selection_t1.pdf}
+\caption{T1 architecture selection: v2 legacy+anchored, v3+stacking (ablation), v3+anchored (final), and RF telem\_only. Error bars denote 95\% confidence intervals over six seeds.}
+\label{fig:archsel}
+\end{figure}
+
+\input{tables/tab_ablation}
+
+Table~\ref{tab:modules} and Fig.~\ref{fig:modules} summarize verified contribution deltas. Feature enrichment versus v2 contributes ${+}0.0575$ mean AUPRC. Twin contribution under the final head is near zero (${+}0.0003$). Stacking relative to anchored contributes ${-}0.0155$.
+
+\input{tables/tab_modules}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.78\columnwidth]{module_contribution.pdf}
+\caption{Verified T1 AUPRC deltas: feature enrichment versus v2, twin contribution under the final head, and stacking versus anchored fusion.}
+\label{fig:modules}
+\end{figure}
+
+\subsection{Calibration and operating points}
+Calibration quality is summarized in Table~\ref{tab:cal}. Final T1 raw Brier is $0.1509$, worse than RF ($0.0227$), motivating optional Beta calibration for probability displays without altering AUPRC ranking. Fig.~\ref{fig:t1cal} shows a reliability diagram on v1.1.0-INST for stored ECN scores.
+
+\input{tables/tab_calibration}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.78\columnwidth]{T1_v1.1.0-INST_calibration.pdf}
+\caption{T1 reliability diagram on instance v1.1.0-INST. The dashed line denotes perfect calibration. Optional Beta calibration is recommended for operator-facing probabilities.}
+\label{fig:t1cal}
+\end{figure}
+
+\subsection{RCA, healing decision support, and cost}
+Table~\ref{tab:rcaheal} reports RCA macro-F1, healing decision-support scores, and cost. Proposed T3 RCA macro-F1 mean is $0.25396825396825395$ using RF with TreeSHAP explanations. Healing with RCA category features reaches macro-F1 $1.0$ on this synthetic setup---an upper bound that is \emph{not} interpreted as operational perfection; the honest \texttt{no\_rca\_cat} setting yields $0.19027777777777777$. Fig.~\ref{fig:t3cm} illustrates a representative T3 confusion matrix on the primary instance.
+
+\input{tables/tab_rca_healing_cost}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.82\columnwidth]{T3_v1.1.0-INST_cm.pdf}
+\caption{Representative T3 RCA confusion matrix for the RF+TreeSHAP RCA head on instance v1.1.0-INST.}
+\label{fig:t3cm}
+\end{figure}
+
+\subsection{Why simplicity remains preferable}
+At $\sim$1\% positives, enriched telemetry recovers most ranking signal. Anchored fusion is simpler than stacking, improves mean T1 AUPRC on the same features, and remains competitive with RF in mean while acknowledging non-significant paired tests versus RF. With $n{=}6$ seeds, intervals are wide; claims emphasize reproducible mean improvements and architecture honesty rather than universal paired dominance.

@@ -1,0 +1,11 @@
+\section{Discussion}
+\label{sec:disc}
+
+\subsection{What to claim}
+The defensible claims are architectural and methodological: (1)~ECNetBench provides a leakage-aware multi-task enterprise benchmark with multi-seed frozen instances; (2)~ECN-v3 closes the loop from detection to healing \emph{decision support} with TreeSHAP RCA; (3)~leakage-safe temporal enrichment is the primary driver of the T1 AUPRC lift from $0.0577$ (v2) to $0.1152$ (final); (4)~anchored fusion is preferred over stacking on this benchmark (higher mean AUPRC, lower complexity); (5)~T2 remains best served by a telem logistic head under extreme rarity.
+
+\subsection{What not to claim}
+We do not claim statistically significant superiority over random forest on T1 ($p{=}0.688$), significant superiority of anchored over stacking ($p{=}0.375$), live deployment on physical AOS-CX switches, or that multi-agent fusion alone beats strong tabular detectors without feature enrichment. Impact AUPRC of $1.0$ for some models on this synthetic label construction is reported for completeness but interpreted cautiously as potential label/feature collinearity rather than solved service-impact prediction in the wild.
+
+\subsection{Practical NetOps implications}
+Operators can use ECN as a sandbox for ranking alerts, proposing RCA categories with SHAP attributions, and suggesting remediation classes before human approval. Prefer the anchored head for T1 triage; prefer telem logistic scores for T2 horizon ranking; apply optional Beta calibration when displaying probabilities.

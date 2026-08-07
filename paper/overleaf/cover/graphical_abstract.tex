@@ -1,0 +1,18 @@
+% Graphical abstract (compile standalone or include)
+\documentclass[border=8pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\begin{document}
+\begin{tikzpicture}[
+  box/.style={draw,rounded corners=2pt,align=center,font=\sffamily\scriptsize,inner sep=4pt,minimum height=0.85cm},
+  arr/.style={-{Latex},thick}
+]
+\node[box,fill=green!12] (bench) {ECNetBench\\six frozen seeds};
+\node[box,right=0.7cm of bench,fill=blue!10] (twin) {Digital Twin};
+\node[box,right=0.7cm of twin,fill=orange!12] (agents) {Multi-agent ECN\\Detect$\rightarrow$Predict$\rightarrow$RCA$\rightarrow$Heal};
+\node[box,below=0.7cm of agents,fill=gray!10] (eval) {Leakage-safe 70/15/15\\multi-seed CI + Wilcoxon};
+\draw[arr] (bench) -- (twin);
+\draw[arr] (twin) -- (agents);
+\draw[arr] (agents) -- (eval);
+\end{tikzpicture}
+\end{document}

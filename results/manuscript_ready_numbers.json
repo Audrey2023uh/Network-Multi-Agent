@@ -1,0 +1,100 @@
+{
+  "note": "Manuscript updated to final ECN-v3 anchored architecture; Overleaf source under paper/overleaf/.",
+  "protocol": "ECNetBench six-seed temporal 70/15/15; feat_bin = t_start-30min; AUPRC from scores",
+  "T1_final_proposed": {
+    "name": "ECN-v3 enriched features + anchored fusion (ECNFusionModel)",
+    "auprc_mean": 0.11522078115707056,
+    "auprc_std": 0.0678577501242871,
+    "auprc_ci95_bootstrap": [
+      0.0678984305675343,
+      0.16797282350001838
+    ],
+    "auprc_ci95_parametric": [
+      0.0440084397334875,
+      0.18643312258065362
+    ],
+    "roc_auc_mean": 0.7533587867665612,
+    "roc_auc_ci95_bootstrap": [
+      0.6847807259936204,
+      0.8321213035310239
+    ],
+    "brier_mean": 0.15091482083687421,
+    "ece_mean": 0.2879947420847272,
+    "train_time_s_mean": 2.214232283295132,
+    "twin_gain_ap_mean": 0.00034671014085769017,
+    "per_seed_auprc": [
+      0.10797653341624773,
+      0.15192626949265753,
+      0.22434000160896644,
+      0.024191215743998292,
+      0.10368603126290715,
+      0.07920463541764623
+    ]
+  },
+  "T1_stacking_ablation": {
+    "name": "ECN-v3 enriched features + stacking (ECNStackFusionModel)",
+    "auprc_mean": 0.0997458645152051,
+    "auprc_std": 0.03241165719028519,
+    "auprc_ci95_bootstrap": [
+      0.0762620456375419,
+      0.12251222719001459
+    ],
+    "roc_auc_mean": 0.7803153600807967,
+    "status": "ablation_negative_result"
+  },
+  "T1_baselines": {
+    "random_forest_telem_only_auprc_mean": 0.07583814878524626,
+    "random_forest_telem_only_auprc_ci95_bootstrap": [
+      0.05313106635236035,
+      0.09816967561448185
+    ]
+  },
+  "T1_vs_v2": {
+    "v2_anchored_legacy_auprc_mean": 0.05771284608153401,
+    "delta_final_vs_v2": 0.05750793507553655,
+    "delta_stack_ablation_vs_v2": 0.0420330184336711
+  },
+  "T1_paired_anchored_vs_stack": {
+    "wilcoxon_pvalue_ap": 0.375,
+    "cliffs_delta_ap": 0.1111111111111111,
+    "bootstrap_p_anchored_gt_stack_ap": 0.8654,
+    "mean_delta_ap": 0.01547491664186545
+  },
+  "T1_paired_anchored_vs_rf": {
+    "wilcoxon": {
+      "statistic": 8.0,
+      "pvalue": 0.6875
+    },
+    "ttest": {
+      "statistic": 1.345726684713714,
+      "pvalue": 0.23618908583074885
+    },
+    "cliffs_delta": 0.3888888888888889,
+    "bootstrap": {
+      "mean_diff": 0.039382632371824294,
+      "ci95_lo": -0.008516793733395039,
+      "ci95_hi": 0.09244835819671902,
+      "p_a_gt_b": 0.9154,
+      "p_a_lt_b": 0.0846
+    }
+  },
+  "tradeoffs": {
+    "primary_metric": "AUPRC",
+    "anchored_wins": [
+      "auprc_mean",
+      "simplicity",
+      "interpretability",
+      "train_cost"
+    ],
+    "stacking_wins_secondary": [
+      "roc_auc_mean",
+      "brier_raw",
+      "ece_raw",
+      "ap_std"
+    ],
+    "calibration_note": "Optional Beta calibration for anchored probability display; does not change AUPRC ranking",
+    "paired_significance_vs_stack": "not claimed (Wilcoxon p=0.375, n=6)"
+  },
+  "previous_published_v3_stack_auprc_mean": 0.09987388175137697,
+  "selection_principle": "simplest scientifically defensible model with strongest reproducible performance"
+}

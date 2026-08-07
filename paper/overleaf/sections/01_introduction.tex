@@ -1,0 +1,22 @@
+\section{Introduction}
+\label{sec:intro}
+
+Modern enterprise campuses and data-center fabrics are operated under continuous change: VLAN and ACL updates, EVPN/VXLAN overlays, QoS policy edits, and firmware-driven control-plane behavior. Cognitive NetOps and AIOps promise earlier anomaly detection, failure-horizon prediction, explainable RCA, service-impact estimation, and remediation recommendations~\cite{dang2019aiops,notaro2021survey,almasan2022ndt}. In practice, progress is slowed by fragmented public resources: topology archives without multi-modal telemetry~\cite{knight2011topologyzoo}, security flow corpora that omit enterprise L2/L3 configuration semantics~\cite{moustafa2015unsw}, and telemetry/RCA artifacts that do not jointly expose recovery and impact labels under a temporal leakage protocol.
+
+This paper addresses that gap with two coupled contributions. First, \textbf{ECNetBench} is a synthetic enterprise cognitive-networking benchmark whose schema, failure taxonomy, and label definitions are designed for leakage-safe supervised learning under AOS-CX-style operational assumptions (inventory, VLAN/ACL/QoS, routing, counters, syslog/alerts, NAE-like analytics, and recovery/impact fields). Second, we implement and evaluate an \textbf{Enterprise Cognitive Network (ECN-v3)}: a Digital Twin graph plus a multi-agent stack (Perception, Anomaly, Prediction, RCA, Impact, Healing) with leakage-safe feature enrichment, \emph{anchored} telemetry-first fusion (\texttt{ECNFusionModel}), and TreeSHAP-explained RCA.
+
+\paragraph{Novelty statement.}
+To our knowledge, this is the first end-to-end twin + multi-agent detection--prediction--RCA--impact--healing decision-support pipeline evaluated on a frozen multi-seed enterprise benchmark under an explicit temporal $70/15/15$ leakage protocol with paired Wilcoxon tests and Cliff's $\delta$ across six independent instances.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+\item \textbf{ECNetBench design:} relational+graph schema, failure taxonomy, causal incident modeling, leakage-safe labels, realism validation, and six frozen evaluable instances (v1.1.0-INST; seeds 101, 202, 303, 404, 505).
+\item \textbf{ECN-v3 framework:} Digital Twin construction; leakage-safe temporal enrichment; anchored fusion selected over nesting-safe stacking by architecture isolation; RF+TreeSHAP RCA.
+\item \textbf{Rigorous multi-seed evaluation:} baselines, fusion ablations, calibration, confidence intervals, significance tests, and computational cost---with honest reporting of non-significant paired tests where $n{=}6$ is underpowered.
+\item \textbf{Reproducible package:} relative-path evaluation harness, checksums, traceability artifacts, and a synchronized Overleaf project under \texttt{paper/overleaf/}.
+\end{enumerate}
+
+\paragraph{Headline results (exact verified means, $n{=}6$).}
+Final ECN-v3 T1 AUPRC $=0.11522078115707056$ versus strongest baseline random forest $=0.07583814878524626$ and versus the prior v2 configuration $=0.05771284608153401$. Nesting-safe stacking on the same enriched features is a \emph{negative} ablation ($0.0997458645152051$). The recommended T2 head is telemetry logistic regression ($0.038043099063649714$). Twin contribution under the final T1 head is near zero ($\approx{+}0.00035$).
+
+The overall architecture is introduced in Fig.~\ref{fig:architecture} (Section~\ref{sec:framework}). Section~\ref{sec:related} situates related work; Sections~\ref{sec:bench}--\ref{sec:framework} detail the benchmark and framework; Sections~\ref{sec:eval}--\ref{sec:results} present protocol and results; Sections~\ref{sec:disc}--\ref{sec:conc} discuss implications, limitations, and conclusions.

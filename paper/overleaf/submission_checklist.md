@@ -1,0 +1,21 @@
+# Submission Checklist
+
+- [x] IEEE `\documentclass[journal]{IEEEtran}`
+- [x] Title matches requested string
+- [x] Exact verified metrics (not invented)
+- [x] Honest non-superiority on T1 vs RF
+- [x] T2 tied with logistic stated
+- [x] Twin contribution task-dependent (negative T1, positive T2)
+- [x] Telemetry strongest module
+- [x] Healing framed as decision support
+- [x] No prohibited wording (assistants / coursework)
+- [x] Relative paths in scripts
+- [x] Data/code availability statements
+- [x] Limitations and threats table
+- [x] BibTeX with reputable sources
+- [x] Figures referenced in text
+- [x] Tables generated from CSV/JSON
+- [ ] Author names/affiliations finalized
+- [ ] Acknowledgments finalized
+- [ ] Target journal cover letter customized
+- [ ] Camera-ready formatting after acceptance

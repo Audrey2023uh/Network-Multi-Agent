@@ -1,0 +1,17 @@
+\begin{table}[!t]
+\centering
+\caption{Calibration quality (Brier score; lower is better). Final ECN-v3 T1 Brier is reported from the architecture-selection study; baseline Brier values are from the six-seed aggregate. Optional Beta calibration is recommended for probability display and does not change AUPRC ranking.}
+\label{tab:cal}
+\renewcommand{\arraystretch}{1.15}
+{\footnotesize\begin{tabular}{llcc}
+\toprule
+Task & Method & Mean & Notes \\
+\midrule
+T1 & ECN-v3 final (raw) & $0.1509$ & Optional Beta for display \\
+T1 & Random forest & $0.0227$ & Strong tabular calibration \\
+T1 & Logistic & $0.2328$ & \\
+T2 & Telem logistic (T2 head) & $0.2577$ & Recommended T2 head \\
+T2 & Random forest & $0.0124$ & \\
+\bottomrule
+\end{tabular}}
+\end{table}

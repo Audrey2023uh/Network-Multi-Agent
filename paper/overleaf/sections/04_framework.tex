@@ -1,0 +1,46 @@
+\section{Enterprise Cognitive Network Framework}
+\label{sec:framework}
+
+\subsection{Digital Twin}
+The Digital Twin materializes inventory and topology as a typed graph synchronized with telemetry windows. Twin-derived features include residual contrasts (e.g., device resource versus neighbor summaries), structural aggregates, and interface error/discard/carrier deltas constructed with causal shifts. Twin features are optional inputs to agents and are ablated in \texttt{no\_twin} / \texttt{twin\_only} settings.
+
+\subsection{Leakage-safe feature enrichment (ECN-v3)}
+Beyond legacy aggregates, ECN-v3 adds causal rolling/EMA statistics, second differences, error-burst accumulators, and neighbor-instability proxies. All rolling and expanding operators apply \texttt{shift(1)} so that the current bin is excluded; labels join features at $\texttt{feat\_bin}=t_{\mathrm{start}}-30\,\mathrm{min}$. Isolation studies attribute the T1 gain primarily to this enrichment rather than to fusion complexity.
+
+\subsection{Multi-agent architecture}
+Fig.~\ref{fig:architecture} depicts the agent workflow. Perception builds leakage-safe feature matrices from telemetry and twin views. Anomaly and Prediction score T1 anomaly windows and T2 failure-horizon risk, respectively. RCA predicts failure category with TreeSHAP explanations (T3); Impact estimates service-impact labels (T4); and Healing recommends remediation classes as \emph{decision support} (TR-AUTO). Actions are not executed on physical switches in this study.
+
+\paragraph{Final fusion head.}
+Architecture selection under the frozen six-seed protocol compares nesting-safe stacking against anchored fusion on the same enriched features. Anchored fusion (\texttt{ECNFusionModel}) constrains the telemetry specialist weight to be at least $0.5$ (or selects telem-only), yielding higher mean T1 AUPRC with a simpler operator-facing interpretation. Stacking (\texttt{ECNStackFusionModel}) is retained as an ablation/negative result. The recommended T2 head is telemetry logistic regression under ultra-rare positives.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[
+  agent/.style={draw,align=center,font=\sffamily\footnotesize,minimum width=1.7cm,minimum height=0.75cm,fill=blue!7,inner sep=2pt},
+  orch/.style={draw,align=center,font=\sffamily\footnotesize,minimum width=2.35cm,minimum height=0.8cm,fill=orange!16,inner sep=2pt},
+  twin/.style={draw,align=center,font=\sffamily\footnotesize,minimum width=2.6cm,minimum height=0.75cm,fill=green!12,inner sep=2pt},
+  arr/.style={-{Latex},thick}
+]
+\node[twin] (twin) {Digital Twin Graph};
+\node[agent,below left=0.6cm and 1.75cm of twin] (p) {Perception};
+\node[agent,right=0.28cm of p] (a) {Anomaly};
+\node[agent,right=0.28cm of a] (pr) {Prediction};
+\node[agent,below=0.5cm of p] (r) {RCA+SHAP};
+\node[agent,right=0.28cm of r] (i) {Impact};
+\node[agent,right=0.28cm of i] (h) {Healing};
+\node[orch,below=0.55cm of pr] (o) {Anchored\\Fusion};
+\draw[arr] (twin) -- (p);
+\draw[arr] (p) -- (a);
+\draw[arr] (p) -- (pr);
+\draw[arr] (a) -- (o);
+\draw[arr] (pr) -- (o);
+\draw[arr] (o) -- (r);
+\draw[arr] (r) -- (i);
+\draw[arr] (i) -- (h);
+\end{tikzpicture}
+\caption{ECN-v3 multi-agent workflow: Perception feeds Anomaly/Prediction specialists into \emph{anchored} orchestrated fusion, followed by TreeSHAP RCA, impact estimation, and healing decision support.}
+\label{fig:architecture}
+\end{figure}
+
+\subsection{Class imbalance and calibration}
+Positive rates are low ($\sim$1\% for T1; lower for T2). Training uses imbalance-aware weighting where applicable (\texttt{scale\_pos\_weight}); Isolation Forest scores are mapped via a train empirical CDF. Thresholds for F1/precision/recall are tuned on validation only and are \emph{not} used for AUPRC. Primary ranking metrics are AUPRC and ROC-AUC; Brier score reports calibration. Optional Beta/Platt calibration may be applied for probability display without changing AUPRC ranking.

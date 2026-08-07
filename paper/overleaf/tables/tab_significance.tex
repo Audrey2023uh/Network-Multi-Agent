@@ -1,0 +1,22 @@
+\begin{table*}[!t]
+\centering
+\caption{Paired Wilcoxon signed-rank tests and Cliff's $\delta$ for T1 AUPRC of the final ECN-v3 anchored model versus baselines and the stacking ablation ($n{=}6$). Positive $\delta$ favors ECN-v3.}
+\label{tab:sig}
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{4pt}
+{\footnotesize\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc}
+\toprule
+Comparator & $p$ & Cliff $\delta$ & ECN-v3 mean & Comparator mean \\
+\midrule
+Random forest & $0.688$ & $+0.389$ & $0.1152$ & $0.0758$ \\
+Logistic & $0.031$ & $+0.556$ & $0.1152$ & $0.0631$ \\
+LightGBM & $0.062$ & $+0.611$ & $0.1152$ & $0.0570$ \\
+Isolation Forest & $0.031$ & $+0.667$ & $0.1152$ & $0.0575$ \\
+EWMA & $0.062$ & $+0.778$ & $0.1152$ & $0.0403$ \\
+GNN proxy & $0.062$ & $+0.778$ & $0.1152$ & $0.0335$ \\
+MLP sequence & $0.031$ & $+1.000$ & $0.1152$ & $0.0084$ \\
+Majority & $0.031$ & $+1.000$ & $0.1152$ & $0.0098$ \\
+Stacking ablation & $0.375$ & $+0.111$ & $0.1152$ & $0.0997$ \\
+\bottomrule
+\end{tabular*}}
+\end{table*}

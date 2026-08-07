@@ -1,0 +1,19 @@
+Dear Editor,
+
+Please consider our manuscript titled:
+
+“A Digital-Twin Multi-Agent Framework for Enterprise Cognitive Networking: ECNetBench and Leakage-Safe Multi-Seed Evaluation”
+
+for publication in IEEE Transactions on Network and Service Management.
+
+The paper contributes (i) ECNetBench, a leakage-safe multi-seed enterprise cognitive networking benchmark with AOS-CX-style assumptions, and (ii) an Enterprise Cognitive Network digital-twin multi-agent framework covering anomaly detection, failure prediction, explainable RCA, impact estimation, and self-healing decision support. Evaluation on six frozen instances reports exact multi-seed means and confidence intervals, and honestly states that strong tabular baselines remain competitive on isolated detection tasks while the system contribution is the end-to-end pipeline and reproducible benchmark.
+
+All code, checksums, and evaluation artifacts are available at:
+https://github.com/Audrey2023uh/Network-Multi-Agent
+
+We confirm that the manuscript is original, not under review elsewhere, and free of competing interests.
+
+Sincerely,
+[Author Name]
+[Affiliation]
+[Email]

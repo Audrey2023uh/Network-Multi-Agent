@@ -1,128 +1,81 @@
 {
-  "architecture_name": "ECN-v3 Telemetry-first Stacking with SHAP RCA",
+  "architecture_name": "ECN-v3 Enriched Features with Anchored Telemetry-first Fusion + SHAP RCA",
   "components": [
     "leakage_safe_enriched_features",
-    "nesting_safe_stack_fusion",
+    "anchored_telemetry_first_fusion",
     "shap_rca",
-    "feature_selection_rfe",
-    "calibration_T1_beta",
-    "calibration_T2_platt"
+    "optional_calibration_T1_beta",
+    "optional_calibration_T2_platt",
+    "optional_feature_selection_rfe"
   ],
-  "rubric_scores": {
-    "auprc": 0.4343294124077016,
-    "stats": 1.0,
-    "calibration": 1.0,
-    "explainability": 1.0,
-    "robustness": 0.4743613235785903,
-    "cost": 0.8
+  "t1_head": {
+    "model": "ECNFusionModel",
+    "features": "v3_enriched_full",
+    "auprc_mean": 0.11522078115707056,
+    "roc_auc_mean": 0.7533587867665612
   },
-  "total_score": 0.731453022259099,
-  "rejected": [
+  "t2_head": {
+    "model": "telem_logistic_or_forced_telem_specialist",
+    "note": "Do not claim stacking superiority under ultra-rare prior"
+  },
+  "rca": "RF + TreeSHAP",
+  "ablations_negative": [
+    {
+      "name": "nesting_safe_stack_fusion",
+      "role": "T1 ablation / negative result",
+      "t1_auprc_mean": 0.0997458645152051,
+      "delta_vs_anchored": -0.015474916641865455
+    },
     "primary_gnn",
     "graph_transformer",
     "self_supervised_pretrain",
     "tgn_tgat_dysat"
   ],
+  "rejected_as_final_t1": [
+    "ECNStackFusionModel"
+  ],
+  "selection_principle": "simplest scientifically defensible model with strongest reproducible performance",
+  "decision_reasons": [
+    "Higher mean T1 AUPRC (0.115221 > 0.099746)",
+    "Anchored fusion is simpler (telem\u22650.5 convex mixes; no meta-learner)",
+    "Stacking treated as ablation / negative result for T1",
+    "Paired AP Wilcoxon p=0.375, Cliff \u03b4=0.1111, bootstrap P(anch>stack)=0.865"
+  ],
   "publication_ready_claim": true,
   "metrics": {
-    "T1_proposed_ap_mean": 0.09987388175137697,
+    "T1_proposed_ap_mean": 0.11522078115707056,
+    "T1_proposed_ap_ci95_bootstrap": [
+      0.0678984305675343,
+      0.16797282350001838
+    ],
+    "T1_proposed_roc_auc_mean": 0.7533587867665612,
+    "T1_proposed_brier_mean": 0.15091482083687421,
+    "T1_proposed_ece_mean": 0.2879947420847272,
     "T1_rf_ap_mean": 0.07583814878524626,
-    "T2_proposed_ap_mean": 0.013974939365520694,
-    "T2_logistic_ap_mean": 0.038043099063649714,
-    "T1_delta_vs_v2": 0.042161035669842965,
-    "T2_delta_vs_v2": -0.024131494701042505,
-    "twin_gain_T1": 0.010873628454280873,
-    "significant_wins_p05": 10
+    "T1_stack_ablation_ap_mean": 0.0997458645152051,
+    "T1_delta_vs_v2": 0.05750793507553655,
+    "T1_delta_vs_stack_ablation": 0.015474916641865455,
+    "twin_gain_T1": 0.00034671014085769017,
+    "paired_vs_stack_wilcoxon_p": 0.375,
+    "paired_vs_stack_cliffs_delta": 0.1111111111111111,
+    "paired_vs_rf_wilcoxon_p": 0.6875,
+    "paired_vs_rf_cliffs_delta": 0.3888888888888889
   },
   "hybrid_recommendation": {
-    "T1_head": "ECNStackFusionModel on enriched telem+twin features",
-    "T2_head": "telem logistic baseline (or forced telem specialist); stacking not used under ultra-rare prior",
-    "RCA": "RF + TreeSHAP"
+    "T1_head": "ECNFusionModel (anchored) on enriched telem+twin features",
+    "T2_head": "telem logistic baseline (or forced telem specialist)",
+    "RCA": "RF + TreeSHAP",
+    "stacking": "ablation / negative result on T1"
   },
-  "gated_keep": {
-    "calibration": {
-      "T1": {
-        "candidates": {
-          "raw": {
-            "ap_mean": 0.09981257921347227,
-            "brier_mean": 0.08348645707949535,
-            "ece_mean": 0.15763681953832742
-          },
-          "platt": {
-            "ap_mean": 0.09981257921347227,
-            "brier_mean": 0.009654774346940731,
-            "ece_mean": 0.0009646698496780579
-          },
-          "temperature": {
-            "ap_mean": 0.09981203269565157,
-            "brier_mean": 0.07142079422632126,
-            "ece_mean": 0.1374652227759933
-          },
-          "beta": {
-            "ap_mean": 0.09981203269565157,
-            "brier_mean": 0.009527282927644503,
-            "ece_mean": 0.0012516816493163506
-          }
-        },
-        "selected": "beta",
-        "keep": true
-      },
-      "T2": {
-        "candidates": {
-          "raw": {
-            "ap_mean": 0.013974939365520694,
-            "brier_mean": 0.2348407170496483,
-            "ece_mean": 0.41727898720788215
-          },
-          "platt": {
-            "ap_mean": 0.01333236368515791,
-            "brier_mean": 0.005526147351268558,
-            "ece_mean": 0.0011318979488853945
-          },
-          "temperature": {
-            "ap_mean": 0.013974939365520696,
-            "brier_mean": 0.22470416092085932,
-            "ece_mean": 0.4242640763937677
-          },
-          "beta": {
-            "ap_mean": 0.011879191416830115,
-            "brier_mean": 0.005528705323489247,
-            "ece_mean": 0.0011915651427083067
-          }
-        },
-        "selected": "platt",
-        "keep": true
-      }
-    },
-    "feature_selection": {
-      "stable_mi_features": [
-        "twin_cpu_vs_nbr",
-        "twin_is_access",
-        "twin_nbr_degree_sum",
-        "twin_centrality_proxy",
-        "cpu_mean",
-        "err_acc6",
-        "err_ema",
-        "disc_sum",
-        "err_burst",
-        "err_sum",
-        "twin_degree"
-      ],
-      "mean_ap_full": 0.04247986841078242,
-      "mean_ap_rfe": 0.04059665976386546,
-      "mean_ap_boruta": 0.03359940156399497,
-      "mean_ap_mi20": 0.03298993091940942,
-      "keep_compact": true,
-      "recommended_compact": "rfe"
-    },
-    "cost_sensitive_T1": {
-      "logistic": 0.06312452036722811,
-      "random_forest": 0.07583814878524626,
-      "lightgbm": 0.05701072813907551,
-      "balanced_rf": 0.046742684204501,
-      "easy_ensemble": 0.034317213629786424,
-      "rusboost": 0.01562214822334855,
-      "focal_lgbm": 0.06386588797113625
-    }
-  }
+  "computational_cost": {
+    "T1_anchored_train_s_mean": 2.214232283295132,
+    "T1_stack_train_s_mean": 2.2837814000085928,
+    "T1_rf_train_s_mean": 0.5859053166544376
+  },
+  "interpretability": {
+    "selected": "anchored_telem_ge_0.5_convex_mix_or_singleton",
+    "stacking": "harder_meta_learner_ablation"
+  },
+  "source_study": "results/v3_gated/t1_architecture_selection.json",
+  "gated_keep_note": "Prior gated keep rules (calibration/RFE) remain optional; primary T1 head is anchored not stack."
 }

@@ -1,0 +1,81 @@
+\documentclass[journal]{IEEEtran}
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{balance}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,shapes.geometric}
+
+\graphicspath{{figures/}}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue}
+% Prefer stable float behavior in two-column IEEE layout
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{5}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.7}
+\renewcommand{\textfraction}{0.12}
+\renewcommand{\floatpagefraction}{0.7}
+\begin{document}
+
+\title{A Digital-Twin Multi-Agent Framework for Enterprise Cognitive Networking: ECNetBench and Leakage-Safe Multi-Seed Evaluation}
+
+\author{%
+\IEEEauthorblockN{Anonymous Author(s)}
+\IEEEauthorblockA{Affiliation withheld for double-blind review\\
+Email: withheld@example.org}
+}
+
+\maketitle
+
+\begin{abstract}
+Enterprise cognitive networking---combining digital twins, predictive analytics, explainable root-cause analysis (RCA), and closed-loop remediation support---lacks a shared, leakage-safe benchmark that couples realistic multi-layer enterprise configuration with multi-modal telemetry and supervised task labels. We present \emph{ECNetBench}, a synthetic enterprise benchmark grounded in AOS-CX-style operational assumptions, together with an \emph{Enterprise Cognitive Network} (ECN-v3) comprising Perception, Anomaly, Prediction, RCA, Impact, and Healing agents. The final T1 detector uses leakage-safe temporal feature enrichment with \emph{anchored} telemetry-first fusion (\texttt{ECNFusionModel}); nesting-safe stacking is evaluated as an ablation and does not improve mean T1 AUPRC. RCA uses random-forest classification with TreeSHAP explanations. Evaluation follows a temporal $70/15/15$ protocol on six frozen instances (v1.1.0-INST and seeds 101--505). Across seeds, the final ECN-v3 detector attains mean T1 AUPRC of $0.11522078115707056$, exceeding random forest ($0.07583814878524626$) and the prior v2 configuration ($0.05771284608153401$). The recommended T2 head is telemetry logistic regression ($0.038043099063649714$). We do not claim universal superiority on every paired test ($n{=}6$). Instead, we contribute (i)~a reproducible multi-seed benchmark with leakage rules, (ii)~a complete detection--prediction--RCA--impact--healing decision-support pipeline with an evidence-selected fusion head, and (iii)~honest multi-seed confidence intervals, calibration, and paired significance tests.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Enterprise networking, digital twin, multi-agent systems, anomaly detection, failure prediction, root-cause analysis, AIOps, benchmark, reproducibility.
+\end{IEEEkeywords}
+
+\input{sections/01_introduction}
+\input{sections/02_related}
+\input{sections/03_benchmark}
+\input{sections/04_framework}
+\input{sections/05_evaluation}
+\input{sections/06_results}
+\input{sections/07_discussion}
+\input{sections/08_limitations}
+\input{sections/09_conclusion}
+
+\appendices
+\input{supplementary/appendix}
+
+\section*{Data Availability}
+Frozen ECNetBench SQLite instances and checksums are distributed with the companion repository
+\url{https://github.com/Audrey2023uh/Network-Multi-Agent}
+(release tag \texttt{ecnetbench-v1.1.0-data}). Evaluation reads instances under relative path \texttt{benchmark/instances/}.
+
+\section*{Code Availability}
+Source code for the generator, Digital Twin, agents, baselines, ablations, and evaluation harness is available at the same repository under an MIT license. The Overleaf manuscript source is synchronized under \texttt{paper/overleaf/}. Exact reproduction commands appear in the companion reproducibility notes.
+
+\section*{Author Contributions}
+Conceptualization, methodology, software, validation, investigation, data curation, writing---original draft, and visualization were performed by the author(s). Formal analysis and statistical testing follow the published evaluation scripts.
+
+\section*{Conflict of Interest}
+The authors declare no competing interests.
+
+\section*{Acknowledgments}
+[Acknowledgments to be completed upon acceptance.]
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

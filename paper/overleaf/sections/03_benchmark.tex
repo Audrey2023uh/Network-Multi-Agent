@@ -1,0 +1,37 @@
+\section{ECNetBench: Benchmark Design}
+\label{sec:bench}
+
+\subsection{Design goals}
+ECNetBench targets enterprise cognitive networking research with five goals: (G1)~AOS-CX-style multi-layer configuration realism; (G2)~multi-modal telemetry (counters, resources, syslog/alerts, flow aggregates); (G3)~causal incident chains linking failure, detection, recovery, and impact; (G4)~leakage-safe supervised labels; (G5)~multi-seed robustness under frozen instances. Table~\ref{tab:contrib} contrasts ECNetBench with common public resource classes for cognitive NetOps research.
+\input{tables/tab_contrib}
+
+\subsection{Enterprise assumptions and topology}
+Instances model a compact enterprise fabric (19 devices, 31 links in the evaluated family) spanning campus/DC roles with VLAN membership, ACL/QoS bindings, routing (e.g., BGP/OSPF-related tables), LAG/VSX-like redundancy concepts, and overlay-related objects where applicable. Topology snapshots and typed graph edges support Digital Twin construction. Generation constraints and schema documents accompany the release.
+
+\subsection{Telemetry and causal incident modeling}
+Synthetic generators emit interface counters, device resources, environmental/power samples, syslog/alert streams, and service KPIs. Failure incidents are drawn from a taxonomy covering link, device, control-plane, policy, and service-impacting families. Each incident carries detection, recovery-action, and impact fields so that labels for anomaly windows, failure horizons, RCA categories, impact, and healing actions remain consistent with a causal narrative. Fig.~\ref{fig:benchflow} summarizes the generation and validation workflow from constrained synthesis to audited SQLite instances and supervised labels.
+
+\begin{figure}[!t]
+\centering
+\begin{tikzpicture}[
+  box/.style={draw,rounded corners=2pt,align=center,font=\sffamily\footnotesize,inner sep=4pt,minimum height=0.85cm,minimum width=2.15cm},
+  arr/.style={-{Latex},thick}
+]
+\node[box,fill=gray!12] (gen) {Generator\\+ constraints};
+\node[box,right=0.55cm of gen,fill=blue!8] (db) {SQLite\\instance};
+\node[box,right=0.55cm of db,fill=green!10] (lab) {Labels\\T1--T6};
+\node[box,below=0.55cm of db,fill=orange!12] (aud) {Realism +\\leakage audits};
+\draw[arr] (gen) -- (db);
+\draw[arr] (db) -- (lab);
+\draw[arr] (db) -- (aud);
+\end{tikzpicture}
+\caption{ECNetBench generation and validation workflow: constrained synthesis produces a frozen SQLite instance that is audited for realism/leakage and exported to supervised task labels.}
+\label{fig:benchflow}
+\end{figure}
+
+\subsection{Leakage-safe labels and splits}
+Labels are aligned to time bins. Features at decision time $t_0$ use only information available at or before $t_0$ (historical shifts; no future counters). Evaluation uses a temporal $70/15/15$ train/validation/test split frozen per instance. Forbidden fields (raw future labels, oracle incident IDs in feature matrices) are audited in the companion leakage reports.
+
+\subsection{Instances and seed robustness}
+We evaluate six frozen SQLite instances: \texttt{v1.1.0-INST} and independent seeds 101, 202, 303, 404, and 505, as listed in Table~\ref{tab:seeds}. SHA-256 digests are published in \texttt{benchmark/INSTANCE\_CHECKSUMS.json}. Seed-robustness and publication-validation reports accompany the package. SQLite is authoritative for evaluation; CSV/Parquet exports are optional derivatives. Schema families are summarized in Table~\ref{tab:schema}.
+\input{tables/tab_seeds_schema}

@@ -1,0 +1,17 @@
+\section{Evaluation Protocol}
+\label{sec:eval}
+
+\subsection{Tasks}
+We report T1 anomaly detection, T2 failure-horizon prediction, T3 RCA (macro-F1 with TreeSHAP), T4 impact, and TR-AUTO healing decision support. Supplementary tasks (degradation, config risk) are produced by the harness and archived in \texttt{results/}.
+
+\subsection{Baselines and fairness}
+Baselines include logistic regression, random forest, LightGBM, Isolation Forest, EWMA, threshold rules, majority class, an MLP sequence proxy, and a GraphSAGE-style GNN proxy. Baselines train on telemetry-only feature matrices; the proposed T1 model uses twin+telemetry with \textbf{anchored} fusion on leakage-safe enriched features. Shared temporal enrichment is applied consistently so comparisons are not confounded by unequal feature engineering for baselines versus proposed specialists.
+
+\subsection{Metrics and statistics}
+Primary metric: average precision (AUPRC). Secondary: ROC-AUC, precision, recall, F1 (validation-tuned threshold), Brier score. Aggregation: mean and 95\% CI across six seeds. Significance: paired Wilcoxon signed-rank tests and Cliff's $\delta$ of the final T1 head versus each baseline and versus the stacking ablation on per-seed AUPRC.
+
+\subsection{Ablations}
+Primary architecture ablations contrast (i)~v2 legacy features + anchored fusion, (ii)~v3 enriched features + stacking, and (iii)~v3 enriched features + anchored fusion (final). Module deltas report feature-enrichment gain versus v2, twin contribution under the final head, and stacking versus anchored on identical features.
+
+\subsection{Computational cost}
+Full-suite wall-clock time averages approximately $41$~s per seed (95\% CI $[37.83, 43.72]$). Mean T1 training time for the anchored head is $2.21$~s, comparable to stacking ($2.28$~s) and larger than RF telem\_only ($0.59$~s).

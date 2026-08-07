@@ -1,0 +1,46 @@
+\section{Supplementary Notes}
+\label{app:supp}
+
+\subsection{Reproduction commands}
+\begin{verbatim}
+python -m venv .venv
+pip install -r requirements.txt
+python scripts/download_instances.py
+python scripts/verify_instances.py
+pytest -q
+python evaluation/trace_t1_gain.py
+python evaluation/select_t1_architecture.py
+python evaluation/run_full_evaluation.py
+python paper/overleaf/scripts/regenerate_pub_figures_v3.py
+pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
+\end{verbatim}
+
+\subsection{Traceability}
+Final T1 numbers map to \texttt{results/manuscript\_ready\_numbers.json} and
+\texttt{results/v3\_gated/t1\_architecture\_selection.json}. Baseline/T2/RCA aggregates
+map to \texttt{results/aggregate\_v3.json} and \texttt{results/per\_seed/*.json}.
+Additional reports: \texttt{reports/FINAL\_ARCHITECTURE\_SELECTION.md},
+\texttt{reports/T1\_IMPROVEMENT\_TRACEABILITY.md}.
+The Overleaf project is synchronized under \texttt{paper/overleaf/}.
+
+\subsection{Additional figures}
+Per-seed ROC/PR, confusion matrices, and calibration plots for T1/T2/T3 are included
+under \texttt{figures/} as vector PDF and 600\,dpi PNG pairs. T2 curves and the T1
+confusion matrix for the primary instance are shown below; remaining seeds are
+archived for completeness.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{T2_v1.1.0-INST_roc_pr.pdf}
+\caption{T2 ROC (left) and precision--recall (right) curves on frozen instance
+v1.1.0-INST. The recommended T2 operating head is telemetry logistic regression.}
+\label{fig:t2curves}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.78\columnwidth]{T1_v1.1.0-INST_cm.pdf}
+\caption{T1 confusion matrix on instance v1.1.0-INST at a validation-tuned threshold
+(threshold unused for AUPRC).}
+\label{fig:t1cm}
+\end{figure}

@@ -149,12 +149,20 @@ def _eval_one_binary(
     t0 = time.perf_counter()
     extra: Dict[str, Any] = {}
     if method == PROPOSED:
+        # Final T1 architecture: v3 features + anchored fusion (stacking is ablation only).
+        model = ECNFusionModel(seed=seed).fit(Xtr, ytr, Xva, yva, use)
+        scores_va = model.predict_proba_positive(Xva) if len(yva) else np.array([0.5])
+        thr = tune_threshold(yva, scores_va) if len(yva) else 0.5
+        scores = model.predict_proba_positive(Xte)
+        train_t = model.train_time_s
+        extra = {"fusion_diagnostics": getattr(model, "diagnostics", {}), "model_family": "anchored_v3"}
+    elif method == "ecn_stack_ablation":
         model = ECNStackFusionModel(seed=seed).fit(Xtr, ytr, Xva, yva, use)
         scores_va = model.predict_proba_positive(Xva) if len(yva) else np.array([0.5])
         thr = tune_threshold(yva, scores_va) if len(yva) else 0.5
         scores = model.predict_proba_positive(Xte)
         train_t = model.train_time_s
-        extra = {"fusion_diagnostics": getattr(model, "diagnostics", {}), "model_family": "stack_v3"}
+        extra = {"fusion_diagnostics": getattr(model, "diagnostics", {}), "model_family": "stack_v3_ablation"}
     elif method == "ecn_anchored_v2":
         model = ECNFusionModel(seed=seed).fit(Xtr, ytr, Xva, yva, use)
         scores_va = model.predict_proba_positive(Xva) if len(yva) else np.array([0.5])
@@ -315,7 +323,7 @@ def robustness_missing_telemetry(df: pd.DataFrame, cols: List[str], seed: int, f
     Xte, yte = xy(df, use, "test")
     if len(yte) == 0:
         return {"error": "empty test"}
-    model = ECNStackFusionModel(seed=seed).fit(Xtr, ytr, Xva, yva, use)
+    model = ECNFusionModel(seed=seed).fit(Xtr, ytr, Xva, yva, use)
     thr = tune_threshold(yva, model.predict_proba_positive(Xva)) if len(yva) else 0.5
     Xte_m = Xte.copy()
     rng = np.random.default_rng(seed)

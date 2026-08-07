@@ -15,10 +15,26 @@ results/            # per-seed JSON, aggregate metrics, mirrored tables/figures
 figures/            # ROC/PR, calibration, confusion matrices
 tables/             # CSV performance / ablation / significance tables
 reports/            # journal framing, audits, validation reports
+paper/overleaf/     # IEEE manuscript (canonical Overleaf source; always synced)
 docs/               # dataset card, datasheet, model card, specs
 tests/              # audit and unit tests
 scripts/            # checksums, parquet export, packaging helpers
 ```
+
+## Final architecture (ECN-v3)
+
+- **T1:** leakage-safe enriched features + **anchored** fusion (`ECNFusionModel`)
+- **T2:** telemetry logistic (recommended head)
+- **RCA:** RF + TreeSHAP
+- **Stacking:** T1 ablation / negative result
+
+Exact manuscript numbers: `results/manuscript_ready_numbers.json`.  
+Architecture selection: `reports/FINAL_ARCHITECTURE_SELECTION.md`.
+
+## Manuscript / Overleaf
+
+Canonical LaTeX project: [`paper/overleaf/`](paper/overleaf/).  
+Upload-ready ZIP is generated as `ECN_Tier1_IEEE_Overleaf.zip` at the repository root.
 
 ## Quick start
 
