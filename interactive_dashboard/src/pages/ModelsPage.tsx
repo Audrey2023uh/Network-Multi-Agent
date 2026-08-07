@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { Chart } from "../components/Chart";
 import { ProvenanceBadge } from "../components/MetricCard";
+import { PageIntro } from "../components/PageIntro";
+import { MetricTooltip } from "../components/MetricTooltip";
 import { useApp } from "../lib/store";
 import { fmt } from "../lib/data";
 
@@ -48,8 +50,19 @@ export function ModelsPage() {
     ];
   }, [rows]);
 
+  const best = rows[0];
+  const final = rows.find((r) => r.id === "ecn_v3_final");
+  const rf = rows.find((r) => r.id === "random_forest__full");
+  let takeaway = "Load aggregate artifacts to compare model families.";
+  if (final?.T1_auprc?.mean != null && rf?.T1_auprc?.mean != null) {
+    const d = final.T1_auprc.mean - rf.T1_auprc.mean;
+    takeaway = `Final ECN-v3 (${fmt(final.T1_auprc.mean)} AUPRC) vs RF telem baseline (${fmt(rf.T1_auprc.mean)}): Δ=${fmt(d)}. Table is sorted so the top row is the strongest T1 AUPRC among currently filtered models (${best?.label || "—"}).`;
+  }
+
   return (
     <div className="space-y-4">
+      <PageIntro title="Models" description="Compare model families and performance metrics." />
+      <div className="noc-card border-noc-accent/30 p-4 text-sm leading-relaxed text-noc-text/90">{takeaway}</div>
       <div className="noc-card flex flex-wrap items-center gap-3 p-4">
         <input
           className="rounded-lg border border-noc-border bg-noc-bg px-3 py-2 text-sm"
@@ -69,16 +82,26 @@ export function ModelsPage() {
         <ProvenanceBadge source="results/manuscript_ready_numbers.json + results/aggregate_v3.json" />
       </div>
 
-      <Chart title="T1 AUPRC comparison (with CI when available)" data={bar as any} source="aggregate.json ← manuscript_ready + aggregate_v3" />
+      <Chart
+        title="T1 AUPRC comparison (with CI when available)"
+        data={bar as any}
+        source="aggregate.json ← manuscript_ready + aggregate_v3"
+      />
 
       <div className="noc-card overflow-auto">
         <table className="min-w-full text-left text-sm">
           <thead className="border-b border-noc-border text-xs uppercase text-noc-muted">
             <tr>
               <th className="px-4 py-3">Model</th>
-              <th className="px-4 py-3">T1 AUPRC</th>
-              <th className="px-4 py-3">T1 ROC-AUC</th>
-              <th className="px-4 py-3">T2 AUPRC</th>
+              <th className="px-4 py-3">
+                T1 AUPRC <MetricTooltip term="AUPRC" />
+              </th>
+              <th className="px-4 py-3">
+                T1 ROC-AUC <MetricTooltip term="ROC-AUC" />
+              </th>
+              <th className="px-4 py-3">
+                T2 AUPRC <MetricTooltip term="AUPRC" />
+              </th>
               <th className="px-4 py-3">Source</th>
             </tr>
           </thead>

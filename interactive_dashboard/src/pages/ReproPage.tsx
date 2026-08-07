@@ -1,4 +1,5 @@
 import { ProvenanceBadge } from "../components/MetricCard";
+import { PageIntro } from "../components/PageIntro";
 import { useApp } from "../lib/store";
 
 const COMMANDS = [
@@ -29,6 +30,10 @@ export function ReproPage() {
 
   return (
     <div className="space-y-4">
+      <PageIntro
+        title="Reproducibility"
+        description="Inspect seeds, artifacts, configuration, and provenance needed to reproduce the benchmark."
+      />
       <div className="noc-card p-5">
         <h2 className="text-xl font-semibold">Reproducibility Center</h2>
         <p className="mt-1 text-sm text-noc-muted">
@@ -45,7 +50,7 @@ export function ReproPage() {
             {((index?.seeds || []) as Array<{ id: string; label?: string; source?: string }>).map((s) => (
               <li key={s.id} className="flex justify-between gap-2 border-b border-noc-border/40 py-2">
                 <span className="font-mono text-xs">{s.id}</span>
-                <span className="text-xs text-noc-muted truncate">{s.label || s.source || ""}</span>
+                <span className="truncate text-xs text-noc-muted">{s.label || s.source || ""}</span>
               </li>
             ))}
           </ul>
@@ -79,13 +84,28 @@ export function ReproPage() {
           </li>
         </ul>
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
-          <a className="text-noc-accent2 underline" href="https://github.com/Audrey2023uh/Network-Multi-Agent" target="_blank" rel="noreferrer">
+          <a
+            className="text-noc-accent2 underline"
+            href="https://github.com/Audrey2023uh/Network-Multi-Agent"
+            target="_blank"
+            rel="noreferrer"
+          >
             GitHub repository
           </a>
-          <a className="text-noc-accent2 underline" href="https://github.com/Audrey2023uh/Network-Multi-Agent/tree/main/paper/overleaf" target="_blank" rel="noreferrer">
+          <a
+            className="text-noc-accent2 underline"
+            href="https://github.com/Audrey2023uh/Network-Multi-Agent/tree/main/paper/overleaf"
+            target="_blank"
+            rel="noreferrer"
+          >
             Manuscript (Overleaf source)
           </a>
-          <a className="text-noc-accent2 underline" href={`${import.meta.env.BASE_URL}data/index.json`} target="_blank" rel="noreferrer">
+          <a
+            className="text-noc-accent2 underline"
+            href={`${import.meta.env.BASE_URL}data/index.json`}
+            target="_blank"
+            rel="noreferrer"
+          >
             Download data index
           </a>
         </div>

@@ -13,6 +13,7 @@ import {
   SunIcon,
 } from "@heroicons/react/24/outline";
 import { useApp } from "../lib/store";
+import { ReplayBanner } from "./ReplayBanner";
 
 const nav = [
   { to: "/", label: "Home", icon: HomeIcon },
@@ -59,11 +60,15 @@ export function Shell({ children }: { children: React.ReactNode }) {
               </div>
             </Link>
             <div className="ml-auto flex items-center gap-3">
-              <label className="text-xs text-noc-muted">Seed</label>
+              <label className="text-xs text-noc-muted" htmlFor="seed-select">
+                Seed
+              </label>
               <select
+                id="seed-select"
                 className="rounded-lg border border-noc-border bg-noc-panel px-3 py-1.5 text-sm"
                 value={seed}
                 onChange={(e) => setSeed(e.target.value)}
+                title="Select an ECNetBench evaluation seed"
               >
                 {seeds.map((s) => (
                   <option key={s} value={s}>
@@ -98,6 +103,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
               </NavLink>
             ))}
           </nav>
+          <ReplayBanner compact />
         </header>
 
         {(loading || error) && (
@@ -109,14 +115,30 @@ export function Shell({ children }: { children: React.ReactNode }) {
 
         <main className="mx-auto max-w-[1600px] px-4 py-6">{children}</main>
 
-        <footer className="border-t border-noc-border/60 px-4 py-4 text-center text-xs text-noc-muted">
-          {aggregate?.disclaimer ||
-            "Historical/replay visualization of verified ECNetBench artifacts. Not a live production deployment."}
-          {" · "}
-          <a className="text-noc-accent underline" href="https://github.com/Audrey2023uh/Network-Multi-Agent">
-            GitHub
-          </a>
-          {" · Data provenance: DATA_PROVENANCE.md"}
+        <footer className="border-t border-noc-border/60 px-4 py-5 text-center text-xs text-noc-muted">
+          <div className="font-medium text-noc-text/80">ECNetBench / ECN-v3 Interactive NOC Dashboard</div>
+          <div className="mt-1">Designed and developed by Audrey Rah</div>
+          <div>Department of Electrical and Computer Engineering, University of Houston</div>
+          <div className="mt-2">
+            {aggregate?.disclaimer ||
+              "Historical/replay visualization of verified ECNetBench artifacts. Not a live production deployment."}
+          </div>
+          <div className="mt-2">
+            <a className="text-noc-accent underline" href="https://github.com/Audrey2023uh/Network-Multi-Agent">
+              GitHub
+            </a>
+            {" · "}
+            <a
+              className="text-noc-accent underline"
+              href="https://github.com/Audrey2023uh/Network-Multi-Agent/blob/main/interactive_dashboard/DATA_PROVENANCE.md"
+            >
+              DATA_PROVENANCE.md
+            </a>
+            {" · "}
+            <a className="text-noc-accent underline" href="https://audrey2023uh.github.io/Network-Multi-Agent/">
+              Live Pages
+            </a>
+          </div>
         </footer>
       </div>
     </div>

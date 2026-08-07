@@ -1,4 +1,6 @@
 import { ProvenanceBadge } from "../components/MetricCard";
+import { PageIntro } from "../components/PageIntro";
+import { MetricTooltip } from "../components/MetricTooltip";
 
 const SECTIONS = [
   {
@@ -28,20 +30,45 @@ const SECTIONS = [
   {
     title: "Data provenance rule",
     body: "The dashboard never hard-codes scientific metrics. Build-time adapter scripts/build_data.py materializes public/data/*.json from SQLite + results/*.json.",
-    math: null,
+    math: null as string | null,
     code: "interactive_dashboard/scripts/build_data.py · DATA_PROVENANCE.md",
   },
 ];
 
+const GLOSSARY_TERMS = [
+  "AUPRC",
+  "ROC-AUC",
+  "Precision",
+  "Recall",
+  "F1",
+  "Threshold",
+  "Feature importance",
+  "TreeSHAP",
+  "Brier",
+  "ECE",
+] as const;
+
 export function DocsPage() {
   return (
     <div className="space-y-4">
+      <PageIntro
+        title="Documentation"
+        description="Read technical definitions, methodology, assumptions, and usage guidance."
+      />
       <div className="noc-card p-5">
-        <h2 className="text-xl font-semibold">Documentation</h2>
+        <h2 className="text-xl font-semibold">Metric glossary</h2>
         <p className="mt-1 text-sm text-noc-muted">
-          Methodology, formulation, and code pointers for every major dashboard section. Metrics shown elsewhere remain
-          bound to repository artifacts.
+          Quick definitions used across the dashboard (info icons elsewhere open the same explanations).
         </p>
+        <ul className="mt-3 space-y-2 text-sm">
+          {GLOSSARY_TERMS.map((term) => (
+            <li key={term} className="flex items-start gap-2 border-b border-noc-border/40 py-2">
+              <span className="font-medium text-noc-accent">
+                {term} <MetricTooltip term={term} />
+              </span>
+            </li>
+          ))}
+        </ul>
         <ProvenanceBadge className="mt-3" source="paper/overleaf + results/manuscript_ready_numbers.json" />
       </div>
       {SECTIONS.map((s) => (

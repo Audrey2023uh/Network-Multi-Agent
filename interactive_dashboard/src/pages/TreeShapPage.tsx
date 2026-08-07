@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import { Chart } from "../components/Chart";
 import { ProvenanceBadge } from "../components/MetricCard";
+import { PageIntro } from "../components/PageIntro";
+import { MetricTooltip } from "../components/MetricTooltip";
 import { useApp } from "../lib/store";
 
 export function TreeShapPage() {
@@ -57,15 +59,29 @@ export function TreeShapPage() {
   }, [local]);
 
   const hasAny = (Array.isArray(global) ? global.length : Object.keys(global || {}).length) > 0;
+  const topName = Array.isArray(global) && global[0] ? global[0].feature || global[0].name : null;
 
   return (
     <div className="space-y-4">
+      <PageIntro
+        title="TreeSHAP"
+        description="Investigate feature contribution and model-based root-cause evidence."
+      />
       <div className="noc-card p-4 text-sm">
-        <h2 className="font-semibold">TreeSHAP Explorer</h2>
+        <h2 className="flex items-center gap-1 font-semibold">
+          TreeSHAP Explorer <MetricTooltip term="TreeSHAP" />
+        </h2>
         <p className="mt-1 text-noc-muted">
-          RCA explanations from verified evaluation artifacts. Fields appear only when present in the source JSON for the
-          active seed.
+          RCA explanations from verified evaluation artifacts. Fields appear only when present in the source JSON for
+          the active seed. Higher bars indicate stronger average contribution (
+          <MetricTooltip term="Feature importance" />
+          ).
         </p>
+        {topName ? (
+          <p className="mt-2 text-xs text-noc-accent">
+            Strongest listed feature for this seed artifact: <span className="font-mono">{String(topName)}</span>
+          </p>
+        ) : null}
         <ProvenanceBadge
           className="mt-2"
           source={shap.source_fields || metrics?.source || "results/per_seed/*.json"}
@@ -85,12 +101,18 @@ export function TreeShapPage() {
         />
       ) : (
         <div className="noc-card p-4 text-sm text-noc-muted">
-          No TreeSHAP/global importance block found in metrics for seed <span className="font-mono">{metrics?.seed}</span>.
+          No TreeSHAP/global importance block found in metrics for seed{" "}
+          <span className="font-mono">{metrics?.seed}</span>.
         </div>
       )}
 
       {localTrace.length ? (
-        <Chart title="Local explanation (first available sample)" data={localTrace as any} source={metrics?.source} layout={{ margin: { l: 160 } }} />
+        <Chart
+          title="Local explanation (first available sample)"
+          data={localTrace as any}
+          source={metrics?.source}
+          layout={{ margin: { l: 160 } }}
+        />
       ) : (
         <div className="noc-card p-4 text-sm text-noc-muted">
           No local TreeSHAP explanations in this seed artifact (global top_features still shown when available).

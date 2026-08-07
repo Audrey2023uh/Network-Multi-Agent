@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Chart } from "../components/Chart";
+import { PageIntro } from "../components/PageIntro";
 import { useApp } from "../lib/store";
 
 function multiMethodCurves(methods: Record<string, any>, kind: "roc" | "pr") {
@@ -137,6 +138,16 @@ export function FiguresPage() {
   }, [aggregate]);
 
   return (
+    <div>
+      <PageIntro
+        title="Figures"
+        description="Explore publication-ready benchmark figures and visual analyses."
+      />
+      <p className="mb-4 text-sm text-noc-muted">
+        Curves below are for the <span className="font-mono text-noc-accent">{metrics?.seed}</span> seed overlay.
+        Architecture / contribution bars use six-seed manuscript means. Bold ECN proposed traces highlight the
+        evaluation head when present.
+      </p>
     <div className="grid gap-4 lg:grid-cols-2">
       <Chart
         title={`T1 ROC (${metrics?.seed})`}
@@ -161,6 +172,7 @@ export function FiguresPage() {
         data={t2seed as any}
         source="results/manuscript_ready_numbers.json (T1) + aggregate_v3 logistic (T2 if present)"
       />
+    </div>
     </div>
   );
 }

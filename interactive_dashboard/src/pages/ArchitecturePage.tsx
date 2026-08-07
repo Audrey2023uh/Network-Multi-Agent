@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useApp } from "../lib/store";
 import { ProvenanceBadge } from "../components/MetricCard";
 import { ArchitectureGraph } from "../components/ArchitectureGraph";
+import { PageIntro } from "../components/PageIntro";
 
 const DESCRIPTIONS: Record<string, { inputs: string; outputs: string; algo: string }> = {
   digital_twin: {
@@ -56,6 +57,11 @@ export function ArchitecturePage() {
   const onSelect = useCallback((id: string) => setActive(id), []);
 
   return (
+    <div>
+      <PageIntro
+        title="Architecture"
+        description="Explore the ECN-v3 system architecture and network relationships."
+      />
     <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
       <div className="noc-card p-6">
         <div className="mb-4 flex items-center justify-between">
@@ -113,6 +119,7 @@ export function ArchitecturePage() {
           </div>
         ) : null}
       </div>
+    </div>
     </div>
   );
 }

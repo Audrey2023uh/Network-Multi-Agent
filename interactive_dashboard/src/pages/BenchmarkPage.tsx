@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { TopologyMap } from "../components/TopologyMap";
 import { ProvenanceBadge } from "../components/MetricCard";
+import { PageIntro } from "../components/PageIntro";
 import { useApp } from "../lib/store";
 
 function SidePanel({
@@ -89,6 +90,10 @@ export function BenchmarkPage() {
 
   return (
     <div className="space-y-4">
+      <PageIntro
+        title="Benchmark"
+        description="Replay and inspect benchmark scenarios for the selected seed."
+      />
       <div className="noc-card flex flex-wrap items-center gap-3 p-4 text-sm">
         <div>
           <span className="font-semibold">{topology.seed}</span>
