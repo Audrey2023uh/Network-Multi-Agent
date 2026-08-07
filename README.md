@@ -2,6 +2,16 @@
 
 Reproducible benchmark and multi-agent evaluation for enterprise cognitive networking research.
 
+# EEG Pre-Movement Intention Detectability
+
+**Author:** Audrey Rah  
+**Department of Electrical and Computer Engineering**  
+**University of Houston**
+
+Methods-faithful computational analysis of pre-movement EEG signals from the PhysioNet EEG Motor Movement/Imagery Database (EEGMMIDB v1.0.0), supporting rest-versus-motor statistical detectability evaluation for BCI-oriented rehabilitation research.
+
+## Overview
+
 **Repository:** https://github.com/Audrey2023uh/Network-Multi-Agent
 
 ## Layout
