@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Chart } from "../components/Chart";
 import { ProvenanceBadge } from "../components/MetricCard";
 import { PageIntro } from "../components/PageIntro";
@@ -7,6 +8,8 @@ import { useApp } from "../lib/store";
 
 export function TreeShapPage() {
   const { metrics, aggregate } = useApp();
+  const [params] = useSearchParams();
+  const focusDevice = params.get("device");
   const shap = metrics?.shap || {};
   const global = shap.top_features || shap.feature_importances || metrics?.rca?.global_importance || [];
   const local = metrics?.rca?.local_explanations || shap.local_explanations || [];
@@ -67,6 +70,15 @@ export function TreeShapPage() {
         title="TreeSHAP"
         description="Investigate feature contribution and model-based root-cause evidence."
       />
+      {focusDevice ? (
+        <div className="noc-card border-noc-accent/30 p-3 text-sm">
+          Opened from Benchmark for device context: <span className="font-mono text-noc-accent">{focusDevice}</span>
+          <span className="text-noc-muted">
+            {" "}
+            — SHAP artifacts here are seed-level unless a device-local block exists.
+          </span>
+        </div>
+      ) : null}
       <div className="noc-card p-4 text-sm">
         <h2 className="flex items-center gap-1 font-semibold">
           TreeSHAP Explorer <MetricTooltip term="TreeSHAP" />

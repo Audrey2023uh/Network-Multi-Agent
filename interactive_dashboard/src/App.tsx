@@ -14,6 +14,7 @@ import { ResultsPage } from "./pages/ResultsPage";
 import { TreeShapPage } from "./pages/TreeShapPage";
 import { ReproPage } from "./pages/ReproPage";
 import { DocsPage } from "./pages/DocsPage";
+import { RunbookPage } from "./pages/RunbookPage";
 
 function AppProvider({ children }: { children: React.ReactNode }) {
   const [seed, setSeed] = useState("seed101");
@@ -92,6 +93,7 @@ export default function App() {
         <Shell>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/runbook" element={<RunbookPage />} />
             <Route path="/architecture" element={<ArchitecturePage />} />
             <Route path="/pipeline" element={<PipelinePage />} />
             <Route path="/benchmark" element={<BenchmarkPage />} />

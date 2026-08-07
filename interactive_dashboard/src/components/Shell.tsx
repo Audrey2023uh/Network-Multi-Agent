@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import {
   ChartBarIcon,
   CircleStackIcon,
+  ClipboardDocumentCheckIcon,
   CommandLineIcon,
   CpuChipIcon,
   DocumentTextIcon,
@@ -15,11 +16,12 @@ import {
 import { useApp } from "../lib/store";
 import { ReplayBanner } from "./ReplayBanner";
 
-const nav = [
+const nav: { to: string; label: string; icon: typeof HomeIcon; emphasize?: boolean }[] = [
   { to: "/", label: "Home", icon: HomeIcon },
+  { to: "/runbook", label: "Runbook", icon: ClipboardDocumentCheckIcon, emphasize: true },
+  { to: "/benchmark", label: "Benchmark", icon: CircleStackIcon },
   { to: "/architecture", label: "Architecture", icon: ShareIcon },
   { to: "/pipeline", label: "Pipeline", icon: CpuChipIcon },
-  { to: "/benchmark", label: "Benchmark", icon: CircleStackIcon },
   { to: "/models", label: "Models", icon: ChartBarIcon },
   { to: "/figures", label: "Figures", icon: DocumentTextIcon },
   { to: "/results", label: "Results", icon: SparklesIcon },
@@ -94,7 +96,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 end={item.to === "/"}
                 className={({ isActive }) =>
                   `flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-medium ${
-                    isActive ? "bg-noc-accent/20 text-white" : "text-noc-muted hover:bg-white/5 hover:text-white"
+                    isActive
+                      ? "bg-noc-accent/20 text-white"
+                      : item.emphasize
+                        ? "border border-noc-accent/40 text-noc-accent hover:bg-noc-accent/10"
+                        : "text-noc-muted hover:bg-white/5 hover:text-white"
                   }`
                 }
               >

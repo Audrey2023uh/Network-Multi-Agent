@@ -160,7 +160,9 @@ export function HomePage() {
           <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-noc-text/90">
             <li>Select a seed in the upper-right corner.</li>
             <li>
-              Open <Link className="text-noc-accent2 underline" to="/benchmark">Benchmark</Link> to inspect the scenario.
+              Open <Link className="text-noc-accent2 underline" to="/runbook">Runbook</Link> for the technician
+              workflow, then <Link className="text-noc-accent2 underline" to="/benchmark">Benchmark</Link> to inspect
+              the scenario.
             </li>
             <li>
               Open <Link className="text-noc-accent2 underline" to="/models">Models</Link> or{" "}
