@@ -24,25 +24,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
       - name: Install Python deps for data adapter
         run: pip install pandas
+
+      # Note: benchmark/instances/** is gitignored. build_data.py reuses committed
+      # interactive_dashboard/public/data/topology_*.json when SQLite is absent,
+      # and refreshes metrics/aggregate from results/*.json (tracked in git).
       - name: Build dashboard data
         run: python interactive_dashboard/scripts/build_data.py
+
       - name: Validate data
         run: python interactive_dashboard/scripts/validate_dashboard_data.py
+
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
           cache-dependency-path: interactive_dashboard/package-lock.json
+
       - name: Install & build
         working-directory: interactive_dashboard
         run: |
-          npm ci || npm install
+          npm ci
           npm run build
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: interactive_dashboard/dist

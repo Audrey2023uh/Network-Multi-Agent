@@ -9,7 +9,7 @@ Static site. No backend. Compatible with GitHub Pages.
 
 ## 1. Materialize data
 
-From the **repository root**:
+From the **repository root** (with local frozen SQLite instances present):
 
 ```bash
 python interactive_dashboard/scripts/build_data.py
@@ -18,12 +18,14 @@ python interactive_dashboard/scripts/validate_dashboard_data.py
 
 This writes `interactive_dashboard/public/data/*.json` from:
 
-- `benchmark/instances/*/ecnetbench_v1.sqlite`
+- `benchmark/instances/*/ecnetbench_v1.sqlite` (local only; **gitignored**)
 - `results/manuscript_ready_numbers.json`
 - `results/aggregate_v3.json`
 - `results/per_seed/*.json`
 - `results/final_architecture.json`
 - related gated / table artifacts when present
+
+**CI / GitHub Pages:** SQLite files are not in the checkout. The adapter reuses the committed `public/data/topology_*.json` files and refreshes metrics/aggregate from tracked `results/` artifacts.
 
 ## 2. Build
 

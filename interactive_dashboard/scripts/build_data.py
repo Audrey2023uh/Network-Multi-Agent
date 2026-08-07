@@ -468,6 +468,22 @@ def write_provenance() -> None:
     print("wrote", PROV)
 
 
+def load_committed_topology(seed: str) -> Optional[Dict[str, Any]]:
+    """CI/GitHub Pages: SQLite instances are gitignored; reuse committed JSON."""
+    p = OUT / f"topology_{seed}.json"
+    if not p.exists():
+        return None
+    try:
+        obj = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    if not isinstance(obj, dict) or not obj.get("available"):
+        return None
+    if not obj.get("n_devices") or not obj.get("links"):
+        return None
+    return obj
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     index = {
@@ -479,12 +495,23 @@ def main() -> None:
 
     for seed, db, per_rel in SEEDS:
         topo = extract_topology(db, seed)
+        topo_source = str(db.relative_to(REPO)).replace("\\", "/") if db.exists() else "missing"
+        topo_transform = "SQL extract; telemetry capped at 2000-5000 rows; NaN->null"
+        if not topo.get("available"):
+            reused = load_committed_topology(seed)
+            if reused is not None:
+                topo = reused
+                topo_source = f"interactive_dashboard/public/data/topology_{seed}.json (committed; sqlite not in checkout)"
+                topo_transform = "Reuse committed topology JSON because benchmark/instances/** is gitignored"
+                print(f"reuse committed topology_{seed}.json (sqlite missing on this machine/CI)")
+            else:
+                print(f"WARNING: no sqlite and no committed topology for {seed}")
         dump(
             f"topology_{seed}.json",
             topo,
-            source=str(db.relative_to(REPO)).replace("\\", "/") if db.exists() else "missing",
+            source=topo_source,
             field="device,interface,link,incident,telemetry tables",
-            transform="SQL extract; telemetry capped at 2000–5000 rows; NaN→null",
+            transform=topo_transform,
         )
         metrics = extract_per_seed_metrics(per_rel, seed)
         dump(
@@ -501,7 +528,7 @@ def main() -> None:
                 "metrics": f"data/metrics_{seed}.json",
                 "n_devices": topo.get("n_devices"),
                 "n_links": topo.get("n_links"),
-                "available": topo.get("available") and metrics.get("available"),
+                "available": bool(topo.get("available")) and bool(metrics.get("available")),
             }
         )
 
