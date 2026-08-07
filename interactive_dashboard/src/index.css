@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0b1220;
+}
+
+.noc-card {
+  @apply rounded-xl border border-noc-border bg-noc-panel/90 shadow-lg shadow-black/20;
+}
+
+.noc-chip {
+  @apply inline-flex items-center rounded-md border border-noc-border bg-black/20 px-2 py-0.5 text-xs text-noc-muted;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2a44;
+  border-radius: 8px;
+}

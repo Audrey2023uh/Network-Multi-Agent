@@ -27,10 +27,19 @@ tables/             # CSV performance / ablation / significance tables
 reports/            # journal framing, audits, validation reports
 paper/overleaf/     # IEEE manuscript (canonical Overleaf source; always synced)
 presentation/       # journal PowerPoint + architecture diagrams + build script
+interactive_dashboard/  # data-driven React NOC dashboard (GitHub Pages)
 docs/               # dataset card, datasheet, model card, specs
 tests/              # audit and unit tests
 scripts/            # checksums, parquet export, packaging helpers
 ```
+
+## Interactive dashboard
+
+Static, data-driven NOC UI under [`interactive_dashboard/`](interactive_dashboard/).  
+Builds JSON from SQLite + `results/` at build time (`scripts/build_data.py`).  
+See [`interactive_dashboard/README.md`](interactive_dashboard/README.md) and [`DATA_PROVENANCE.md`](interactive_dashboard/DATA_PROVENANCE.md).
+
+After GitHub Pages is enabled: https://audrey2023uh.github.io/Network-Multi-Agent/
 
 ## Final architecture (ECN-v3)
 

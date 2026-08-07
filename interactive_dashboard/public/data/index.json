@@ -1,0 +1,55 @@
+{
+  "seeds": [
+    {
+      "id": "v1.1.0-INST",
+      "topology": "data/topology_v1.1.0-INST.json",
+      "metrics": "data/metrics_v1.1.0-INST.json",
+      "n_devices": 19,
+      "n_links": 31,
+      "available": true
+    },
+    {
+      "id": "seed101",
+      "topology": "data/topology_seed101.json",
+      "metrics": "data/metrics_seed101.json",
+      "n_devices": 19,
+      "n_links": 31,
+      "available": true
+    },
+    {
+      "id": "seed202",
+      "topology": "data/topology_seed202.json",
+      "metrics": "data/metrics_seed202.json",
+      "n_devices": 19,
+      "n_links": 31,
+      "available": true
+    },
+    {
+      "id": "seed303",
+      "topology": "data/topology_seed303.json",
+      "metrics": "data/metrics_seed303.json",
+      "n_devices": 19,
+      "n_links": 31,
+      "available": true
+    },
+    {
+      "id": "seed404",
+      "topology": "data/topology_seed404.json",
+      "metrics": "data/metrics_seed404.json",
+      "n_devices": 19,
+      "n_links": 31,
+      "available": true
+    },
+    {
+      "id": "seed505",
+      "topology": "data/topology_seed505.json",
+      "metrics": "data/metrics_seed505.json",
+      "n_devices": 19,
+      "n_links": 31,
+      "available": true
+    }
+  ],
+  "generated_from": "Network-Multi-Agent",
+  "generated_at": "2026-08-07T17:01:02.355578+00:00",
+  "mode": "historical_benchmark_replay"
+}

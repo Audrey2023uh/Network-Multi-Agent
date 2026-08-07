@@ -1,0 +1,60 @@
+{
+  "name": "ECN-v3 Enriched Features with Anchored Telemetry-first Fusion + SHAP RCA",
+  "components": [
+    "leakage_safe_enriched_features",
+    "anchored_telemetry_first_fusion",
+    "shap_rca",
+    "optional_calibration_T1_beta",
+    "optional_calibration_T2_platt",
+    "optional_feature_selection_rfe"
+  ],
+  "hybrid": {
+    "T1_head": "ECNFusionModel (anchored) on enriched telem+twin features",
+    "T2_head": "telem logistic baseline (or forced telem specialist)",
+    "RCA": "RF + TreeSHAP",
+    "stacking": "ablation / negative result on T1"
+  },
+  "modules": [
+    {
+      "id": "digital_twin",
+      "title": "Digital Twin",
+      "code": "framework/ecn/twin.py"
+    },
+    {
+      "id": "perception",
+      "title": "Perception",
+      "code": "framework/ecn/features.py"
+    },
+    {
+      "id": "anomaly",
+      "title": "Anomaly Agent",
+      "code": "framework/ecn/agents/"
+    },
+    {
+      "id": "prediction",
+      "title": "Prediction Agent",
+      "code": "framework/ecn/agents/"
+    },
+    {
+      "id": "fusion",
+      "title": "Anchored Fusion",
+      "code": "framework/ecn/models.py#ECNFusionModel"
+    },
+    {
+      "id": "rca",
+      "title": "RCA (TreeSHAP)",
+      "code": "framework/ecn/agents/core.py"
+    },
+    {
+      "id": "impact",
+      "title": "Impact",
+      "code": "framework/ecn/features.py"
+    },
+    {
+      "id": "healing",
+      "title": "Healing",
+      "code": "framework/ecn/agents/"
+    }
+  ],
+  "source": "results/final_architecture.json"
+}
