@@ -6,13 +6,17 @@
 
 ## Upload to Overleaf
 
-1. From the repository root, build the standalone ZIP:
+1. Use the standalone ZIP already in this folder:
+
+   **`ECN_Overleaf_Project.zip`**
+
+   Or rebuild from the repository root:
 
 ```bash
 python scripts/build_overleaf_zip.py
 ```
 
-2. In Overleaf: **New Project → Upload Project** → select `ECN_Tier1_IEEE_Overleaf.zip`.
+2. In Overleaf: **New Project → Upload Project** → select `paper/overleaf/ECN_Overleaf_Project.zip`.
 3. Set the main document to `main.tex`.
 4. Compile with **pdfLaTeX + BibTeX + pdfLaTeX ×2**.
 

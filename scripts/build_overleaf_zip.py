@@ -13,7 +13,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "paper" / "overleaf"
-OUT_ZIP = ROOT / "ECN_Tier1_IEEE_Overleaf.zip"
+# Primary upload ZIP lives inside paper/overleaf/ for GitHub discoverability
+OUT_ZIP = SRC / "ECN_Overleaf_Project.zip"
+# Keep a root alias for convenience / prior docs
+OUT_ZIP_ROOT_ALIAS = ROOT / "ECN_Tier1_IEEE_Overleaf.zip"
 STAGING = ROOT / "paper" / "_overleaf_zip_staging"
 
 # Paths relative to paper/overleaf that belong in the Overleaf project
@@ -112,6 +115,8 @@ def write_zip(staging: Path) -> Path:
                 continue
             arc = f.relative_to(staging).as_posix()
             zf.write(f, arcname=arc)
+    # Convenience alias at repository root (same bytes)
+    shutil.copy2(OUT_ZIP, OUT_ZIP_ROOT_ALIAS)
     return OUT_ZIP
 
 
@@ -120,16 +125,21 @@ def verify_zip_layout(zip_path: Path) -> None:
         names = zf.namelist()
     assert "main.tex" in names, "ZIP root must contain main.tex"
     assert "references.bib" in names
+    assert "IEEEtran.cls" in names
+    assert "IEEEtran.bst" in names
     assert any(n.startswith("sections/") for n in names)
     assert any(n.startswith("figures/") for n in names)
     assert any(n.startswith("tables/") for n in names)
+    assert any(n.startswith("supplementary/") for n in names)
     # Must NOT contain repo harness folders
     forbidden_roots = ("benchmark/", "framework/", "evaluation/", "baselines/", "tests/")
     for fr in forbidden_roots:
         assert not any(n.startswith(fr) for n in names), f"forbidden {fr}"
-    # Prefer no results/scripts at ZIP root either
     assert not any(n.startswith("results/") for n in names)
     assert not any(n.startswith("scripts/") for n in names)
+    # No nested parent wrapper
+    assert not any(n.startswith("overleaf/") for n in names)
+    assert not any(n.startswith("ECN_Overleaf/") for n in names)
     print("zip_entries", len(names))
     print("zip_root_ok", True)
 
