@@ -188,6 +188,19 @@ def build():
         p2 = tb2.text_frame.paragraphs[0]
         set_run(_ensure_run(p2), "ECNetBench and Leakage-Safe Multi-Seed Evaluation (ECN-v3)",
                 size=20, color=RGBColor(0xC8, 0xD8, 0xE4))
+        # IEEE-style author block beneath title
+        tb_auth = s.shapes.add_textbox(Inches(0.7), Inches(4.55), Inches(12.0), Inches(1.25))
+        tf_auth = tb_auth.text_frame
+        tf_auth.word_wrap = True
+        for i, (text, size, bold, color) in enumerate([
+            ("Audrey Rah", 16, True, WHITE),
+            ("Department of Electrical and Computer Engineering", 13, False, RGBColor(0xC8, 0xD8, 0xE4)),
+            ("University of Houston", 13, False, RGBColor(0xC8, 0xD8, 0xE4)),
+            ("August 2026", 13, False, RGBColor(0xC8, 0xD8, 0xE4)),
+        ]):
+            p_a = tf_auth.paragraphs[0] if i == 0 else tf_auth.add_paragraph()
+            p_a.space_after = Pt(2)
+            set_run(_ensure_run(p_a), text, size=size, bold=bold, color=color)
         tb3 = s.shapes.add_textbox(Inches(0.7), Inches(6.2), Inches(12), Inches(0.9))
         p3 = tb3.text_frame.paragraphs[0]
         set_run(_ensure_run(p3),
