@@ -16,6 +16,7 @@ figures/            # ROC/PR, calibration, confusion matrices
 tables/             # CSV performance / ablation / significance tables
 reports/            # journal framing, audits, validation reports
 paper/overleaf/     # IEEE manuscript (canonical Overleaf source; always synced)
+presentation/       # journal PowerPoint + architecture diagrams + build script
 docs/               # dataset card, datasheet, model card, specs
 tests/              # audit and unit tests
 scripts/            # checksums, parquet export, packaging helpers
