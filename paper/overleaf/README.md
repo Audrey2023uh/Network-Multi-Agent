@@ -6,9 +6,17 @@
 
 ## Upload to Overleaf
 
-1. Upload `ECN_Tier1_IEEE_Overleaf.zip` from the repository root (or this folder’s parent packaging script output) via **New Project → Upload Project**.
-2. Set the main document to `main.tex`.
-3. Compile with **pdfLaTeX + BibTeX + pdfLaTeX ×2**.
+1. From the repository root, build the standalone ZIP:
+
+```bash
+python scripts/build_overleaf_zip.py
+```
+
+2. In Overleaf: **New Project → Upload Project** → select `ECN_Tier1_IEEE_Overleaf.zip`.
+3. Set the main document to `main.tex`.
+4. Compile with **pdfLaTeX + BibTeX + pdfLaTeX ×2**.
+
+The ZIP root contains `main.tex` (not nested under an extra folder). It includes `sections/`, `figures/`, `tables/`, `supplementary/`, `references.bib`, and `IEEEtran.cls` / `IEEEtran.bst`. It does **not** include `benchmark/`, `framework/`, `evaluation/`, `results/`, `scripts/`, `baselines/`, or `tests/`.
 
 This folder is the canonical manuscript source synchronized with GitHub at `paper/overleaf/`.
 
@@ -18,10 +26,9 @@ This folder is the canonical manuscript source synchronized with GitHub at `pape
 - `sections/` — numbered sections
 - `figures/` — vector PDF + 600 dpi PNG
 - `tables/` — IEEE tables from verified metrics
-- `results/paper_metrics.json` — compact metrics used for tables/figures
-- `scripts/regenerate_pub_figures_v3.py` — regenerate publication figures
 - `references.bib` — BibTeX
 - `supplementary/` — appendix
+- `IEEEtran.cls` / `IEEEtran.bst` — IEEE style files for portable compile
 
 ## Reproduce numbers (companion repo root)
 

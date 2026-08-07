@@ -18,3 +18,6 @@ benchmark/instances/**
 results/v3_eval_log*.txt
 results/v3_gated_log.txt
 
+
+paper/_overleaf_zip_staging/
+paper/_overleaf_compile_check/
