@@ -153,6 +153,32 @@ class RCAAgent:
                 if i < len(self.feature_cols)
             ]
         metrics["top_explanatory_features"] = explanations
+        # TreeSHAP (fallback: already have impurity importances)
+        shap_top: List[Dict[str, Any]] = []
+        try:
+            import shap  # type: ignore
+
+            explainer = shap.TreeExplainer(self.model)
+            # sample for speed
+            Xs = X_te if len(X_te) <= 64 else X_te[:64]
+            sv = explainer.shap_values(Xs)
+            if isinstance(sv, list):
+                # multiclass: average abs across classes
+                arr = np.mean([np.abs(s) for s in sv], axis=0)
+            else:
+                arr = np.abs(sv)
+            mean_abs = arr.mean(axis=0)
+            order = np.argsort(-mean_abs)[:10]
+            shap_top = [
+                {"feature": self.feature_cols[i], "mean_abs_shap": float(mean_abs[i])}
+                for i in order
+                if i < len(self.feature_cols)
+            ]
+            metrics["shap_top_features"] = shap_top
+            if shap_top:
+                explanations = shap_top
+        except Exception as e:
+            metrics["shap_error"] = str(e)[:200]
         return AgentReport(
             agent=self.name,
             metrics=metrics,

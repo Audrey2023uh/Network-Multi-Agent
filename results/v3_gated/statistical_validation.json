@@ -1,0 +1,93 @@
+{
+  "tests": [
+    {
+      "task": "T1",
+      "baseline": "random_forest",
+      "wilcoxon": {
+        "statistic": 5.0,
+        "pvalue": 0.3125
+      },
+      "cliffs_delta": 0.4444444444444444,
+      "bootstrap_proposed": {
+        "mean": 0.09987388175137696,
+        "ci95_lo": 0.0762669060352895,
+        "ci95_hi": 0.1231834106910577
+      },
+      "bootstrap_baseline": {
+        "mean": 0.07583814878524626,
+        "ci95_lo": 0.05326141805509691,
+        "ci95_hi": 0.09784039465970719
+      },
+      "bayes_p_prop_gt_base": 0.946,
+      "bayes_p_prop_lt_base": 0.054,
+      "fdr_q": 0.5625
+    },
+    {
+      "task": "T1",
+      "baseline": "logistic",
+      "wilcoxon": {
+        "statistic": 0.0,
+        "pvalue": 0.03125
+      },
+      "cliffs_delta": 0.5,
+      "bootstrap_proposed": {
+        "mean": 0.09987388175137696,
+        "ci95_lo": 0.0762669060352895,
+        "ci95_hi": 0.1231834106910577
+      },
+      "bootstrap_baseline": {
+        "mean": 0.06312452036722811,
+        "ci95_lo": 0.03684649460581257,
+        "ci95_hi": 0.09059461339016366
+      },
+      "bayes_p_prop_gt_base": 1.0,
+      "bayes_p_prop_lt_base": 0.0,
+      "fdr_q": 0.125
+    },
+    {
+      "task": "T2",
+      "baseline": "random_forest",
+      "wilcoxon": {
+        "statistic": 7.0,
+        "pvalue": 0.5625
+      },
+      "cliffs_delta": -0.3888888888888889,
+      "bootstrap_proposed": {
+        "mean": 0.013974939365520694,
+        "ci95_lo": 0.007148352524610774,
+        "ci95_hi": 0.022236764096836375
+      },
+      "bootstrap_baseline": {
+        "mean": 0.017610244849363122,
+        "ci95_lo": 0.011995037521927146,
+        "ci95_hi": 0.02285920060838244
+      },
+      "bayes_p_prop_gt_base": 0.23,
+      "bayes_p_prop_lt_base": 0.77,
+      "fdr_q": 0.5625
+    },
+    {
+      "task": "T2",
+      "baseline": "logistic",
+      "wilcoxon": {
+        "statistic": 7.0,
+        "pvalue": 0.5625
+      },
+      "cliffs_delta": -0.5555555555555556,
+      "bootstrap_proposed": {
+        "mean": 0.013974939365520694,
+        "ci95_lo": 0.007148352524610774,
+        "ci95_hi": 0.022236764096836375
+      },
+      "bootstrap_baseline": {
+        "mean": 0.038043099063649714,
+        "ci95_lo": 0.015460176650865687,
+        "ci95_hi": 0.0704239606269928
+      },
+      "bayes_p_prop_gt_base": 0.076,
+      "bayes_p_prop_lt_base": 0.924,
+      "fdr_q": 0.5625
+    }
+  ],
+  "n_seeds": 6
+}

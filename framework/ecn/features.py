@@ -53,14 +53,30 @@ def _device_bin_feature_table(twin: DigitalTwin) -> Tuple[pd.DataFrame, List[str
     )
     for col in ("cpu_mean", "cpu_max", "mem_mean"):
         agg[f"d_{col}"] = agg.groupby("device_id")[col].diff()
+        # second difference (gradient of change) — causal via prior diffs
+        agg[f"dd_{col}"] = agg.groupby("device_id")[f"d_{col}"].diff()
 
     def _expanding_z(s: pd.Series) -> pd.Series:
         mu = s.expanding(min_periods=3).mean().shift(1)
         sd = s.expanding(min_periods=3).std().shift(1).replace(0, np.nan)
         return (s - mu) / sd
 
+    def _causal_roll(s: pd.Series, window: int, kind: str) -> pd.Series:
+        # shift(1) so current bin is excluded from the rolling window (leakage-safe)
+        r = s.shift(1).rolling(window, min_periods=max(2, window // 2))
+        return r.mean() if kind == "mean" else r.std()
+
+    def _causal_ema(s: pd.Series, span: int = 4) -> pd.Series:
+        return s.shift(1).ewm(span=span, adjust=False, min_periods=2).mean()
+
     agg["cpu_z"] = agg.groupby("device_id")["cpu_mean"].transform(_expanding_z)
     agg["mem_z"] = agg.groupby("device_id")["mem_mean"].transform(_expanding_z)
+    for w in (3, 6):
+        agg[f"cpu_roll{w}_mean"] = agg.groupby("device_id")["cpu_mean"].transform(lambda s: _causal_roll(s, w, "mean"))
+        agg[f"cpu_roll{w}_std"] = agg.groupby("device_id")["cpu_mean"].transform(lambda s: _causal_roll(s, w, "std"))
+        agg[f"mem_roll{w}_mean"] = agg.groupby("device_id")["mem_mean"].transform(lambda s: _causal_roll(s, w, "mean"))
+    agg["cpu_ema"] = agg.groupby("device_id")["cpu_mean"].transform(_causal_ema)
+    agg["cpu_vs_ema"] = agg["cpu_mean"] - agg["cpu_ema"]
 
     ifc["observed_at"] = pd.to_datetime(ifc["observed_at"], utc=True)
     ifc = ifc.sort_values(["device_id", "observed_at"])
@@ -72,11 +88,32 @@ def _device_bin_feature_table(twin: DigitalTwin) -> Tuple[pd.DataFrame, List[str
         ifc.groupby(["device_id", "bin"])
         .agg(err_sum=("d_err", "sum"), disc_sum=("d_disc", "sum"), car_sum=("d_car", "sum"))
         .reset_index()
+        .sort_values(["device_id", "bin"])
     )
+    # causal accumulation / burst stats on interface increments
+    for col, outn in (("err_sum", "err"), ("disc_sum", "disc"), ("car_sum", "car")):
+        g = ifagg.groupby("device_id")[col]
+        ifagg[f"{outn}_ema"] = g.transform(_causal_ema)
+        ifagg[f"{outn}_acc3"] = g.transform(lambda s: s.shift(1).rolling(3, min_periods=1).sum())
+        ifagg[f"{outn}_acc6"] = g.transform(lambda s: s.shift(1).rolling(6, min_periods=1).sum())
+        ifagg[f"{outn}_burst"] = g.transform(lambda s: s.shift(1).rolling(3, min_periods=1).max())
 
     feat = agg.merge(ifagg, on=["device_id", "bin"], how="left")
     cpu_map = {(r.device_id, r.bin): float(r.cpu_mean) if pd.notna(r.cpu_mean) else 0.0 for r in feat.itertuples()}
     err_map = {(r.device_id, r.bin): float(r.err_sum) if pd.notna(r.err_sum) else 0.0 for r in feat.itertuples()}
+
+    # prior-bin maps for neighbor instability (past only)
+    feat_sorted = feat.sort_values(["device_id", "bin"])
+    prev_cpu = feat_sorted.groupby("device_id")["cpu_mean"].shift(1)
+    prev_err = feat_sorted.groupby("device_id")["err_sum"].shift(1)
+    prev_cpu_map = {
+        (d, b): float(v) if pd.notna(v) else 0.0
+        for d, b, v in zip(feat_sorted["device_id"], feat_sorted["bin"], prev_cpu)
+    }
+    prev_err_map = {
+        (d, b): float(v) if pd.notna(v) else 0.0
+        for d, b, v in zip(feat_sorted["device_id"], feat_sorted["bin"], prev_err)
+    }
 
     twin_rows = []
     for r in feat.itertuples():
@@ -87,25 +124,43 @@ def _device_bin_feature_table(twin: DigitalTwin) -> Tuple[pd.DataFrame, List[str
         err_vals = {n: err_map.get((n, r.bin), 0.0) for n in nbrs}
         nbr_cpu = twin.neighbor_aggregate(did, cpu_vals)
         nbr_err = twin.neighbor_aggregate(did, err_vals)
+        # neighbor instability from previous bin aggregates vs current
+        prev_cpu_vals = {n: prev_cpu_map.get((n, r.bin), cpu_vals.get(n, 0.0)) for n in nbrs}
+        prev_err_vals = {n: prev_err_map.get((n, r.bin), err_vals.get(n, 0.0)) for n in nbrs}
+        prev_nbr_cpu = twin.neighbor_aggregate(did, prev_cpu_vals)
+        prev_nbr_err = twin.neighbor_aggregate(did, prev_err_vals)
+        deg = float(twin.degree.get(did, 0))
+        nbr_deg_sum = float(sum(twin.degree.get(n, 0) for n in nbrs))
         sf.update(nbr_cpu)
         sf.update({
             "twin_nbr_err_mean": nbr_err["twin_nbr_mean"],
             "twin_nbr_err_max": nbr_err["twin_nbr_max"],
             "twin_nbr_err_std": nbr_err["twin_nbr_std"],
             "twin_cpu_vs_nbr": float(r.cpu_mean if pd.notna(r.cpu_mean) else 0.0) - nbr_cpu["twin_nbr_mean"],
-            "twin_nbr_degree_sum": float(sum(twin.degree.get(n, 0) for n in nbrs)),
+            "twin_nbr_degree_sum": nbr_deg_sum,
+            "twin_centrality_proxy": deg * (1.0 + nbr_deg_sum),
+            "twin_nbr_cpu_delta": nbr_cpu["twin_nbr_mean"] - prev_nbr_cpu["twin_nbr_mean"],
+            "twin_nbr_err_delta": nbr_err["twin_nbr_mean"] - prev_nbr_err["twin_nbr_mean"],
+            "twin_nbr_instability": abs(nbr_cpu["twin_nbr_std"] - prev_nbr_cpu["twin_nbr_std"]),
         })
         twin_rows.append(sf)
     feat = pd.concat([feat.reset_index(drop=True), pd.DataFrame(twin_rows)], axis=1)
 
     num_cols = [
         "cpu_mean", "cpu_max", "mem_mean", "n_polls", "err_sum", "disc_sum", "car_sum",
-        "d_cpu_mean", "d_cpu_max", "d_mem_mean", "cpu_z", "mem_z",
+        "d_cpu_mean", "d_cpu_max", "d_mem_mean", "dd_cpu_mean", "dd_cpu_max", "dd_mem_mean",
+        "cpu_z", "mem_z",
+        "cpu_roll3_mean", "cpu_roll3_std", "cpu_roll6_mean", "cpu_roll6_std",
+        "mem_roll3_mean", "mem_roll6_mean", "cpu_ema", "cpu_vs_ema",
+        "err_ema", "err_acc3", "err_acc6", "err_burst",
+        "disc_ema", "disc_acc3", "disc_acc6", "disc_burst",
+        "car_ema", "car_acc3", "car_acc6", "car_burst",
         "twin_degree", "twin_n_neighbors", "twin_frac_core_nbr", "twin_frac_agg_nbr",
         "twin_frac_wan_nbr", "twin_is_core", "twin_is_access", "twin_is_wan", "twin_is_ap",
         "twin_nbr_mean", "twin_nbr_max", "twin_nbr_std",
         "twin_nbr_err_mean", "twin_nbr_err_max", "twin_nbr_err_std",
-        "twin_cpu_vs_nbr", "twin_nbr_degree_sum",
+        "twin_cpu_vs_nbr", "twin_nbr_degree_sum", "twin_centrality_proxy",
+        "twin_nbr_cpu_delta", "twin_nbr_err_delta", "twin_nbr_instability",
     ]
     for c in num_cols:
         if c not in feat.columns:

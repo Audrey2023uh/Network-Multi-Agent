@@ -13,3 +13,8 @@ Thumbs.db
 .tmp/
 benchmark/instances/**
 !benchmark/instances/README.md
+
+.tools/
+results/v3_eval_log*.txt
+results/v3_gated_log.txt
+

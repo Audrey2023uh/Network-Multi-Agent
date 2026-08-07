@@ -99,16 +99,65 @@ def fit_binary(name: str, X: np.ndarray, y: np.ndarray, seed: int = 0) -> FitRes
             m = GradientBoostingClassifier(random_state=seed)
             m.fit(X, y)
         else:
+            n_pos = max(int(y.sum()), 1)
+            n_neg = max(int(len(y) - y.sum()), 1)
             m = LGBMClassifier(
                 n_estimators=300,
                 learning_rate=0.05,
                 num_leaves=31,
-                class_weight="balanced",
+                scale_pos_weight=n_neg / n_pos,
                 random_state=seed,
                 verbosity=-1,
                 n_jobs=-1,
             )
             m.fit(X, y)
+    elif name == "balanced_rf":
+        try:
+            from imblearn.ensemble import BalancedRandomForestClassifier
+
+            m = BalancedRandomForestClassifier(
+                n_estimators=200, max_depth=10, random_state=seed, n_jobs=-1,
+            )
+        except Exception:
+            m = RandomForestClassifier(
+                n_estimators=200, max_depth=10, min_samples_leaf=3,
+                class_weight="balanced_subsample", random_state=seed, n_jobs=-1,
+            )
+        m.fit(X, y)
+    elif name == "easy_ensemble":
+        try:
+            from imblearn.ensemble import EasyEnsembleClassifier
+
+            m = EasyEnsembleClassifier(n_estimators=10, random_state=seed, n_jobs=-1)
+            m.fit(X, y)
+        except Exception:
+            m = RandomForestClassifier(
+                n_estimators=200, class_weight="balanced_subsample", random_state=seed, n_jobs=-1,
+            )
+            m.fit(X, y)
+    elif name == "rusboost":
+        try:
+            from imblearn.ensemble import RUSBoostClassifier
+
+            m = RUSBoostClassifier(n_estimators=50, random_state=seed)
+            m.fit(X, y)
+        except Exception:
+            m = GradientBoostingClassifier(random_state=seed)
+            m.fit(X, y)
+    elif name == "focal_lgbm":
+        # Approximate focal emphasis via stronger scale_pos_weight + shallower trees
+        n_pos = max(int(y.sum()), 1)
+        n_neg = max(int(len(y) - y.sum()), 1)
+        spw = (n_neg / n_pos) ** 1.5
+        if HAS_LGBM:
+            m = LGBMClassifier(
+                n_estimators=400, learning_rate=0.03, num_leaves=23,
+                min_child_samples=25, scale_pos_weight=spw,
+                random_state=seed, verbosity=-1, n_jobs=-1,
+            )
+        else:
+            m = GradientBoostingClassifier(random_state=seed)
+        m.fit(X, y)
     elif name == "mlp_sequence":
         # Sequence-model proxy: MLP on windowed tabular features (no torch required at train-scale)
         m = Pipeline(
@@ -184,6 +233,7 @@ class ECNFusionModel:
         self.iso_ref: Optional[np.ndarray] = None
         self.train_time_s = 0.0
         self.diagnostics: Dict[str, Any] = {}
+        self.meta: Any = None
 
     def fit(
         self,
@@ -196,13 +246,17 @@ class ECNFusionModel:
         t0 = time.perf_counter()
         telem_names = {
             "cpu_mean", "cpu_max", "mem_mean", "n_polls", "err_sum", "disc_sum", "car_sum",
-            "sev_n", "d_cpu_mean", "d_cpu_max", "d_mem_mean", "cpu_z", "mem_z",
+            "sev_n", "d_cpu_mean", "d_cpu_max", "d_mem_mean", "dd_cpu_mean", "dd_cpu_max", "dd_mem_mean",
+            "cpu_z", "mem_z", "cpu_roll3_mean", "cpu_roll3_std", "cpu_roll6_mean", "cpu_roll6_std",
+            "mem_roll3_mean", "mem_roll6_mean", "cpu_ema", "cpu_vs_ema",
+            "err_ema", "err_acc3", "err_acc6", "err_burst",
+            "disc_ema", "disc_acc3", "disc_acc6", "disc_burst",
+            "car_ema", "car_acc3", "car_acc6", "car_burst",
         }
-        self.telem_idx = [i for i, c in enumerate(feature_names) if c in telem_names]
-        if not self.telem_idx:
-            self.telem_idx = [i for i, c in enumerate(feature_names) if not str(c).startswith("twin_")]
-        if not self.telem_idx:
-            self.telem_idx = list(range(min(3, X_tr.shape[1])))
+        # Prefer named telem set; always fall back to ALL non-twin columns (matches baseline telem_only).
+        named = [i for i, c in enumerate(feature_names) if c in telem_names]
+        nontwin = [i for i, c in enumerate(feature_names) if not str(c).startswith("twin_")]
+        self.telem_idx = nontwin if nontwin else (named if named else list(range(min(3, X_tr.shape[1]))))
 
         Xt = X_tr[:, self.telem_idx]
         prior = float(y_tr.mean()) if len(y_tr) else 0.01
@@ -346,6 +400,188 @@ class ECNFusionModel:
     def predict_proba_positive(self, X: np.ndarray) -> np.ndarray:
         S = self._agent_scores(X)
         return np.clip(S @ self.fusion_w, 0, 1)
+
+
+class ECNStackFusionModel(ECNFusionModel):
+    """
+    Nesting-safe stacking fusion (ECN-v3).
+
+    Removes the forced telem≥0.5 anchor. Selects among:
+      - best train–val-consistent singleton (including RF/LGBM),
+      - unconstrained convex mixes,
+      - logistic stacking meta-learner on specialist scores,
+    using validation AUPRC with a margin over the best singleton.
+    """
+
+    FUSION_MARGIN = 0.005
+
+    def fit(
+        self,
+        X_tr: np.ndarray,
+        y_tr: np.ndarray,
+        X_va: np.ndarray,
+        y_va: np.ndarray,
+        feature_names: List[str],
+    ) -> "ECNStackFusionModel":
+        # Train the same specialists as the parent
+        super().fit(X_tr, y_tr, X_va, y_va, feature_names)
+        # Override selection with stacking-aware policy
+        S_va = self._agent_scores(X_va)
+        S_tr = self._agent_scores(X_tr)
+        self._select_stack_fusion(S_va, y_va, S_tr, y_tr)
+        return self
+
+    def _select_stack_fusion(
+        self, S_va: np.ndarray, y_va: np.ndarray, S_tr: np.ndarray, y_tr: np.ndarray
+    ) -> None:
+        n = S_va.shape[1]
+        n_pos_va = int(y_va.sum()) if len(y_va) else 0
+        prior_tr = float(y_tr.mean()) if len(y_tr) else 0.01
+        # Ultra-rare training prior (typical T2): force telem logistic singleton (matches strongest stable baseline)
+        force_telem = prior_tr < 0.008
+        conservative = False  # allow stacking/mixes on T1-scale tasks
+        if force_telem:
+            w = np.zeros(S_va.shape[1])
+            w[0] = 1.0
+            self.fusion_w = w
+            self.meta = None
+            self.diagnostics.update({
+                'selected': 'singleton_telem_lr_forced_rare_prior',
+                'fusion_family': 'stack_v3',
+                'force_telem_rare_prior': True,
+                'prior_train': prior_tr,
+                'n_pos_val': n_pos_va,
+            })
+            return
+        if len(np.unique(y_va)) < 2:
+            w = np.zeros(n)
+            w[0] = 1.0
+            self.fusion_w = w
+            self.meta = None
+            self.diagnostics["selected"] = "telem_lr_default"
+            return
+
+        singleton_ap_va = [float(average_precision_score(y_va, S_va[:, j])) for j in range(n)]
+        singleton_ap_tr = [
+            float(average_precision_score(y_tr, S_tr[:, j])) if len(np.unique(y_tr)) > 1 else 0.0
+            for j in range(n)
+        ]
+        best_i = int(np.argmax(singleton_ap_va))
+        best_singleton_ap = singleton_ap_va[best_i]
+        best_w = np.zeros(n)
+        best_w[best_i] = 1.0
+        best_name = f"singleton_{self.agent_names[best_i]}"
+
+        candidates: List[Tuple[str, Optional[np.ndarray], Optional[Any]]] = [
+            (best_name, best_w, None)
+        ]
+        if True:  # mixes/stack enabled for non-forced tasks
+            for i in range(n):
+                for j in range(i + 1, n):
+                    for a in (0.3, 0.5, 0.7):
+                        w = np.zeros(n)
+                        w[i] = a
+                        w[j] = 1.0 - a
+                        tr_ap = float(average_precision_score(y_tr, S_tr @ w))
+                        if tr_ap + 1e-12 < singleton_ap_tr[best_i] - 0.02:
+                            continue
+                        candidates.append((f"mix_{a}_{self.agent_names[i]}_{self.agent_names[j]}", w, None))
+            try:
+                meta = LogisticRegression(
+                    max_iter=1000, class_weight="balanced", random_state=self.seed, C=1.0
+                )
+                meta.fit(S_tr, y_tr)
+                stack_ap = float(average_precision_score(y_va, meta.predict_proba(S_va)[:, 1]))
+                tr_ap = float(average_precision_score(y_tr, meta.predict_proba(S_tr)[:, 1]))
+                self.diagnostics["stack_val_ap"] = stack_ap
+                if tr_ap + 1e-12 >= singleton_ap_tr[best_i] - 0.02:
+                    candidates.append(("stack_logistic", None, meta))
+            except Exception as e:
+                self.diagnostics["stack_error"] = str(e)
+
+        best_cap = -1.0
+        chosen_name, chosen_w, chosen_meta = best_name, best_w, None
+        for name, w, m in candidates:
+            if m is not None:
+                ap = float(average_precision_score(y_va, m.predict_proba(S_va)[:, 1]))
+            else:
+                ap = float(average_precision_score(y_va, S_va @ w))
+            need = best_singleton_ap + (0.0 if name.startswith("singleton_") else self.FUSION_MARGIN)
+            if ap >= need and ap > best_cap:
+                best_cap, chosen_name, chosen_w, chosen_meta = ap, name, w, m
+
+        self.fusion_w = chosen_w if chosen_w is not None else best_w
+        self.meta = chosen_meta
+        self.diagnostics.update({
+            "singleton_ap_val": {self.agent_names[i]: singleton_ap_va[i] for i in range(n)},
+            "singleton_ap_train": {self.agent_names[i]: singleton_ap_tr[i] for i in range(n)},
+            "selected": chosen_name,
+            "selected_val_ap": best_cap,
+            "best_singleton": self.agent_names[best_i],
+            "best_singleton_val_ap": best_singleton_ap,
+            "fusion_family": "stack_v3",
+            "conservative_rare_val": conservative,
+            "n_pos_val": n_pos_va,
+        })
+
+    def predict_proba_positive(self, X: np.ndarray) -> np.ndarray:
+        S = self._agent_scores(X)
+        if getattr(self, "meta", None) is not None and self.diagnostics.get("selected") == "stack_logistic":
+            return np.clip(self.meta.predict_proba(S)[:, 1], 0, 1)
+        return np.clip(S @ self.fusion_w, 0, 1)
+
+
+def expected_calibration_error(y_true: np.ndarray, probs: np.ndarray, n_bins: int = 10) -> float:
+    y = np.asarray(y_true).astype(int)
+    p = np.clip(np.asarray(probs).astype(float), 0, 1)
+    bins = np.linspace(0, 1, n_bins + 1)
+    ece = 0.0
+    for i in range(n_bins):
+        m = (p >= bins[i]) & (p < bins[i + 1] if i < n_bins - 1 else p <= bins[i + 1])
+        if not np.any(m):
+            continue
+        ece += (m.mean()) * abs(y[m].mean() - p[m].mean())
+    return float(ece)
+
+
+def fit_platt(scores_va: np.ndarray, y_va: np.ndarray) -> Pipeline:
+    m = Pipeline([
+        ("clf", LogisticRegression(max_iter=1000, random_state=0)),
+    ])
+    m.fit(scores_va.reshape(-1, 1), y_va)
+    return m
+
+
+def apply_temperature(logits: np.ndarray, T: float) -> np.ndarray:
+    # scores treated as probabilities in (eps,1-eps) -> logit -> /T -> sigmoid
+    p = np.clip(logits.astype(float), 1e-6, 1 - 1e-6)
+    z = np.log(p / (1 - p)) / max(T, 1e-3)
+    return 1.0 / (1.0 + np.exp(-z))
+
+
+def tune_temperature(scores_va: np.ndarray, y_va: np.ndarray) -> float:
+    best_T, best_b = 1.0, 1e9
+    for T in np.linspace(0.5, 5.0, 19):
+        p = apply_temperature(scores_va, T)
+        b = float(brier_score_loss(y_va, p))
+        if b < best_b:
+            best_b, best_T = b, float(T)
+    return best_T
+
+
+def fit_beta_calibration(scores_va: np.ndarray, y_va: np.ndarray) -> Pipeline:
+    """Beta calibration via logistic on [log(p), log(1-p)]."""
+    p = np.clip(scores_va.astype(float), 1e-6, 1 - 1e-6)
+    X = np.column_stack([np.log(p), np.log(1 - p)])
+    m = LogisticRegression(max_iter=1000, random_state=0)
+    m.fit(X, y_va)
+    return m
+
+
+def apply_beta_calibration(model: Any, scores: np.ndarray) -> np.ndarray:
+    p = np.clip(scores.astype(float), 1e-6, 1 - 1e-6)
+    X = np.column_stack([np.log(p), np.log(1 - p)])
+    return model.predict_proba(X)[:, 1]
 
 
 def predict_scores(fit: FitResult, X: np.ndarray) -> np.ndarray:

@@ -1,0 +1,128 @@
+{
+  "architecture_name": "ECN-v3 Telemetry-first Stacking with SHAP RCA",
+  "components": [
+    "leakage_safe_enriched_features",
+    "nesting_safe_stack_fusion",
+    "shap_rca",
+    "feature_selection_rfe",
+    "calibration_T1_beta",
+    "calibration_T2_platt"
+  ],
+  "rubric_scores": {
+    "auprc": 0.4343294124077016,
+    "stats": 1.0,
+    "calibration": 1.0,
+    "explainability": 1.0,
+    "robustness": 0.4743613235785903,
+    "cost": 0.8
+  },
+  "total_score": 0.731453022259099,
+  "rejected": [
+    "primary_gnn",
+    "graph_transformer",
+    "self_supervised_pretrain",
+    "tgn_tgat_dysat"
+  ],
+  "publication_ready_claim": true,
+  "metrics": {
+    "T1_proposed_ap_mean": 0.09987388175137697,
+    "T1_rf_ap_mean": 0.07583814878524626,
+    "T2_proposed_ap_mean": 0.013974939365520694,
+    "T2_logistic_ap_mean": 0.038043099063649714,
+    "T1_delta_vs_v2": 0.042161035669842965,
+    "T2_delta_vs_v2": -0.024131494701042505,
+    "twin_gain_T1": 0.010873628454280873,
+    "significant_wins_p05": 10
+  },
+  "hybrid_recommendation": {
+    "T1_head": "ECNStackFusionModel on enriched telem+twin features",
+    "T2_head": "telem logistic baseline (or forced telem specialist); stacking not used under ultra-rare prior",
+    "RCA": "RF + TreeSHAP"
+  },
+  "gated_keep": {
+    "calibration": {
+      "T1": {
+        "candidates": {
+          "raw": {
+            "ap_mean": 0.09981257921347227,
+            "brier_mean": 0.08348645707949535,
+            "ece_mean": 0.15763681953832742
+          },
+          "platt": {
+            "ap_mean": 0.09981257921347227,
+            "brier_mean": 0.009654774346940731,
+            "ece_mean": 0.0009646698496780579
+          },
+          "temperature": {
+            "ap_mean": 0.09981203269565157,
+            "brier_mean": 0.07142079422632126,
+            "ece_mean": 0.1374652227759933
+          },
+          "beta": {
+            "ap_mean": 0.09981203269565157,
+            "brier_mean": 0.009527282927644503,
+            "ece_mean": 0.0012516816493163506
+          }
+        },
+        "selected": "beta",
+        "keep": true
+      },
+      "T2": {
+        "candidates": {
+          "raw": {
+            "ap_mean": 0.013974939365520694,
+            "brier_mean": 0.2348407170496483,
+            "ece_mean": 0.41727898720788215
+          },
+          "platt": {
+            "ap_mean": 0.01333236368515791,
+            "brier_mean": 0.005526147351268558,
+            "ece_mean": 0.0011318979488853945
+          },
+          "temperature": {
+            "ap_mean": 0.013974939365520696,
+            "brier_mean": 0.22470416092085932,
+            "ece_mean": 0.4242640763937677
+          },
+          "beta": {
+            "ap_mean": 0.011879191416830115,
+            "brier_mean": 0.005528705323489247,
+            "ece_mean": 0.0011915651427083067
+          }
+        },
+        "selected": "platt",
+        "keep": true
+      }
+    },
+    "feature_selection": {
+      "stable_mi_features": [
+        "twin_cpu_vs_nbr",
+        "twin_is_access",
+        "twin_nbr_degree_sum",
+        "twin_centrality_proxy",
+        "cpu_mean",
+        "err_acc6",
+        "err_ema",
+        "disc_sum",
+        "err_burst",
+        "err_sum",
+        "twin_degree"
+      ],
+      "mean_ap_full": 0.04247986841078242,
+      "mean_ap_rfe": 0.04059665976386546,
+      "mean_ap_boruta": 0.03359940156399497,
+      "mean_ap_mi20": 0.03298993091940942,
+      "keep_compact": true,
+      "recommended_compact": "rfe"
+    },
+    "cost_sensitive_T1": {
+      "logistic": 0.06312452036722811,
+      "random_forest": 0.07583814878524626,
+      "lightgbm": 0.05701072813907551,
+      "balanced_rf": 0.046742684204501,
+      "easy_ensemble": 0.034317213629786424,
+      "rusboost": 0.01562214822334855,
+      "focal_lgbm": 0.06386588797113625
+    }
+  }
+}

@@ -37,6 +37,7 @@ from ecn.features import (  # noqa: E402
 )
 from ecn.models import (  # noqa: E402
     ECNFusionModel,
+    ECNStackFusionModel,
     cliffs_delta,
     eval_binary,
     eval_multiclass,
@@ -148,12 +149,19 @@ def _eval_one_binary(
     t0 = time.perf_counter()
     extra: Dict[str, Any] = {}
     if method == PROPOSED:
+        model = ECNStackFusionModel(seed=seed).fit(Xtr, ytr, Xva, yva, use)
+        scores_va = model.predict_proba_positive(Xva) if len(yva) else np.array([0.5])
+        thr = tune_threshold(yva, scores_va) if len(yva) else 0.5
+        scores = model.predict_proba_positive(Xte)
+        train_t = model.train_time_s
+        extra = {"fusion_diagnostics": getattr(model, "diagnostics", {}), "model_family": "stack_v3"}
+    elif method == "ecn_anchored_v2":
         model = ECNFusionModel(seed=seed).fit(Xtr, ytr, Xva, yva, use)
         scores_va = model.predict_proba_positive(Xva) if len(yva) else np.array([0.5])
         thr = tune_threshold(yva, scores_va) if len(yva) else 0.5
         scores = model.predict_proba_positive(Xte)
         train_t = model.train_time_s
-        extra = {"fusion_diagnostics": getattr(model, "diagnostics", {})}
+        extra = {"fusion_diagnostics": getattr(model, "diagnostics", {}), "model_family": "anchored_v2"}
     else:
         fit = fit_binary(method, Xtr, ytr, seed=seed)
         thr = tune_threshold(yva, predict_scores(fit, Xva)) if len(yva) else 0.5
@@ -307,7 +315,7 @@ def robustness_missing_telemetry(df: pd.DataFrame, cols: List[str], seed: int, f
     Xte, yte = xy(df, use, "test")
     if len(yte) == 0:
         return {"error": "empty test"}
-    model = ECNFusionModel(seed=seed).fit(Xtr, ytr, Xva, yva, use)
+    model = ECNStackFusionModel(seed=seed).fit(Xtr, ytr, Xva, yva, use)
     thr = tune_threshold(yva, model.predict_proba_positive(Xva)) if len(yva) else 0.5
     Xte_m = Xte.copy()
     rng = np.random.default_rng(seed)
@@ -840,6 +848,12 @@ def main() -> None:
         sys.exit(1)
 
     agg = aggregate(all_results)
+    # Preserve prior anchored results if present; write v3 as primary aggregate
+    prev = OUT / "aggregate.json"
+    if prev.exists() and not (OUT / "aggregate_v2_anchored_reference.json").exists():
+        prev.replace(OUT / "aggregate_v2_anchored_reference.json")
+        # restore path for write below after rename
+    jdump(OUT / "aggregate_v3.json", agg)
     jdump(OUT / "aggregate.json", agg)
     write_tables(agg)
     write_report(agg)
