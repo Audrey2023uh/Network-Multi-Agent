@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { TopologyMap } from "../components/TopologyMap";
 import { ProvenanceBadge } from "../components/MetricCard";
 import { PageIntro } from "../components/PageIntro";
+import { DashboardGuide } from "../components/DashboardGuide";
 import { useApp } from "../lib/store";
 import { fmt } from "../lib/data";
 import {
@@ -272,6 +273,10 @@ export function BenchmarkPage() {
         description="Replay and inspect benchmark scenarios for the selected seed."
       />
 
+      <div className="grid gap-4 xl:grid-cols-[minmax(280px,0.95fr)_minmax(0,1.75fr)]">
+        <DashboardGuide sticky />
+
+        <div className="min-w-0 space-y-4">
       <div className="noc-card border-noc-accent/40 bg-gradient-to-r from-noc-accent/10 to-transparent p-5">
         <div className="text-xs uppercase tracking-wide text-noc-accent">NOC Technician Workflow</div>
         <p className="mt-2 text-sm font-medium">
@@ -457,6 +462,8 @@ export function BenchmarkPage() {
       <div className="text-center text-xs text-noc-muted">
         Designed and developed by Audrey Rah · Department of Electrical and Computer Engineering · University of
         Houston
+      </div>
+        </div>
       </div>
     </div>
   );
