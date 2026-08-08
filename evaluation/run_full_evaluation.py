@@ -48,6 +48,12 @@ from ecn.models import (  # noqa: E402
     tune_threshold,
     wilcoxon_paired,
 )
+from ecn.deep_baselines import (  # noqa: E402
+    default_gnn_feature_cols,
+    eval_graphsage,
+    fit_tabnet,
+    predict_tabnet,
+)
 from ecn.twin import DigitalTwin  # noqa: E402
 
 warnings.filterwarnings("ignore")
@@ -80,6 +86,7 @@ BINARY_BASELINES = [
     "xgboost",
     "catboost",
     "mlp_sequence",
+    "tabnet",
 ]
 PROPOSED = "ecn_proposed"
 
@@ -183,10 +190,17 @@ def _eval_one_binary(
         train_t = model.train_time_s
         extra = {"fusion_diagnostics": getattr(model, "diagnostics", {}), "model_family": "anchored_v2"}
     else:
-        fit = fit_binary(method, Xtr, ytr, seed=seed)
-        thr = tune_threshold(yva, predict_scores(fit, Xva)) if len(yva) else 0.5
-        scores = predict_scores(fit, Xte)
-        train_t = fit.train_time_s
+        if method == "tabnet":
+            fit = fit_tabnet(Xtr, ytr, seed=seed, X_val=Xva if len(yva) else None, y_val=yva if len(yva) else None)
+            thr = tune_threshold(yva, predict_tabnet(fit, Xva)) if len(yva) else 0.5
+            scores = predict_tabnet(fit, Xte)
+            train_t = fit.train_time_s
+            extra = {"model_family": "tabnet"}
+        else:
+            fit = fit_binary(method, Xtr, ytr, seed=seed)
+            thr = tune_threshold(yva, predict_scores(fit, Xva)) if len(yva) else 0.5
+            scores = predict_scores(fit, Xte)
+            train_t = fit.train_time_s
     infer_t = time.perf_counter() - t0
     metrics = eval_binary(yte, scores, thr)
     peak_rss_delta_mb = None
@@ -255,12 +269,28 @@ def run_binary_suite(
 
 
 def run_gnn_baseline(df: pd.DataFrame, cols: List[str], seed: int) -> Dict[str, Any]:
+    """Historical LightGBM proxy (kept for continuity; NOT message-passing)."""
     gnn_cols = [c for c in cols if c.startswith("twin_") or c in ("cpu_mean", "cpu_max", "mem_mean")]
     if len(gnn_cols) < 3:
-        return {"error": "insufficient gnn cols"}
-    return run_binary_suite(df, gnn_cols, seed, methods=["lightgbm"], ablations=["full"]).get(
+        return {"error": "insufficient gnn cols", "method": "gnn_graphsage_proxy"}
+    out = run_binary_suite(df, gnn_cols, seed, methods=["lightgbm"], ablations=["full"]).get(
         "lightgbm__full", {"error": "gnn failed"}
     )
+    if isinstance(out, dict):
+        out = dict(out)
+        out["method"] = "gnn_graphsage_proxy"
+        out["model_family"] = "lightgbm_proxy_not_message_passing"
+        out["note"] = "Historical proxy: LightGBM on telem/twin-selected cols after telem_only filter."
+    return out
+
+
+def run_true_graphsage(df: pd.DataFrame, twin: DigitalTwin, cols: List[str], seed: int) -> Dict[str, Any]:
+    """True mean-aggregator GraphSAGE over DigitalTwin adjacency (PyTorch)."""
+    use = default_gnn_feature_cols(cols)
+    try:
+        return eval_graphsage(df, twin, use, seed=seed, epochs=40, hidden=32)
+    except Exception as e:
+        return {"error": str(e), "trace": traceback.format_exc()[-500:], "method": "graphsage"}
 
 
 def run_rca_suite(df: pd.DataFrame, cols: List[str], seed: int) -> Dict[str, Any]:
@@ -455,6 +485,7 @@ def evaluate_seed(name: str, db: Path, seed: int) -> Dict[str, Any]:
     result["perception"]["anomaly"] = orch.perception.describe(anom_cols)
     t1 = run_binary_suite(anom_df, anom_cols, seed, ablations=ablations)
     t1["gnn_graphsage_proxy__full"] = run_gnn_baseline(anom_df, anom_cols, seed)
+    t1["graphsage__full"] = run_true_graphsage(anom_df, twin, anom_cols, seed)
     try:
         t1["robust_missing_30"] = robustness_missing_telemetry(anom_df, anom_cols, seed, 0.3)
         t1["robust_missing_10"] = robustness_missing_telemetry(anom_df, anom_cols, seed, 0.1)
@@ -485,6 +516,7 @@ def evaluate_seed(name: str, db: Path, seed: int) -> Dict[str, Any]:
     result["latency"]["feature_failure_s"] = time.perf_counter() - t0
     t2 = run_binary_suite(fail_df, fail_cols, seed, ablations=ablations)
     t2["gnn_graphsage_proxy__full"] = run_gnn_baseline(fail_df, fail_cols, seed)
+    t2["graphsage__full"] = run_true_graphsage(fail_df, twin, fail_cols, seed)
     result["tasks"]["T2_failure"] = t2
     curve_methods = {}
     for k in [
@@ -583,6 +615,8 @@ def aggregate(all_results: List[Dict[str, Any]]) -> Dict[str, Any]:
     compare_methods = {
         "T1_anomaly": [
             f"{PROPOSED}__full",
+            "tabnet__full",
+            "graphsage__full",
             "xgboost__full",
             "catboost__full",
             "lightgbm__full",
@@ -599,6 +633,8 @@ def aggregate(all_results: List[Dict[str, Any]]) -> Dict[str, Any]:
         ],
         "T2_failure": [
             f"{PROPOSED}__full",
+            "tabnet__full",
+            "graphsage__full",
             "xgboost__full",
             "catboost__full",
             "lightgbm__full",

@@ -21,6 +21,8 @@ TAB = ROOT / "results" / "tables" / "practical_impact.csv"
 TASKS = ["T1_anomaly", "T2_failure"]
 METHODS = [
     "ecn_proposed__full",
+    "tabnet__full",
+    "graphsage__full",
     "xgboost__full",
     "catboost__full",
     "lightgbm__full",

@@ -335,6 +335,8 @@ def build_aggregate_models() -> Dict[str, Any]:
         }
     )
     name_map = [
+        ("tabnet__full", "TabNet"),
+        ("graphsage__full", "GraphSAGE (true GNN)"),
         ("xgboost__full", "XGBoost"),
         ("catboost__full", "CatBoost"),
         ("gradient_boosting__full", "Gradient Boosting"),
@@ -344,7 +346,7 @@ def build_aggregate_models() -> Dict[str, Any]:
         ("lightgbm__full", "LightGBM"),
         ("isolation_forest__full", "Isolation Forest"),
         ("ewma__full", "EWMA"),
-        ("gnn_graphsage_proxy__full", "GNN proxy"),
+        ("gnn_graphsage_proxy__full", "GNN proxy (LightGBM)"),
         ("mlp_sequence__full", "MLP sequence"),
         ("majority__full", "Majority"),
         ("ecn_proposed__full", "ECN (historical stack run in aggregate_v3)"),

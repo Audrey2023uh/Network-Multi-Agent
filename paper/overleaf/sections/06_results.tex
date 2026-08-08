@@ -78,4 +78,12 @@ Table~\ref{tab:rcaheal} reports RCA macro-F1, healing decision-support scores, a
 \end{figure}
 
 \subsection{Why simplicity remains preferable}
-At $\sim$1\% positives, enriched telemetry recovers most ranking signal. Anchored fusion is simpler than stacking, improves mean T1 AUPRC on the same features, and remains competitive with RF in mean while acknowledging non-significant paired tests versus RF. With $n{=}6$ seeds, intervals are wide; claims emphasize reproducible mean improvements and architecture honesty rather than universal paired dominance.
+At $\sim$1\% positives, enriched telemetry recovers most ranking signal. Anchored fusion is simpler than stacking, improves mean T1 AUPRC on the same features, and remains competitive with RF in mean while acknowledging non-significant paired tests versus RF. With $n{=}6$ seeds, intervals are wide; claims emphasize reproducible mean improvements and architecture honesty rather than universal paired dominance. Deep tabular (TabNet) and true GraphSAGE message passing did not displace RF or ECN-v3 on mean T1 AUPRC under this protocol (Section~\ref{sec:deep_baselines}).
+
+\subsection{Deep tabular and true GNN baselines}
+\label{sec:deep_baselines}
+Table~\ref{tab:deep_baselines_v5} reports measured six-seed means for TabNet and true GraphSAGE, alongside the historical GNN proxy and RF. Artifacts: \texttt{results/aggregate\_v3.json} keys \texttt{tabnet\_\_full}, \texttt{graphsage\_\_full}, \texttt{gnn\_graphsage\_proxy\_\_full}; manuscript pointer \texttt{extensions\_v5\_deep\_baselines} in \texttt{results/manuscript\_ready\_numbers.json}.
+
+\input{tables/tab_deep_baselines_v5}
+
+On T1, TabNet attains mean AUPRC $0.04924039895052987$ (95\% CI $[0.0213,0.0772]$), below RF ($0.0758$) and far below the manuscript-final ECN-v3 head ($0.1152$). True GraphSAGE attains $0.015248574137355267$ (95\% CI $[0.0059,0.0246]$) with $19$ devices and $54$ directed edges in the twin graph---competitive with neither RF nor ECN on this rare-event ranking task. The historical GNN proxy remains at $0.0335$ and must not be interpreted as message-passing performance. On T2, TabNet ($0.0110$) and GraphSAGE ($0.0062$) also trail telem logistic ($0.0380$). These outcomes support reporting deep baselines for completeness while retaining the evidence-selected ECN-v3 / telem-logistic heads.

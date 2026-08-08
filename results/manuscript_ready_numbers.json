@@ -98,7 +98,7 @@
   "previous_published_v3_stack_auprc_mean": 0.09987388175137697,
   "selection_principle": "simplest scientifically defensible model with strongest reproducible performance",
   "extensions_v4": {
-    "generated_at_utc": "2026-08-08T01:49:39.682053+00:00",
+    "generated_at_utc": "2026-08-08T02:40:01.902462+00:00",
     "note": "extensions_v4 measured on frozen six seeds only; does not overwrite T1_final_proposed selection unless re-selection is re-run.",
     "T1_stronger_baselines": {
       "xgboost__full": {
@@ -524,6 +524,120 @@
         }
       ]
     },
-    "ablation_note_TreeSHAP": "TreeSHAP is explanation-only on the RCA path; removing it does not change T1 AUPRC."
+    "ablation_note_TreeSHAP": "TreeSHAP is explanation-only on the RCA path; removing it does not change T1 AUPRC.",
+    "deep_baselines_v5": {
+      "note": "TabNet (pytorch-tabnet) and true GraphSAGE (pure PyTorch message-passing on DigitalTwin adjacency). Does not overwrite T1_final_proposed.",
+      "T1_tabnet": {
+        "auprc_mean": 0.04924039895052987,
+        "auprc_ci95": [
+          0.021288283785367065,
+          0.07719251411569267
+        ],
+        "n": 6,
+        "train_time_s_mean": 16.183461600002676
+      },
+      "T1_graphsage_true": {
+        "auprc_mean": 0.015248574137355267,
+        "auprc_ci95": [
+          0.005907506607727741,
+          0.02458964166698279
+        ],
+        "n": 6,
+        "train_time_s_mean": 16.814551066684846
+      },
+      "T1_gnn_proxy_lightgbm": {
+        "auprc_mean": 0.03352102969592826,
+        "auprc_ci95": [
+          0.01667436425452851,
+          0.050367695137328014
+        ],
+        "n": 6,
+        "train_time_s_mean": 0.2061112333321944
+      },
+      "T2_tabnet": {
+        "auprc_mean": 0.01101700864525233,
+        "auprc_ci95": [
+          0.0037731575054216334,
+          0.018260859785083027
+        ],
+        "n": 6,
+        "train_time_s_mean": 15.586877500017485
+      },
+      "T2_graphsage_true": {
+        "auprc_mean": 0.006217369879503419,
+        "auprc_ci95": [
+          0.005656961037201382,
+          0.0067777787218054565
+        ],
+        "n": 6,
+        "train_time_s_mean": 16.817599883322448
+      },
+      "implementation": {
+        "tabnet": "framework/ecn/deep_baselines.py + BINARY_BASELINES tabnet (telem_only)",
+        "graphsage": "framework/ecn/deep_baselines.py eval_graphsage (mean aggregator, static device graph)",
+        "not_implemented": [
+          "TabTransformer",
+          "GAT/GIN with torch_geometric",
+          "production live GNN streaming"
+        ]
+      }
+    }
+  },
+  "extensions_v5_deep_baselines": {
+    "note": "TabNet (pytorch-tabnet) and true GraphSAGE (pure PyTorch message-passing on DigitalTwin adjacency). Does not overwrite T1_final_proposed.",
+    "T1_tabnet": {
+      "auprc_mean": 0.04924039895052987,
+      "auprc_ci95": [
+        0.021288283785367065,
+        0.07719251411569267
+      ],
+      "n": 6,
+      "train_time_s_mean": 16.183461600002676
+    },
+    "T1_graphsage_true": {
+      "auprc_mean": 0.015248574137355267,
+      "auprc_ci95": [
+        0.005907506607727741,
+        0.02458964166698279
+      ],
+      "n": 6,
+      "train_time_s_mean": 16.814551066684846
+    },
+    "T1_gnn_proxy_lightgbm": {
+      "auprc_mean": 0.03352102969592826,
+      "auprc_ci95": [
+        0.01667436425452851,
+        0.050367695137328014
+      ],
+      "n": 6,
+      "train_time_s_mean": 0.2061112333321944
+    },
+    "T2_tabnet": {
+      "auprc_mean": 0.01101700864525233,
+      "auprc_ci95": [
+        0.0037731575054216334,
+        0.018260859785083027
+      ],
+      "n": 6,
+      "train_time_s_mean": 15.586877500017485
+    },
+    "T2_graphsage_true": {
+      "auprc_mean": 0.006217369879503419,
+      "auprc_ci95": [
+        0.005656961037201382,
+        0.0067777787218054565
+      ],
+      "n": 6,
+      "train_time_s_mean": 16.817599883322448
+    },
+    "implementation": {
+      "tabnet": "framework/ecn/deep_baselines.py + BINARY_BASELINES tabnet (telem_only)",
+      "graphsage": "framework/ecn/deep_baselines.py eval_graphsage (mean aggregator, static device graph)",
+      "not_implemented": [
+        "TabTransformer",
+        "GAT/GIN with torch_geometric",
+        "production live GNN streaming"
+      ]
+    }
   }
 }

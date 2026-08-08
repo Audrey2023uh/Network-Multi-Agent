@@ -1,0 +1,17 @@
+\begin{table}[!t]
+\centering
+\caption{Deep baselines on frozen six-seed T1/T2 (mean AUPRC with 95\% CI). TabNet uses telem\_only features; true GraphSAGE performs mean-aggregation message passing on the Digital Twin device graph. The historical GNN proxy remains LightGBM (not message-passing). Final ECN-v3 T1 selection numbers remain those in \texttt{manuscript\_ready\_numbers.json}.}
+\label{tab:deep_baselines_v5}
+\renewcommand{\arraystretch}{1.15}
+{\footnotesize\begin{tabular}{lcc}
+\toprule
+Method & T1 AUPRC & T2 AUPRC \\
+\midrule
+ECN-v3 final (manuscript) & $0.1152$ $[0.0609,0.1695]$ & --- \\
+TabNet & $0.0492$ $[0.0213,0.0772]$ & $0.0110$ $[0.0038,0.0183]$ \\
+GraphSAGE (true GNN) & $0.0152$ $[0.0059,0.0246]$ & $0.0062$ $[0.0057,0.0068]$ \\
+GNN proxy (LightGBM) & $0.0335$ $[0.0167,0.0504]$ & $0.0106$ $[0.0069,0.0144]$ \\
+Random forest (telem) & $0.0758$ $[0.0427,0.1090]$ & $0.0176$ $[0.0099,0.0253]$ \\
+\bottomrule
+\end{tabular}}
+\end{table}

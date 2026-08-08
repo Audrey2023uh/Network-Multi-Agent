@@ -239,6 +239,23 @@ def fit_binary(name: str, X: np.ndarray, y: np.ndarray, seed: int = 0) -> FitRes
             ]
         )
         m.fit(X, y)
+    elif name == "tabnet":
+        from ecn.deep_baselines import fit_tabnet
+
+        # Internal val split when fit_binary is called without explicit val
+        n = len(y)
+        if n >= 40 and len(np.unique(y)) > 1:
+            rng = np.random.default_rng(seed)
+            idx = np.arange(n)
+            rng.shuffle(idx)
+            cut = max(1, int(0.15 * n))
+            va_i, tr_i = idx[:cut], idx[cut:]
+            # Keep at least one positive in train if possible
+            if y[tr_i].sum() == 0 and y.sum() > 0:
+                pos = np.where(y == 1)[0]
+                tr_i = np.unique(np.concatenate([tr_i, pos[:1]]))
+            return fit_tabnet(X[tr_i], y[tr_i], seed=seed, X_val=X[va_i], y_val=y[va_i])
+        return fit_tabnet(X, y, seed=seed)
     elif name == "ecn_stack":  # single specialist backend (used inside fusion)
         # Prefer calibrated linear + tree blend features via logistic on twin-enriched X
         m = Pipeline(
@@ -657,6 +674,10 @@ def predict_scores(fit: FitResult, X: np.ndarray) -> np.ndarray:
     if fit.name == "isolation_forest":
         # higher = more anomalous
         return -m.score_samples(X)
+    if fit.name == "tabnet":
+        from ecn.deep_baselines import predict_tabnet
+
+        return predict_tabnet(fit, X)
     if hasattr(m, "predict_proba"):
         return m.predict_proba(X)[:, 1]
     return m.predict(X).astype(float)

@@ -24,6 +24,8 @@ PER = ROOT / "results" / "per_seed"
 OUT = ROOT / "results" / "scientific_stats_v4.json"
 
 BASELINES = [
+    "tabnet__full",
+    "graphsage__full",
     "xgboost__full",
     "catboost__full",
     "lightgbm__full",

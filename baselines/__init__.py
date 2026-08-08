@@ -14,6 +14,7 @@ BASELINE_NAMES = [
     "xgboost",
     "catboost",
     "mlp_sequence",
+    "tabnet",
 ]
 
 __all__ = ["BASELINE_NAMES", "fit_binary", "predict_scores"]

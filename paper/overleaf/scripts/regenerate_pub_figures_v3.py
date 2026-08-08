@@ -54,6 +54,8 @@ COLORS = {
 }
 BASELINE_KEYS = [
     ("ecn_proposed__full", "ECN-v3 (final)", "ecn"),
+    ("tabnet__full", "TabNet", "xgb"),
+    ("graphsage__full", "GraphSAGE", "gnn"),
     ("xgboost__full", "XGBoost", "xgb"),
     ("catboost__full", "CatBoost", "cat"),
     ("gradient_boosting__full", "Gradient boosting", "gb"),
@@ -63,7 +65,7 @@ BASELINE_KEYS = [
     ("lightgbm__full", "LightGBM", "lgbm"),
     ("isolation_forest__full", "Isolation Forest", "iforest"),
     ("ewma__full", "EWMA", "ewma"),
-    ("gnn_graphsage_proxy__full", "GNN proxy", "gnn"),
+    ("gnn_graphsage_proxy__full", "GNN proxy", "maj"),
     ("mlp_sequence__full", "MLP sequence", "mlp"),
     ("majority__full", "Majority", "maj"),
 ]

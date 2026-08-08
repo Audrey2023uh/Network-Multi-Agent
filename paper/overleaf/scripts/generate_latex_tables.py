@@ -18,12 +18,16 @@ def main() -> None:
     abl = list(csv.DictReader((ROOT / "results" / "tables" / "ablation_ap.csv").open(encoding="utf-8")))
     sig = list(csv.DictReader((ROOT / "results" / "tables" / "significance_vs_proposed.csv").open(encoding="utf-8")))
     agg = json.loads((ROOT / "results" / "aggregate.json").read_text(encoding="utf-8"))
+    ms_path = Path(__file__).resolve().parents[3] / "results" / "manuscript_ready_numbers.json"
+    ms = json.loads(ms_path.read_text(encoding="utf-8")) if ms_path.exists() else {}
     out = ROOT / "tables"
     out.mkdir(parents=True, exist_ok=True)
     idx = {(r["task"], r["method"], r["metric"]): r for r in perf}
 
     methods = [
         ("ECN (proposed)", "ecn_proposed__full"),
+        ("TabNet", "tabnet__full"),
+        ("GraphSAGE (true)", "graphsage__full"),
         ("XGBoost", "xgboost__full"),
         ("CatBoost", "catboost__full"),
         ("Gradient boosting", "gradient_boosting__full"),
@@ -41,7 +45,7 @@ def main() -> None:
     lines = [
         r"\begin{table*}[!t]",
         r"\centering",
-        r"\caption{Multi-seed mean detection metrics on T1 (anomaly) and T2 (failure horizon). Entries are means over six frozen instances; AUPRC is reported with 95\% confidence intervals.}",
+        r"\caption{Multi-seed mean detection metrics on T1 (anomaly) and T2 (failure horizon). Entries are means over six frozen instances; AUPRC is reported with 95\% confidence intervals. The ECN T1 row uses the authoritative final selection in \texttt{manuscript\_ready\_numbers.json}; other rows (including TabNet and true GraphSAGE) use the latest \texttt{aggregate\_v3.json} re-run.}",
         r"\label{tab:t1t2}",
         r"\renewcommand{\arraystretch}{1.2}",
         r"\setlength{\tabcolsep}{4pt}",
@@ -51,18 +55,32 @@ def main() -> None:
         r"Method & T1 AUPRC & T1 ROC-AUC & T2 AUPRC & T2 ROC-AUC \\",
         r"\midrule",
     ]
+    t1_final = ms.get("T1_final_proposed") or {}
     for name, key in methods:
-        t1a = idx[("T1_anomaly", key, "ap")]
-        t1r = idx[("T1_anomaly", key, "roc_auc")]
-        t2a = idx[("T2_failure", key, "ap")]
-        t2r = idx[("T2_failure", key, "roc_auc")]
-        row = (
-            f"{name} & ${f(t1a['mean'])}$ $[{f(t1a['ci95_lo'])},\\,{f(t1a['ci95_hi'])}]$ & "
-            f"${f(t1r['mean'])}$ & ${f(t2a['mean'])}$ $[{f(t2a['ci95_lo'])},\\,{f(t2a['ci95_hi'])}]$ & "
-            f"${f(t2r['mean'])}$ \\\\"
-        )
-        if name.startswith("ECN"):
-            row = r"\textbf{" + name + r"} & $\mathbf{" + f(t1a["mean"]) + r"}$ $[" + f(t1a["ci95_lo"]) + r",\," + f(t1a["ci95_hi"]) + r"]$ & $\mathbf{" + f(t1r["mean"]) + r"}$ & $\mathbf{" + f(t2a["mean"]) + r"}$ $[" + f(t2a["ci95_lo"]) + r",\," + f(t2a["ci95_hi"]) + r"]$ & $\mathbf{" + f(t2r["mean"]) + r"}$ \\"
+        try:
+            t1a = idx[("T1_anomaly", key, "ap")]
+            t1r = idx[("T1_anomaly", key, "roc_auc")]
+            t2a = idx[("T2_failure", key, "ap")]
+            t2r = idx[("T2_failure", key, "roc_auc")]
+        except KeyError:
+            continue
+        if name.startswith("ECN") and t1_final.get("auprc_mean") is not None:
+            # Preserve authoritative manuscript T1; keep T2 from aggregate proposed for continuity
+            ci = t1_final.get("auprc_ci95_bootstrap") or t1_final.get("auprc_ci95_parametric") or [None, None]
+            t1_mean = float(t1_final["auprc_mean"])
+            t1_roc = float(t1_final.get("roc_auc_mean") or t1r["mean"])
+            row = (
+                r"\textbf{" + name + r"} & $\mathbf{" + f(t1_mean) + r"}$ $["
+                + f(ci[0]) + r",\," + f(ci[1]) + r"]$ & $\mathbf{" + f(t1_roc) + r"}$ & $\mathbf{"
+                + f(t2a["mean"]) + r"}$ $[" + f(t2a["ci95_lo"]) + r",\," + f(t2a["ci95_hi"])
+                + r"]$ & $\mathbf{" + f(t2r["mean"]) + r"}$ \\"
+            )
+        else:
+            row = (
+                f"{name} & ${f(t1a['mean'])}$ $[{f(t1a['ci95_lo'])},\\,{f(t1a['ci95_hi'])}]$ & "
+                f"${f(t1r['mean'])}$ & ${f(t2a['mean'])}$ $[{f(t2a['ci95_lo'])},\\,{f(t2a['ci95_hi'])}]$ & "
+                f"${f(t2r['mean'])}$ \\\\"
+            )
         lines.append(row)
     lines += [r"\bottomrule", r"\end{tabular*}}", r"\end{table*}", ""]
     (out / "tab_t1t2.tex").write_text("\n".join(lines), encoding="utf-8")
