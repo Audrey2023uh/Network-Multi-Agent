@@ -2,15 +2,16 @@
 \centering
 \caption{Qualitative comparison of ECNetBench against common public resource classes for enterprise cognitive NetOps research.}
 \label{tab:contrib}
-\renewcommand{\arraystretch}{1.15}
-{\footnotesize\begin{tabular}{p{2.15cm}cccc}
+\renewcommand{\arraystretch}{1.1}
+\setlength{\tabcolsep}{3pt}
+{\footnotesize\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lcccc}
 \toprule
-Resource class & Config. & Telemetry & RCA/heal & Multi-seed leak protocol \\
+Resource class & Config. & Telemetry & RCA/heal & Multi-seed \\
 \midrule
 Topology archives & Partial & No & No & Rare \\
 Security flow sets & Low & Flows & Limited & Varies \\
 Clos/telemetry RCA & Fabric-spec. & Yes & RCA-focused & Varies \\
 \textbf{ECNetBench} & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} & \textbf{Yes} \\
 \bottomrule
-\end{tabular}}
+\end{tabular*}}
 \end{table}

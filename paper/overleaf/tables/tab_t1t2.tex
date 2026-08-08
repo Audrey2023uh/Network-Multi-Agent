@@ -2,9 +2,9 @@
 \centering
 \caption{Multi-seed mean detection metrics on T1 (anomaly) and T2 (failure horizon). Entries are means over six frozen instances; AUPRC is reported with 95\% confidence intervals. The ECN T1 AUPRC/ROC use the authoritative final selection in \texttt{manuscript\_ready\_numbers.json}. ECN T2 columns report the multi-agent proposed head (not the recommended telem-logistic operating head; see Logistic row). Other rows (including TabNet and true GraphSAGE) use the latest \texttt{aggregate\_v3.json} re-run.}
 \label{tab:t1t2}
-\renewcommand{\arraystretch}{1.2}
-\setlength{\tabcolsep}{4pt}
-{\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\setlength{\tabcolsep}{3.5pt}
+{\scriptsize
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc}
 \toprule
 Method & T1 AUPRC & T1 ROC-AUC & T2 AUPRC & T2 ROC-AUC \\

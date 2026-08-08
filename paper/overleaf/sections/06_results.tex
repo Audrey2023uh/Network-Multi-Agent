@@ -1,41 +1,43 @@
 \section{Results}
 \label{sec:results}
 
-All numerical claims below are taken from verified artifacts \texttt{results/manuscript\_ready\_numbers.json}, \texttt{results/v3\_gated/t1\_architecture\_selection.json}, and \texttt{results/aggregate\_v3.json} (baselines/T2/RCA), without modifying frozen instances.
+All numerical claims below are taken from verified artifacts
+\texttt{results/manuscript\_ready\_numbers.json},
+\texttt{results/v3\_gated/}\\\texttt{t1\_architecture\_selection.json},
+and \texttt{results/aggregate\_v3.json} (baselines/T2/RCA), without modifying frozen instances.
 
 \subsection{T1 anomaly and T2 failure prediction}
 Table~\ref{tab:t1t2} summarizes multi-seed mean ranking metrics. On T1, the final ECN-v3 anchored detector achieves mean AUPRC $0.1152$ (bootstrap 95\% CI $[0.0679,0.1680]$; architecture-selection artifact \texttt{results/manuscript\_ready\_numbers.json}), exceeding random forest ($0.0758$) and the v2 legacy configuration ($0.0577$). Mean T1 ROC-AUC is $0.7534$. Fig.~\ref{fig:baseline} visualizes the same AUPRC means with 95\% confidence intervals for T1 and T2, highlighting the T1 lift of the final head and the T2 telem-logistic recommendation.
 
 \input{tables/tab_t1t2}
 
-\begin{figure}[!t]
+\begin{figure*}[!t]
 \centering
-\includegraphics[width=\linewidth]{baseline_auprc_mean_ci.pdf}
-\caption{Multi-seed mean AUPRC with 95\% confidence intervals. Left: T1 anomaly detection, where ECN-v3 denotes the final anchored head on enriched features. Right: T2 failure-horizon ranking; the ECN T2 column is the recommended telemetry logistic head.}
+\includegraphics[width=0.98\textwidth]{baseline_auprc_mean_ci.pdf}
+\caption{Multi-seed mean AUPRC with 95\% confidence intervals. (a)~T1 anomaly detection, where ECN-v3 denotes the final anchored head on enriched features. (b)~T2 failure-horizon ranking; the ECN T2 column is the recommended telemetry logistic head.}
 \label{fig:baseline}
-\end{figure}
+\end{figure*}
 
 On T2, the recommended head is telemetry logistic regression with mean AUPRC $0.0380$, higher than RF ($0.0176$). Table~\ref{tab:t1t2}'s ECN T2 columns report the multi-agent proposed head ($\approx 0.0153$), which is \emph{not} the recommended operating head. We do not claim that multi-agent fusion improves T2 under ultra-rare positives.
+
+Representative ROC and precision--recall curves on the primary frozen instance appear in Fig.~\ref{fig:t1curves}. Curve geometry remains consistent with rare-positive ranking: ROC discrimination is moderate, while precision--recall is challenging for all methods. Legends label the harness \textbf{anchored} ECN-v3 head (\texttt{model\_family=anchored\_v3}); instance-level AP/ROC values need not equal the six-seed selection mean.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.98\textwidth]{T1_v1.1.0-INST_roc_pr.pdf}
+\caption{T1 ROC (a) and precision--recall (b) curves on frozen instance v1.1.0-INST for representative detectors, including the final \textbf{anchored} ECN-v3 head. Legend values report ROC-AUC and average precision on this instance.}
+\label{fig:t1curves}
+\end{figure*}
 
 Paired Wilcoxon tests and Cliff's $\delta$ (Table~\ref{tab:sig}) show that the T1 mean advantage versus random forest is not significant at $\alpha{=}0.05$ ($p{=}0.688$, $\delta{=}{+}0.389$), consistent with $n{=}6$ underpowering. Versus logistic and several weaker baselines, paired $p$-values reach $0.031$ (exploratory under multiple comparisons; Section~\ref{sec:eval}). Stacking versus anchored is not significant ($p{=}0.375$).
 
 \input{tables/tab_significance}
-
-Representative ROC and precision--recall curves on the primary frozen instance appear in Fig.~\ref{fig:t1curves}. Curve geometry remains consistent with rare-positive ranking: ROC discrimination is moderate, while precision--recall is challenging for all methods. Legends label the harness \textbf{anchored} ECN-v3 head (\texttt{model\_family=anchored\_v3}); instance-level AP/ROC values need not equal the six-seed selection mean.
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\linewidth]{T1_v1.1.0-INST_roc_pr.pdf}
-\caption{T1 ROC (left) and precision--recall (right) curves on frozen instance v1.1.0-INST for representative detectors, including the final \textbf{anchored} ECN-v3 head. Legend values report ROC-AUC and average precision on this instance.}
-\label{fig:t1curves}
-\end{figure}
-
 \subsection{Architecture selection and fusion ablation}
 Fig.~\ref{fig:archsel} and Table~\ref{tab:ablation} isolate the sources of the T1 improvement. Leakage-safe feature enrichment accounts for the dominant gain; replacing anchored fusion with stacking on the same enriched features \emph{reduces} mean AUPRC from $0.1152$ to $0.0997$. Accordingly, stacking is reported as an ablation/negative result rather than as the final T1 architecture.
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=0.92\columnwidth]{architecture_selection_t1.pdf}
+\includegraphics[width=\columnwidth]{architecture_selection_t1.pdf}
 \caption{T1 architecture selection: v2 legacy+anchored, v3+stacking (ablation), v3+anchored (final), and RF telem\_only. Error bars denote 95\% confidence intervals over six seeds.}
 \label{fig:archsel}
 \end{figure}
@@ -48,7 +50,7 @@ Table~\ref{tab:modules} and Fig.~\ref{fig:modules} summarize contribution deltas
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=0.78\columnwidth]{module_contribution.pdf}
+\includegraphics[width=0.92\columnwidth]{module_contribution.pdf}
 \caption{Verified T1 AUPRC deltas from architecture selection: feature enrichment versus v2, twin gain under the final head, and stacking versus anchored fusion.}
 \label{fig:modules}
 \end{figure}
@@ -60,7 +62,7 @@ Calibration quality is summarized in Table~\ref{tab:cal}. Final T1 raw Brier is 
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=0.78\columnwidth]{T1_v1.1.0-INST_calibration.pdf}
+\includegraphics[width=0.92\columnwidth]{T1_v1.1.0-INST_calibration.pdf}
 \caption{T1 reliability diagram on instance v1.1.0-INST for the anchored ECN-v3 head. The dashed line denotes perfect calibration. Optional Beta calibration is recommended for operator-facing probabilities.}
 \label{fig:t1cal}
 \end{figure}
@@ -72,7 +74,7 @@ Table~\ref{tab:rcaheal} reports RCA macro-F1, healing decision-support scores, a
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=0.82\columnwidth]{T3_v1.1.0-INST_cm.pdf}
+\includegraphics[width=\columnwidth]{T3_v1.1.0-INST_cm.pdf}
 \caption{Representative T3 RCA confusion matrix for the RF+TreeSHAP RCA head on instance v1.1.0-INST.}
 \label{fig:t3cm}
 \end{figure}

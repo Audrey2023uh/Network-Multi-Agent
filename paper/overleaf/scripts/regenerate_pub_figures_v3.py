@@ -72,23 +72,52 @@ BASELINE_KEYS = [
 
 
 def style() -> None:
+    # IEEE-journal presentation: Times-like serif, no plot titles (captions only in LaTeX).
     mpl.rcParams.update(
         {
             "font.family": "serif",
-            "font.serif": ["Times New Roman", "Times", "DejaVu Serif"],
-            "font.size": 9,
-            "axes.labelsize": 9,
-            "axes.titlesize": 10,
-            "xtick.labelsize": 8,
-            "ytick.labelsize": 8,
-            "legend.fontsize": 7.5,
-            "axes.linewidth": 0.9,
-            "lines.linewidth": 1.7,
+            "font.serif": ["Times New Roman", "Times", "Nimbus Roman", "DejaVu Serif"],
+            "mathtext.fontset": "stix",
+            "font.size": 8,
+            "axes.labelsize": 8,
+            "axes.titlesize": 8,
+            "xtick.labelsize": 7,
+            "ytick.labelsize": 7,
+            "legend.fontsize": 6.5,
+            "legend.handlelength": 1.4,
+            "legend.borderpad": 0.25,
+            "legend.labelspacing": 0.25,
+            "axes.linewidth": 0.7,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "lines.linewidth": 1.35,
+            "lines.markersize": 4.0,
+            "xtick.major.width": 0.6,
+            "ytick.major.width": 0.6,
+            "xtick.major.size": 2.5,
+            "ytick.major.size": 2.5,
+            "grid.linewidth": 0.4,
+            "grid.alpha": 0.35,
             "pdf.fonttype": 42,
             "ps.fonttype": 42,
             "savefig.bbox": "tight",
-            "savefig.pad_inches": 0.04,
+            "savefig.pad_inches": 0.02,
+            "figure.dpi": 150,
         }
+    )
+
+
+def _panel_label(ax: plt.Axes, text: str) -> None:
+    """IEEE-style panel identifier inside axes (not a figure title)."""
+    ax.text(
+        0.02,
+        0.98,
+        text,
+        transform=ax.transAxes,
+        fontsize=8,
+        fontweight="bold",
+        va="top",
+        ha="left",
     )
 
 
@@ -248,10 +277,10 @@ def plot_baseline_bars(metrics: dict) -> None:
         ("Majority", metrics["T1"]["majority"], "maj"),
     ]
     t2_src = metrics["T2"]["from_aggregate"]
+    # Recommended T2 head is telem-LR; show it once (avoid duplicate Logistic bar).
     t2_rows = [
-        ("ECN T2 head (telem-LR)", metrics["T2"]["telem_logistic_recommended"], "ecn"),
+        ("ECN T2 (telem-LR)", metrics["T2"]["telem_logistic_recommended"], "ecn"),
         ("Random forest", metrics["T2"]["random_forest"], "rf"),
-        ("Logistic", metrics["T2"]["telem_logistic_recommended"], "lr"),
         ("LightGBM", {"mean": t2_src["lightgbm__full"]["ap"]["mean"], "ci95": t2_src["lightgbm__full"]["ap"]["ci95"]}, "lgbm"),
         ("Isolation Forest", {"mean": t2_src["isolation_forest__full"]["ap"]["mean"], "ci95": t2_src["isolation_forest__full"]["ap"]["ci95"]}, "iforest"),
         ("EWMA", {"mean": t2_src["ewma__full"]["ap"]["mean"], "ci95": t2_src["ewma__full"]["ap"]["ci95"]}, "ewma"),
@@ -259,22 +288,32 @@ def plot_baseline_bars(metrics: dict) -> None:
         ("MLP sequence", {"mean": t2_src["mlp_sequence__full"]["ap"]["mean"], "ci95": t2_src["mlp_sequence__full"]["ap"]["ci95"]}, "mlp"),
         ("Majority", {"mean": t2_src["majority__full"]["ap"]["mean"], "ci95": t2_src["majority__full"]["ap"]["ci95"]}, "maj"),
     ]
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.05))
-    for ax, rows, title in [(axes[0], t1_rows, "T1 anomaly AUPRC"), (axes[1], t2_rows, "T2 failure AUPRC")]:
+    # Two-column figure width (~7.0 in usable)
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.35), constrained_layout=True)
+    for ax, rows, plab in [(axes[0], t1_rows, "(a)"), (axes[1], t2_rows, "(b)")]:
         means = [r[1]["mean"] for r in rows]
-        los = [r[1]["mean"] - r[1]["ci95"][0] for r in rows]
-        his = [r[1]["ci95"][1] - r[1]["mean"] for r in rows]
+        los = [max(0.0, r[1]["mean"] - r[1]["ci95"][0]) for r in rows]
+        his = [max(0.0, r[1]["ci95"][1] - r[1]["mean"]) for r in rows]
         cols = [COLORS[r[2]] for r in rows]
         labs = [r[0] for r in rows]
         x = np.arange(len(rows))
-        ax.bar(x, means, yerr=np.vstack([los, his]), color=cols, edgecolor="black", linewidth=0.45, capsize=2.4, error_kw={"lw": 0.8})
+        ax.bar(
+            x,
+            means,
+            yerr=np.vstack([los, his]),
+            color=cols,
+            edgecolor="black",
+            linewidth=0.35,
+            width=0.72,
+            capsize=1.8,
+            error_kw={"lw": 0.65, "ecolor": "#222222"},
+        )
         ax.set_xticks(x)
-        ax.set_xticklabels(labs, rotation=32, ha="right")
+        ax.set_xticklabels(labs, rotation=35, ha="right")
         ax.set_ylabel("AUPRC (mean)")
-        ax.set_title(title)
-        ax.grid(True, axis="y", alpha=0.28, lw=0.5)
+        ax.grid(True, axis="y")
         ax.set_axisbelow(True)
-    fig.tight_layout()
+        _panel_label(ax, plab)
     save(fig, "baseline_auprc_mean_ci")
 
 
@@ -285,19 +324,28 @@ def plot_architecture_selection(metrics: dict) -> None:
         ("v3 features\n+ anchored\n(final)", metrics["T1"]["ecn_final_anchored"], "ecn"),
         ("RF telem_only", metrics["T1"]["random_forest"], "rf"),
     ]
-    fig, ax = plt.subplots(figsize=(4.6, 3.1))
+    # Single-column width
+    fig, ax = plt.subplots(figsize=(3.35, 2.35), constrained_layout=True)
     means = [r[1]["mean"] for r in rows]
-    los = [r[1]["mean"] - r[1]["ci95"][0] for r in rows]
-    his = [r[1]["ci95"][1] - r[1]["mean"] for r in rows]
+    los = [max(0.0, r[1]["mean"] - r[1]["ci95"][0]) for r in rows]
+    his = [max(0.0, r[1]["ci95"][1] - r[1]["mean"]) for r in rows]
     x = np.arange(len(rows))
-    ax.bar(x, means, yerr=np.vstack([los, his]), color=[COLORS[r[2]] for r in rows], edgecolor="black", lw=0.45, capsize=2.5, error_kw={"lw": 0.8})
+    ax.bar(
+        x,
+        means,
+        yerr=np.vstack([los, his]),
+        color=[COLORS[r[2]] for r in rows],
+        edgecolor="black",
+        lw=0.35,
+        width=0.7,
+        capsize=2.0,
+        error_kw={"lw": 0.65, "ecolor": "#222222"},
+    )
     ax.set_xticks(x)
-    ax.set_xticklabels([r[0] for r in rows])
+    ax.set_xticklabels([r[0] for r in rows], fontsize=6.5)
     ax.set_ylabel("T1 AUPRC (mean)")
-    ax.set_title("T1 architecture selection")
-    ax.grid(True, axis="y", alpha=0.28, lw=0.5)
+    ax.grid(True, axis="y")
     ax.set_axisbelow(True)
-    fig.tight_layout()
     save(fig, "architecture_selection_t1")
 
 
@@ -308,19 +356,27 @@ def plot_ablation_arch(metrics: dict) -> None:
         ("v3+stack (ablation)", metrics["T1"]["ecn_stack_ablation"], "stack"),
         ("v3+anchored (final)", metrics["T1"]["ecn_final_anchored"], "ecn"),
     ]
-    fig, ax = plt.subplots(figsize=(4.2, 2.9))
+    fig, ax = plt.subplots(figsize=(3.35, 2.25), constrained_layout=True)
     means = [r[1]["mean"] for r in order]
-    los = [r[1]["mean"] - r[1]["ci95"][0] for r in order]
-    his = [r[1]["ci95"][1] - r[1]["mean"] for r in order]
+    los = [max(0.0, r[1]["mean"] - r[1]["ci95"][0]) for r in order]
+    his = [max(0.0, r[1]["ci95"][1] - r[1]["mean"]) for r in order]
     x = np.arange(len(order))
-    ax.bar(x, means, yerr=np.vstack([los, his]), color=[COLORS[r[2]] for r in order], edgecolor="black", lw=0.45, capsize=2.5, error_kw={"lw": 0.8})
+    ax.bar(
+        x,
+        means,
+        yerr=np.vstack([los, his]),
+        color=[COLORS[r[2]] for r in order],
+        edgecolor="black",
+        lw=0.35,
+        width=0.65,
+        capsize=2.0,
+        error_kw={"lw": 0.65, "ecolor": "#222222"},
+    )
     ax.set_xticks(x)
-    ax.set_xticklabels([r[0] for r in order], rotation=15, ha="right")
+    ax.set_xticklabels([r[0] for r in order], rotation=12, ha="right", fontsize=6.5)
     ax.set_ylabel("T1 AUPRC (mean)")
-    ax.set_title("Feature/fusion ablation (T1)")
-    ax.grid(True, axis="y", alpha=0.28, lw=0.5)
+    ax.grid(True, axis="y")
     ax.set_axisbelow(True)
-    fig.tight_layout()
     save(fig, "ablation_auprc_mean_ci")
 
 
@@ -334,17 +390,15 @@ def plot_module_bars(metrics: dict) -> None:
     labs = ["Feature\nenrichment\n(vs v2)", "Twin gain\n(final head)", "Stacking\n(vs anchored)"]
     vals = [feat, twin, stack_delta]
     cols = [COLORS["ecn"], COLORS["lr"], COLORS["stack"]]
-    fig, ax = plt.subplots(figsize=(3.7, 2.85))
+    fig, ax = plt.subplots(figsize=(3.2, 2.2), constrained_layout=True)
     x = np.arange(len(labs))
-    ax.bar(x, vals, color=cols, edgecolor="black", lw=0.45)
-    ax.axhline(0, color="#444444", lw=0.9)
+    ax.bar(x, vals, color=cols, edgecolor="black", lw=0.35, width=0.65)
+    ax.axhline(0, color="#333333", lw=0.7)
     ax.set_xticks(x)
-    ax.set_xticklabels(labs)
-    ax.set_ylabel("Δ T1 AUPRC")
-    ax.set_title("Verified T1 contribution deltas")
-    ax.grid(True, axis="y", alpha=0.28, lw=0.5)
+    ax.set_xticklabels(labs, fontsize=6.5)
+    ax.set_ylabel(r"$\Delta$ T1 AUPRC")
+    ax.grid(True, axis="y")
     ax.set_axisbelow(True)
-    fig.tight_layout()
     save(fig, "module_contribution")
 
 
@@ -375,7 +429,7 @@ def plot_roc_pr_from_per_seed(seed_name: str = "v1.1.0-INST") -> None:
         ("T2_failure", "T2", t2_methods),
     ]:
         block = data["tasks"][task_key]
-        fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.9))
+        fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.30), constrained_layout=True)
         for key, lab, col in methods:
             m = block.get(key)
             if not m or not m.get("roc_curve"):
@@ -390,23 +444,22 @@ def plot_roc_pr_from_per_seed(seed_name: str = "v1.1.0-INST") -> None:
             pr = m.get("pr_curve")
             if pr:
                 axes[1].plot(pr["recall"], pr["precision"], color=col, label=f"{lab} ({m.get('ap', float('nan')):.3f})")
-        axes[0].plot([0, 1], [0, 1], color="#444444", ls="--", lw=0.9)
+        axes[0].plot([0, 1], [0, 1], color="#555555", ls="--", lw=0.75)
         axes[0].set_xlabel("False positive rate")
         axes[0].set_ylabel("True positive rate")
-        axes[0].set_title(f"{tag} ROC")
         axes[0].set_xlim(0, 1)
         axes[0].set_ylim(0, 1)
-        axes[0].grid(True, alpha=0.25, lw=0.5)
+        axes[0].set_aspect("equal", adjustable="box")
+        axes[0].grid(True)
         axes[0].legend(loc="lower right", frameon=False)
+        _panel_label(axes[0], "(a)")
         axes[1].set_xlabel("Recall")
         axes[1].set_ylabel("Precision")
-        axes[1].set_title(f"{tag} precision--recall")
         axes[1].set_xlim(0, 1)
         axes[1].set_ylim(0, 1)
-        axes[1].grid(True, alpha=0.25, lw=0.5)
+        axes[1].grid(True)
         axes[1].legend(loc="upper right", frameon=False)
-        fig.suptitle(f"Instance {seed_name}", fontsize=9, y=1.02)
-        fig.tight_layout()
+        _panel_label(axes[1], "(b)")
         save(fig, f"{tag}_{seed_name}_roc_pr")
 
 
@@ -418,28 +471,28 @@ def plot_cal_cm(seed_name: str = "v1.1.0-INST") -> None:
         m = data["tasks"][task_key].get("ecn_proposed__full")
         if m and m.get("calibration"):
             cal = m["calibration"]
-            fig, ax = plt.subplots(figsize=(3.35, 3.05))
-            ax.plot([0, 1], [0, 1], color="#444444", ls="--", lw=0.9, label="Ideal")
+            fig, ax = plt.subplots(figsize=(3.2, 2.55), constrained_layout=True)
+            ax.plot([0, 1], [0, 1], color="#555555", ls="--", lw=0.75, label="Ideal")
             ax.plot(
                 cal["mean_predicted"],
                 cal["fraction_positives"],
                 "o-",
                 color=COLORS["ecn"],
-                ms=5,
+                ms=4,
+                lw=1.2,
                 label="ECN-v3 (anchored)",
             )
             ax.set_xlabel("Mean predicted probability")
             ax.set_ylabel("Fraction of positives")
-            ax.set_title(f"{tag} reliability ({seed_name})")
             ax.set_xlim(0, 1)
             ax.set_ylim(0, 1)
-            ax.grid(True, alpha=0.25, lw=0.5)
+            ax.set_aspect("equal", adjustable="box")
+            ax.grid(True)
             ax.legend(frameon=False, loc="upper left")
-            fig.tight_layout()
             save(fig, f"{tag}_{seed_name}_calibration")
         if m and m.get("confusion_matrix"):
             arr = np.asarray(m["confusion_matrix"], dtype=float)
-            fig, ax = plt.subplots(figsize=(3.3, 2.95))
+            fig, ax = plt.subplots(figsize=(2.9, 2.45), constrained_layout=True)
             im = ax.imshow(arr, cmap="Blues")
             ax.set_xticks([0, 1])
             ax.set_yticks([0, 1])
@@ -447,34 +500,53 @@ def plot_cal_cm(seed_name: str = "v1.1.0-INST") -> None:
             ax.set_yticklabels(["0", "1"])
             ax.set_xlabel("Predicted")
             ax.set_ylabel("True")
-            ax.set_title(f"{tag} confusion ({seed_name})")
             for i in range(arr.shape[0]):
                 for j in range(arr.shape[1]):
-                    ax.text(j, i, str(int(arr[i, j])), ha="center", va="center",
-                            color="white" if arr[i, j] > arr.max() / 2 else "black", fontsize=8)
+                    ax.text(
+                        j,
+                        i,
+                        str(int(arr[i, j])),
+                        ha="center",
+                        va="center",
+                        color="white" if arr[i, j] > arr.max() / 2 else "black",
+                        fontsize=8,
+                    )
             fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
-            fig.tight_layout()
             save(fig, f"{tag}_{seed_name}_cm")
     # T3
     m3 = data["tasks"].get("T3_rca", {}).get("ecn_proposed__full")
     if m3 and m3.get("confusion_matrix"):
         arr = np.asarray(m3["confusion_matrix"], dtype=float)
         labels = m3.get("classes") or [str(i) for i in range(arr.shape[0])]
-        fig, ax = plt.subplots(figsize=(3.6, 3.1))
+        # Compact single-column CM; shorten long class names for readability
+        short = []
+        for lab in labels:
+            s = str(lab).replace("_", " ")
+            short.append(s if len(s) <= 16 else s[:14] + ".")
+        fig, ax = plt.subplots(figsize=(3.35, 2.85), constrained_layout=True)
         im = ax.imshow(arr, cmap="Blues")
-        ax.set_xticks(range(len(labels)))
-        ax.set_yticks(range(len(labels)))
-        ax.set_xticklabels(labels, rotation=35, ha="right")
-        ax.set_yticklabels(labels)
+        ax.set_xticks(range(len(short)))
+        ax.set_yticks(range(len(short)))
+        ax.set_xticklabels(short, rotation=55, ha="right", fontsize=5.5)
+        ax.set_yticklabels(short, fontsize=5.5)
         ax.set_xlabel("Predicted")
         ax.set_ylabel("True")
-        ax.set_title(f"T3 RCA confusion ({seed_name})")
+        vmax = float(arr.max()) if arr.size else 1.0
         for i in range(arr.shape[0]):
             for j in range(arr.shape[1]):
-                ax.text(j, i, str(int(arr[i, j])), ha="center", va="center", fontsize=7,
-                        color="white" if arr[i, j] > arr.max() / 2 else "black")
-        fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
-        fig.tight_layout()
+                v = int(arr[i, j])
+                if v == 0:
+                    continue
+                ax.text(
+                    j,
+                    i,
+                    str(v),
+                    ha="center",
+                    va="center",
+                    fontsize=5.5,
+                    color="white" if arr[i, j] > vmax / 2 else "black",
+                )
+        fig.colorbar(im, ax=ax, fraction=0.045, pad=0.03)
         save(fig, f"T3_{seed_name}_cm")
 
 

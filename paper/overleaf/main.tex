@@ -17,14 +17,26 @@
 
 \graphicspath{{figures/}}
 \hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue,pdfauthor={},pdftitle={ECNetBench and ECN-v3},pdfsubject={Double-blind manuscript},pdfkeywords={}}
-% Prefer stable float behavior in two-column IEEE layout
-\setcounter{topnumber}{3}
+
+% IEEE journal float placement: keep figures/tables near text without overcrowding.
+\setcounter{topnumber}{2}
 \setcounter{bottomnumber}{2}
-\setcounter{totalnumber}{5}
-\renewcommand{\topfraction}{0.85}
-\renewcommand{\bottomfraction}{0.7}
-\renewcommand{\textfraction}{0.12}
-\renewcommand{\floatpagefraction}{0.7}
+\setcounter{totalnumber}{4}
+\setcounter{dbltopnumber}{2}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\dblfloatpagefraction}{0.85}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{10pt plus 2pt minus 3pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+
 \begin{document}
 
 \title{A Digital-Twin Multi-Agent Framework for Enterprise Cognitive Networking: ECNetBench and Leakage-Safe Multi-Seed Evaluation}
