@@ -8,7 +8,11 @@ BASELINE_NAMES = [
     "isolation_forest",
     "logistic",
     "random_forest",
+    "gradient_boosting",
+    "balanced_rf",
     "lightgbm",
+    "xgboost",
+    "catboost",
     "mlp_sequence",
 ]
 

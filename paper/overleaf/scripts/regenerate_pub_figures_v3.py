@@ -17,6 +17,8 @@ import sys
 from pathlib import Path
 
 import matplotlib as mpl
+
+mpl.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
@@ -40,6 +42,10 @@ COLORS = {
     "rf": "#D55E00",
     "lr": "#009E73",
     "lgbm": "#CC79A7",
+    "xgb": "#E69F00",
+    "cat": "#56B4E9",
+    "gb": "#0072B2",
+    "brf": "#882255",
     "iforest": "#E69F00",
     "ewma": "#F0E442",
     "gnn": "#882255",
@@ -48,6 +54,10 @@ COLORS = {
 }
 BASELINE_KEYS = [
     ("ecn_proposed__full", "ECN-v3 (final)", "ecn"),
+    ("xgboost__full", "XGBoost", "xgb"),
+    ("catboost__full", "CatBoost", "cat"),
+    ("gradient_boosting__full", "Gradient boosting", "gb"),
+    ("balanced_rf__full", "Balanced RF", "brf"),
     ("random_forest__full", "Random forest", "rf"),
     ("logistic__full", "Logistic", "lr"),
     ("lightgbm__full", "LightGBM", "lgbm"),
@@ -82,8 +92,14 @@ def style() -> None:
 
 def save(fig: plt.Figure, stem: str) -> None:
     FIG.mkdir(parents=True, exist_ok=True)
-    fig.savefig(FIG / f"{stem}.pdf")
-    fig.savefig(FIG / f"{stem}.png", dpi=600)
+    png = FIG / f"{stem}.png"
+    pdf = FIG / f"{stem}.pdf"
+    fig.savefig(png, dpi=600)
+    try:
+        fig.savefig(pdf)
+    except OSError as e:
+        # Windows can intermittently refuse some PDF paths; PNG remains authoritative for dashboard.
+        print(f"warn: PDF save failed for {stem}: {e}")
     plt.close(fig)
     print("wrote", stem)
 

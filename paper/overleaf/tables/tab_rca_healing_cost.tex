@@ -1,18 +1,16 @@
 \begin{table}[!t]
 \centering
-\caption{RCA accuracy, healing decision-support scores, and evaluation wall-clock cost (six seeds). RCA uses RF with TreeSHAP explanations. The \texttt{full} healing setting includes RCA category features; \texttt{no\_rca\_cat} is the honest telemetry-oriented baseline.}
+\caption{RCA accuracy, healing decision-support scores, and evaluation wall-clock cost (six seeds). The \texttt{full} healing setting includes RCA category features; \texttt{no\_rca\_cat} is the honest telemetry-oriented baseline.}
 \label{tab:rcaheal}
 \renewcommand{\arraystretch}{1.15}
-\setlength{\tabcolsep}{3pt}
-{\scriptsize\begin{tabular}{p{2.6cm}p{2.4cm}c}
+{\footnotesize\begin{tabular}{p{3.1cm}p{2.6cm}c}
 \toprule
 Metric & Setting & Mean [95\% CI] \\
 \midrule
-T3 RCA macro-F1 & RF + TreeSHAP & $0.2540$ $[0.0901,\,0.4179]$ \\
+T3 RCA macro-F1 & proposed & $0.2540$ $[0.0901,\,0.4179]$ \\
 Healing macro-F1 & full (w/ RCA cat.) & $1.0000$ $[1.0000,\,1.0000]$ \\
 Healing macro-F1 & no\_rca\_cat & $0.1903$ $[0.0989,\,0.2816]$ \\
-T1 train time (s) & anchored head & $2.21$ \\
-Eval.\ wall time (s/seed) & full suite & $\sim$41 $[37.83,\,43.72]$ \\
+Eval. wall time (s/seed) & full suite & $51.47$ $[50.55,\,52.39]$ \\
 \bottomrule
 \end{tabular}}
 \end{table}

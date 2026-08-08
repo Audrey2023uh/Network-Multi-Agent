@@ -1,0 +1,21 @@
+\begin{table}[!t]
+\centering
+\caption{T1 practical ranking proxies (six frozen seeds). Precision@$k$ and FPR at fixed recall are derived from test scores/labels only.}
+\label{tab:practical_v4}
+{\footnotesize\begin{tabular}{lcccc}
+\toprule
+Method & AUPRC & P@50 & FPR@R0.5 & FPR@R0.8 \\
+\midrule
+ecn\_proposed & $0.1154$ & $0.0600$ & $0.1931$ & $0.4280$ \\
+random\_forest & $0.0758$ & $0.0367$ & $0.2196$ & $0.3835$ \\
+gradient\_boosting & $0.0730$ & $0.0567$ & $0.1700$ & $0.4322$ \\
+logistic & $0.0631$ & $0.0200$ & $0.2472$ & $0.3820$ \\
+isolation\_forest & $0.0575$ & $0.0367$ & $0.2673$ & $0.5502$ \\
+lightgbm & $0.0570$ & $0.0400$ & $0.2531$ & $0.5357$ \\
+catboost & $0.0528$ & $0.0267$ & $0.2698$ & $0.6018$ \\
+xgboost & $0.0471$ & $0.0333$ & $0.2455$ & $0.4830$ \\
+balanced\_rf & $0.0467$ & $0.0333$ & $0.1829$ & $0.3672$ \\
+ewma & $0.0403$ & $0.0367$ & $0.4220$ & $0.7456$ \\
+\bottomrule
+\end{tabular}}
+\end{table}

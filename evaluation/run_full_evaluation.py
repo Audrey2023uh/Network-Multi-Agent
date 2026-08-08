@@ -74,7 +74,11 @@ BINARY_BASELINES = [
     "isolation_forest",
     "logistic",
     "random_forest",
+    "gradient_boosting",
+    "balanced_rf",
     "lightgbm",
+    "xgboost",
+    "catboost",
     "mlp_sequence",
 ]
 PROPOSED = "ecn_proposed"
@@ -146,6 +150,14 @@ def _eval_one_binary(
     if len(yte) == 0 or len(ytr) == 0 or not use:
         return {"error": "empty split or features"}
 
+    rss0 = None
+    try:
+        import psutil
+
+        rss0 = float(psutil.Process().memory_info().rss)
+    except Exception:
+        rss0 = None
+
     t0 = time.perf_counter()
     extra: Dict[str, Any] = {}
     if method == PROPOSED:
@@ -177,10 +189,21 @@ def _eval_one_binary(
         train_t = fit.train_time_s
     infer_t = time.perf_counter() - t0
     metrics = eval_binary(yte, scores, thr)
+    peak_rss_delta_mb = None
+    try:
+        import psutil
+
+        if rss0 is not None:
+            rss1 = float(psutil.Process().memory_info().rss)
+            peak_rss_delta_mb = max(0.0, (rss1 - rss0) / (1024 * 1024))
+            metrics["rss_after_mb"] = rss1 / (1024 * 1024)
+    except Exception:
+        pass
     metrics.update(
         {
             "train_time_s": train_t,
             "wall_time_s": infer_t,
+            "peak_rss_delta_mb": peak_rss_delta_mb,
             "n_features": len(use),
             "n_train": int(len(ytr)),
             "n_val": int(len(yva)),
@@ -439,7 +462,17 @@ def evaluate_seed(name: str, db: Path, seed: int) -> Dict[str, Any]:
         t1["robust_missing_30"] = {"error": str(e)}
     result["tasks"]["T1_anomaly"] = t1
     curve_methods = {}
-    for k in [f"{PROPOSED}__full", "lightgbm__full", "isolation_forest__full", "ewma__full", "logistic__full"]:
+    for k in [
+        f"{PROPOSED}__full",
+        "xgboost__full",
+        "catboost__full",
+        "lightgbm__full",
+        "isolation_forest__full",
+        "ewma__full",
+        "logistic__full",
+        "random_forest__full",
+        "gradient_boosting__full",
+    ]:
         if k in t1 and "roc_curve" in t1[k]:
             curve_methods[k.split("__")[0]] = t1[k]
     plot_roc_pr(name, curve_methods, "T1")
@@ -454,7 +487,16 @@ def evaluate_seed(name: str, db: Path, seed: int) -> Dict[str, Any]:
     t2["gnn_graphsage_proxy__full"] = run_gnn_baseline(fail_df, fail_cols, seed)
     result["tasks"]["T2_failure"] = t2
     curve_methods = {}
-    for k in [f"{PROPOSED}__full", "lightgbm__full", "logistic__full", "ewma__full", "random_forest__full"]:
+    for k in [
+        f"{PROPOSED}__full",
+        "xgboost__full",
+        "catboost__full",
+        "lightgbm__full",
+        "logistic__full",
+        "ewma__full",
+        "random_forest__full",
+        "gradient_boosting__full",
+    ]:
         if k in t2 and "roc_curve" in t2[k]:
             curve_methods[k.split("__")[0]] = t2[k]
     plot_roc_pr(name, curve_methods, "T2")
@@ -541,7 +583,11 @@ def aggregate(all_results: List[Dict[str, Any]]) -> Dict[str, Any]:
     compare_methods = {
         "T1_anomaly": [
             f"{PROPOSED}__full",
+            "xgboost__full",
+            "catboost__full",
             "lightgbm__full",
+            "gradient_boosting__full",
+            "balanced_rf__full",
             "random_forest__full",
             "logistic__full",
             "isolation_forest__full",
@@ -553,7 +599,11 @@ def aggregate(all_results: List[Dict[str, Any]]) -> Dict[str, Any]:
         ],
         "T2_failure": [
             f"{PROPOSED}__full",
+            "xgboost__full",
+            "catboost__full",
             "lightgbm__full",
+            "gradient_boosting__full",
+            "balanced_rf__full",
             "random_forest__full",
             "logistic__full",
             "isolation_forest__full",
@@ -574,6 +624,13 @@ def aggregate(all_results: List[Dict[str, Any]]) -> Dict[str, Any]:
                 "recall": mean_ci(collect(task, mk, "recall")),
                 "brier": mean_ci(collect(task, mk, "brier")),
                 "train_time_s": mean_ci(collect(task, mk, "train_time_s")),
+                "precision_at_10": mean_ci(collect(task, mk, "precision_at_10")),
+                "precision_at_50": mean_ci(collect(task, mk, "precision_at_50")),
+                "precision_at_100": mean_ci(collect(task, mk, "precision_at_100")),
+                "precision_at_top1pct": mean_ci(collect(task, mk, "precision_at_top1pct")),
+                "fpr_at_recall_0_5": mean_ci(collect(task, mk, "fpr_at_recall_0_5")),
+                "fpr_at_recall_0_8": mean_ci(collect(task, mk, "fpr_at_recall_0_8")),
+                "peak_rss_delta_mb": mean_ci(collect(task, mk, "peak_rss_delta_mb")),
             }
 
     for task in ["T1_anomaly", "T2_failure"]:

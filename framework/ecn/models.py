@@ -38,6 +38,20 @@ try:
 except Exception:  # pragma: no cover
     HAS_LGBM = False
 
+try:
+    from xgboost import XGBClassifier
+
+    HAS_XGB = True
+except Exception:  # pragma: no cover
+    HAS_XGB = False
+
+try:
+    from catboost import CatBoostClassifier
+
+    HAS_CATBOOST = True
+except Exception:  # pragma: no cover
+    HAS_CATBOOST = False
+
 
 def ewma_anomaly_scores(X: np.ndarray, alpha: float = 0.3) -> np.ndarray:
     """Univariate EWMA on first feature column (CPU) — higher score = more anomalous."""
@@ -110,6 +124,56 @@ def fit_binary(name: str, X: np.ndarray, y: np.ndarray, seed: int = 0) -> FitRes
                 verbosity=-1,
                 n_jobs=-1,
             )
+            m.fit(X, y)
+    elif name == "xgboost":
+        n_pos = max(int(y.sum()), 1)
+        n_neg = max(int(len(y) - y.sum()), 1)
+        if HAS_XGB:
+            m = XGBClassifier(
+                n_estimators=300,
+                learning_rate=0.05,
+                max_depth=6,
+                subsample=0.9,
+                colsample_bytree=0.9,
+                scale_pos_weight=n_neg / n_pos,
+                random_state=seed,
+                n_jobs=-1,
+                eval_metric="logloss",
+                verbosity=0,
+            )
+            m.fit(X, y)
+        elif HAS_LGBM:
+            m = LGBMClassifier(
+                n_estimators=300, learning_rate=0.05, num_leaves=31,
+                scale_pos_weight=n_neg / n_pos, random_state=seed, verbosity=-1, n_jobs=-1,
+            )
+            m.fit(X, y)
+        else:
+            m = GradientBoostingClassifier(random_state=seed)
+            m.fit(X, y)
+    elif name == "catboost":
+        n_pos = max(int(y.sum()), 1)
+        n_neg = max(int(len(y) - y.sum()), 1)
+        if HAS_CATBOOST:
+            m = CatBoostClassifier(
+                iterations=300,
+                learning_rate=0.05,
+                depth=6,
+                loss_function="Logloss",
+                auto_class_weights="Balanced",
+                random_seed=seed,
+                verbose=False,
+                allow_writing_files=False,
+            )
+            m.fit(X, y)
+        elif HAS_LGBM:
+            m = LGBMClassifier(
+                n_estimators=300, learning_rate=0.05, num_leaves=31,
+                scale_pos_weight=n_neg / n_pos, random_state=seed, verbosity=-1, n_jobs=-1,
+            )
+            m.fit(X, y)
+        else:
+            m = GradientBoostingClassifier(random_state=seed)
             m.fit(X, y)
     elif name == "balanced_rf":
         try:
@@ -653,6 +717,42 @@ def eval_binary(y_true: np.ndarray, scores: np.ndarray, threshold: float) -> Dic
     out["recall"] = float(r)
     out["f1"] = float(f1)
     out["confusion_matrix"] = confusion_matrix(y_true, pred, labels=[0, 1]).tolist()
+
+    # Practical ranking / workload proxies (derived from scores+labels only)
+    order = np.argsort(-s_norm)
+    y_sorted = y_true[order]
+    n = len(y_true)
+    n_pos = max(int(y_true.sum()), 0)
+    for k in (10, 50, 100):
+        kk = min(k, n)
+        hits = int(y_sorted[:kk].sum()) if kk else 0
+        out[f"precision_at_{k}"] = float(hits / kk) if kk else None
+        out[f"alerts_at_{k}"] = int(kk)
+        out[f"true_positives_at_{k}"] = hits
+    # top 1% workload
+    k1 = max(1, int(round(0.01 * n)))
+    hits1 = int(y_sorted[:k1].sum())
+    out["precision_at_top1pct"] = float(hits1 / k1)
+    out["alerts_at_top1pct"] = int(k1)
+    # FPR at fixed recall targets (from ROC/PR operating points on scores)
+    if n_pos > 0 and len(np.unique(y_true)) > 1:
+        for target_rec in (0.5, 0.8):
+            # find lowest threshold achieving recall >= target
+            # recall = TP / P; scan score thresholds via sorted scores
+            tps = np.cumsum(y_sorted)
+            fps = np.cumsum(1 - y_sorted)
+            recalls = tps / n_pos
+            fprs = fps / max(n - n_pos, 1)
+            idx = np.where(recalls >= target_rec)[0]
+            if len(idx):
+                j = int(idx[0])
+                out[f"fpr_at_recall_{str(target_rec).replace('.', '_')}"] = float(fprs[j])
+                out[f"precision_at_recall_{str(target_rec).replace('.', '_')}"] = float(
+                    tps[j] / max(tps[j] + fps[j], 1)
+                )
+            else:
+                out[f"fpr_at_recall_{str(target_rec).replace('.', '_')}"] = None
+                out[f"precision_at_recall_{str(target_rec).replace('.', '_')}"] = None
     return out
 
 

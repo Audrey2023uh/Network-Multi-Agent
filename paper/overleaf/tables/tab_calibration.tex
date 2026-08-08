@@ -1,17 +1,18 @@
 \begin{table}[!t]
 \centering
-\caption{Calibration quality (Brier score; lower is better). Final ECN-v3 T1 Brier is reported from the architecture-selection study; baseline Brier values are from the six-seed aggregate. Optional Beta calibration is recommended for probability display and does not change AUPRC ranking.}
+\caption{Calibration quality measured by Brier score (mean over six seeds with 95\% CI). Lower is better.}
 \label{tab:cal}
 \renewcommand{\arraystretch}{1.15}
 {\footnotesize\begin{tabular}{llcc}
 \toprule
-Task & Method & Mean & Notes \\
+Task & Method & Mean & 95\% CI \\
 \midrule
-T1 & ECN-v3 final (raw) & $0.1509$ & Optional Beta for display \\
-T1 & Random forest & $0.0227$ & Strong tabular calibration \\
-T1 & Logistic & $0.2328$ & \\
-T2 & Telem logistic (T2 head) & $0.2577$ & Recommended T2 head \\
-T2 & Random forest & $0.0124$ & \\
+T1\_anomaly & ECN proposed & $0.1571$ & $[0.0893,\,0.2250]$ \\
+T1\_anomaly & Random forest & $0.0227$ & $[0.0112,\,0.0342]$ \\
+T1\_anomaly & Logistic & $0.2328$ & $[0.1742,\,0.2915]$ \\
+T2\_failure & ECN proposed & $0.2089$ & $[0.1190,\,0.2987]$ \\
+T2\_failure & Logistic & $0.2577$ & $[0.2079,\,0.3074]$ \\
+T2\_failure & Random forest & $0.0124$ & $[0.0087,\,0.0160]$ \\
 \bottomrule
 \end{tabular}}
 \end{table}

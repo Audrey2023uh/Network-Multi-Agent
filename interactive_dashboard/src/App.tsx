@@ -15,6 +15,12 @@ import { TreeShapPage } from "./pages/TreeShapPage";
 import { ReproPage } from "./pages/ReproPage";
 import { DocsPage } from "./pages/DocsPage";
 import { RunbookPage } from "./pages/RunbookPage";
+import { PracticalImpactPage } from "./pages/PracticalImpactPage";
+import { SensitivityPage } from "./pages/SensitivityPage";
+import { ScalabilityPage } from "./pages/ScalabilityPage";
+import { AblationPage } from "./pages/AblationPage";
+import { XaiValidationPage } from "./pages/XaiValidationPage";
+import { LivePrototypePage } from "./pages/LivePrototypePage";
 
 function AppProvider({ children }: { children: React.ReactNode }) {
   const [seed, setSeed] = useState("seed101");
@@ -98,6 +104,12 @@ export default function App() {
             <Route path="/pipeline" element={<PipelinePage />} />
             <Route path="/benchmark" element={<BenchmarkPage />} />
             <Route path="/models" element={<ModelsPage />} />
+            <Route path="/practical" element={<PracticalImpactPage />} />
+            <Route path="/sensitivity" element={<SensitivityPage />} />
+            <Route path="/scalability" element={<ScalabilityPage />} />
+            <Route path="/ablation" element={<AblationPage />} />
+            <Route path="/xai-validation" element={<XaiValidationPage />} />
+            <Route path="/live-prototype" element={<LivePrototypePage />} />
             <Route path="/figures" element={<FiguresPage />} />
             <Route path="/results" element={<ResultsPage />} />
             <Route path="/shap" element={<TreeShapPage />} />

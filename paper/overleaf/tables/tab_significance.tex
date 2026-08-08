@@ -1,22 +1,38 @@
 \begin{table*}[!t]
 \centering
-\caption{Paired Wilcoxon signed-rank tests and Cliff's $\delta$ for T1 AUPRC of the final ECN-v3 anchored model versus baselines and the stacking ablation ($n{=}6$). Positive $\delta$ favors ECN-v3.}
+\caption{Paired Wilcoxon signed-rank tests and Cliff's $\delta$ comparing proposed AUPRC against each baseline across $n{=}6$ seeds.}
 \label{tab:sig}
 \renewcommand{\arraystretch}{1.12}
-\setlength{\tabcolsep}{4pt}
-{\footnotesize\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccc}
+\setlength{\tabcolsep}{3.5pt}
+{\scriptsize\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llcccc}
 \toprule
-Comparator & $p$ & Cliff $\delta$ & ECN-v3 mean & Comparator mean \\
+Task & Baseline & $p$ & Cliff $\delta$ & Proposed & Baseline \\
 \midrule
-Random forest & $0.688$ & $+0.389$ & $0.1152$ & $0.0758$ \\
-Logistic & $0.031$ & $+0.556$ & $0.1152$ & $0.0631$ \\
-LightGBM & $0.062$ & $+0.611$ & $0.1152$ & $0.0570$ \\
-Isolation Forest & $0.031$ & $+0.667$ & $0.1152$ & $0.0575$ \\
-EWMA & $0.062$ & $+0.778$ & $0.1152$ & $0.0403$ \\
-GNN proxy & $0.062$ & $+0.778$ & $0.1152$ & $0.0335$ \\
-MLP sequence & $0.031$ & $+1.000$ & $0.1152$ & $0.0084$ \\
-Majority & $0.031$ & $+1.000$ & $0.1152$ & $0.0098$ \\
-Stacking ablation & $0.375$ & $+0.111$ & $0.1152$ & $0.0997$ \\
+T1\_anomaly & xgboost\_\_full & $0.094$ & $0.722$ & $0.1154$ & $0.0471$ \\
+ & catboost\_\_full & $0.156$ & $0.611$ & $0.1154$ & $0.0528$ \\
+ & lightgbm\_\_full & $0.062$ & $0.611$ & $0.1154$ & $0.0570$ \\
+ & gradient\_boosting\_\_full & $0.219$ & $0.500$ & $0.1154$ & $0.0730$ \\
+ & balanced\_rf\_\_full & $0.031$ & $0.667$ & $0.1154$ & $0.0467$ \\
+ & random\_forest\_\_full & $0.688$ & $0.389$ & $0.1154$ & $0.0758$ \\
+ & logistic\_\_full & $0.031$ & $0.556$ & $0.1154$ & $0.0631$ \\
+ & isolation\_forest\_\_full & $0.031$ & $0.667$ & $0.1154$ & $0.0575$ \\
+ & ewma\_\_full & $0.062$ & $0.778$ & $0.1154$ & $0.0403$ \\
+ & threshold\_\_full & $0.031$ & $0.778$ & $0.1154$ & $0.0315$ \\
+ & mlp\_sequence\_\_full & $0.031$ & $1.000$ & $0.1154$ & $0.0084$ \\
+ & gnn\_graphsage\_proxy\_\_full & $0.062$ & $0.778$ & $0.1154$ & $0.0335$ \\
+ & majority\_\_full & $0.031$ & $1.000$ & $0.1154$ & $0.0098$ \\
+T2\_failure & xgboost\_\_full & $0.562$ & $0.111$ & $0.0153$ & $0.0115$ \\
+ & catboost\_\_full & $0.688$ & $0.111$ & $0.0153$ & $0.0117$ \\
+ & lightgbm\_\_full & $0.844$ & $-0.111$ & $0.0153$ & $0.0213$ \\
+ & gradient\_boosting\_\_full & $0.688$ & $-0.056$ & $0.0153$ & $0.0129$ \\
+ & balanced\_rf\_\_full & $1.000$ & $-0.222$ & $0.0153$ & $0.0176$ \\
+ & random\_forest\_\_full & $0.688$ & $-0.333$ & $0.0153$ & $0.0176$ \\
+ & logistic\_\_full & $0.844$ & $-0.500$ & $0.0153$ & $0.0380$ \\
+ & isolation\_forest\_\_full & $0.688$ & $-0.056$ & $0.0153$ & $0.0216$ \\
+ & ewma\_\_full & $0.094$ & $0.556$ & $0.0153$ & $0.0066$ \\
+ & mlp\_sequence\_\_full & $0.031$ & $0.833$ & $0.0153$ & $0.0054$ \\
+ & gnn\_graphsage\_proxy\_\_full & $0.438$ & $0.167$ & $0.0153$ & $0.0106$ \\
+ & majority\_\_full & $0.031$ & $1.000$ & $0.0153$ & $0.0056$ \\
 \bottomrule
 \end{tabular*}}
 \end{table*}

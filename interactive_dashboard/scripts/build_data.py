@@ -232,6 +232,13 @@ def extract_per_seed_metrics(rel: str, seed: str) -> Dict[str, Any]:
             "f1": block.get("f1"),
             "precision": block.get("precision"),
             "recall": block.get("recall"),
+            "precision_at_10": block.get("precision_at_10"),
+            "precision_at_50": block.get("precision_at_50"),
+            "precision_at_100": block.get("precision_at_100"),
+            "precision_at_top1pct": block.get("precision_at_top1pct"),
+            "fpr_at_recall_0_5": block.get("fpr_at_recall_0_5"),
+            "fpr_at_recall_0_8": block.get("fpr_at_recall_0_8"),
+            "peak_rss_delta_mb": block.get("peak_rss_delta_mb"),
             "threshold": block.get("threshold"),
             "train_time_s": block.get("train_time_s"),
             "confusion_matrix": block.get("confusion_matrix"),
@@ -328,6 +335,10 @@ def build_aggregate_models() -> Dict[str, Any]:
         }
     )
     name_map = [
+        ("xgboost__full", "XGBoost"),
+        ("catboost__full", "CatBoost"),
+        ("gradient_boosting__full", "Gradient Boosting"),
+        ("balanced_rf__full", "Balanced RF"),
         ("random_forest__full", "Random Forest"),
         ("logistic__full", "Logistic"),
         ("lightgbm__full", "LightGBM"),
@@ -402,6 +413,13 @@ def build_aggregate_models() -> Dict[str, Any]:
         "checksums": jload("benchmark/INSTANCE_CHECKSUMS.json"),
         "calibration": jload("results/v3_gated/calibration.json"),
         "stats": jload("results/v3_gated/statistical_validation.json"),
+        "scientific_stats_v4": jload("results/scientific_stats_v4.json"),
+        "practical_impact": jload("results/practical_impact.json"),
+        "sensitivity_analysis": jload("results/sensitivity_analysis.json"),
+        "scalability_measured": jload("results/scalability_measured.json"),
+        "xai_validation": jload("results/xai_validation.json"),
+        "scenario_coverage": jload("results/scenario_coverage.json"),
+        "extensions_v4": ms_out.get("extensions_v4"),
         "traceability": jload("results/v3_gated/t1_gain_traceability.json"),
         "runtime": runtime,
         "tables": {
@@ -409,6 +427,7 @@ def build_aggregate_models() -> Dict[str, Any]:
             "significance": _csv("results/tables/significance_vs_proposed.csv"),
             "ablation": _csv("results/tables/ablation_ap.csv"),
             "v2_v3": _csv("results/tables/v2_v3_comparison.csv"),
+            "practical_impact": _csv("results/tables/practical_impact.csv"),
         },
         "disclaimer": "Dashboard is a historical/replay visualization of verified benchmark artifacts. Not a live production deployment.",
     }

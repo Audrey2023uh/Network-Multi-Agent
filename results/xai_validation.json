@@ -1,0 +1,241 @@
+{
+  "note": "Rank stability of RCA explanatory features across seeds. TreeSHAP does not affect T1 AUPRC (explanation-only on RCA path).",
+  "n_seeds": 6,
+  "seeds_with_shap": 0,
+  "seeds_with_impurity_fallback": 6,
+  "per_seed": [
+    {
+      "seed": "seed101",
+      "top10": [
+        "cpu_max",
+        "cpu_mean",
+        "twin_degree",
+        "n_syslog",
+        "twin_n_neighbors",
+        "sev_mean",
+        "twin_frac_agg_nbr",
+        "app_aaa"
+      ],
+      "source": "impurity",
+      "macro_f1": 0.3333333333333333
+    },
+    {
+      "seed": "seed202",
+      "top10": [
+        "cpu_max",
+        "cpu_mean",
+        "twin_n_neighbors",
+        "n_syslog",
+        "sev_mean",
+        "twin_degree",
+        "twin_frac_agg_nbr",
+        "app_aaa"
+      ],
+      "source": "impurity",
+      "macro_f1": 0.2222222222222222
+    },
+    {
+      "seed": "seed303",
+      "top10": [
+        "cpu_mean",
+        "cpu_max",
+        "twin_degree",
+        "twin_n_neighbors",
+        "twin_frac_agg_nbr",
+        "n_syslog",
+        "n_alerts",
+        "sev_mean"
+      ],
+      "source": "impurity",
+      "macro_f1": 0.1111111111111111
+    },
+    {
+      "seed": "seed404",
+      "top10": [
+        "cpu_max",
+        "cpu_mean",
+        "n_syslog",
+        "sev_mean",
+        "twin_frac_agg_nbr",
+        "twin_n_neighbors",
+        "twin_degree",
+        "app_aaa"
+      ],
+      "source": "impurity",
+      "macro_f1": 0.2222222222222222
+    },
+    {
+      "seed": "seed505",
+      "top10": [
+        "cpu_mean",
+        "cpu_max",
+        "twin_frac_agg_nbr",
+        "twin_n_neighbors",
+        "twin_degree",
+        "n_syslog",
+        "sev_mean",
+        "twin_frac_wan_nbr"
+      ],
+      "source": "impurity",
+      "macro_f1": 0.5238095238095238
+    },
+    {
+      "seed": "v1.1.0-INST",
+      "top10": [
+        "cpu_max",
+        "cpu_mean",
+        "twin_frac_agg_nbr",
+        "twin_degree",
+        "n_syslog",
+        "twin_n_neighbors",
+        "sev_mean",
+        "twin_frac_wan_nbr"
+      ],
+      "source": "impurity",
+      "macro_f1": 0.1111111111111111
+    }
+  ],
+  "pairwise": [
+    {
+      "seed_a": "seed101",
+      "seed_b": "seed202",
+      "jaccard_top10": 1.0,
+      "spearman_rho": 0.8333333333333335
+    },
+    {
+      "seed_a": "seed101",
+      "seed_b": "seed303",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.8333333333333333
+    },
+    {
+      "seed_a": "seed101",
+      "seed_b": "seed404",
+      "jaccard_top10": 1.0,
+      "spearman_rho": 0.6904761904761906
+    },
+    {
+      "seed_a": "seed101",
+      "seed_b": "seed505",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.75
+    },
+    {
+      "seed_a": "seed101",
+      "seed_b": "v1.1.0-INST",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.8166666666666667
+    },
+    {
+      "seed_a": "seed202",
+      "seed_b": "seed303",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.7166666666666667
+    },
+    {
+      "seed_a": "seed202",
+      "seed_b": "seed404",
+      "jaccard_top10": 1.0,
+      "spearman_rho": 0.8095238095238096
+    },
+    {
+      "seed_a": "seed202",
+      "seed_b": "seed505",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.75
+    },
+    {
+      "seed_a": "seed202",
+      "seed_b": "v1.1.0-INST",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.7
+    },
+    {
+      "seed_a": "seed303",
+      "seed_b": "seed404",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.5666666666666667
+    },
+    {
+      "seed_a": "seed303",
+      "seed_b": "seed505",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.8833333333333333
+    },
+    {
+      "seed_a": "seed303",
+      "seed_b": "v1.1.0-INST",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.8499999999999999
+    },
+    {
+      "seed_a": "seed404",
+      "seed_b": "seed505",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.7166666666666667
+    },
+    {
+      "seed_a": "seed404",
+      "seed_b": "v1.1.0-INST",
+      "jaccard_top10": 0.7777777777777778,
+      "spearman_rho": 0.7666666666666667
+    },
+    {
+      "seed_a": "seed505",
+      "seed_b": "v1.1.0-INST",
+      "jaccard_top10": 1.0,
+      "spearman_rho": 0.9047619047619048
+    }
+  ],
+  "summary": {
+    "mean_jaccard_top10": 0.8370370370370372,
+    "mean_spearman_rho": 0.7725396825396827,
+    "feature_frequency_top10": [
+      {
+        "feature": "cpu_max",
+        "n_seeds": 6
+      },
+      {
+        "feature": "cpu_mean",
+        "n_seeds": 6
+      },
+      {
+        "feature": "twin_degree",
+        "n_seeds": 6
+      },
+      {
+        "feature": "n_syslog",
+        "n_seeds": 6
+      },
+      {
+        "feature": "twin_n_neighbors",
+        "n_seeds": 6
+      },
+      {
+        "feature": "sev_mean",
+        "n_seeds": 6
+      },
+      {
+        "feature": "twin_frac_agg_nbr",
+        "n_seeds": 6
+      },
+      {
+        "feature": "app_aaa",
+        "n_seeds": 3
+      },
+      {
+        "feature": "twin_frac_wan_nbr",
+        "n_seeds": 2
+      },
+      {
+        "feature": "n_alerts",
+        "n_seeds": 1
+      }
+    ]
+  },
+  "limitations": [
+    "No human-rated explanation quality study",
+    "If TreeSHAP fails, impurity importances are used (recorded per seed)",
+    "Removing TreeSHAP does not change T1 detection scores"
+  ]
+}

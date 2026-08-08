@@ -1,15 +1,14 @@
 \begin{table}[!t]
 \centering
-\caption{Verified T1 contribution deltas under the final protocol. Feature enrichment is the dominant gain; twin contribution is near zero; stacking reduces mean AUPRC relative to anchored fusion.}
+\caption{Estimated module AUPRC contribution, defined as AUPRC(full)${-}$AUPRC(ablated). Positive values indicate improvement when the module is present.}
 \label{tab:modules}
 \renewcommand{\arraystretch}{1.15}
-{\footnotesize\begin{tabular}{lc}
+{\footnotesize\begin{tabular}{lccc}
 \toprule
-Contribution & $\Delta$ T1 AUPRC \\
+Task & Telemetry & Neighbor & Digital Twin \\
 \midrule
-Feature enrichment (final $-$ v2) & $+0.0575$ \\
-Twin (full $-$ no\_twin) under final head & $+0.0003$ \\
-Stacking $-$ anchored (on v3 features) & $-0.0155$ \\
+T1\_anomaly & $0.0871$ & $-0.0005$ & $0.0005$ \\
+T2\_failure & $0.0015$ & $0.0013$ & $0.0013$ \\
 \bottomrule
 \end{tabular}}
 \end{table}

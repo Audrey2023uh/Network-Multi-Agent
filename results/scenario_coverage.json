@@ -1,0 +1,636 @@
+{
+  "note": "Coverage of already-injected incident categories in frozen ECNetBench instances. This is NOT a claim of newly generated scenarios.",
+  "per_seed": [
+    {
+      "seed": "v1.1.0-INST",
+      "available": true,
+      "n_incidents": 37,
+      "n_devices": 19,
+      "n_links": 31,
+      "categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "qos_problems",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        },
+        {
+          "category": "authentication_failures",
+          "count": 2
+        }
+      ],
+      "severities": [
+        {
+          "severity": "medium",
+          "count": 24
+        },
+        {
+          "severity": "critical",
+          "count": 7
+        },
+        {
+          "severity": "high",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "seed": "seed101",
+      "available": true,
+      "n_incidents": 37,
+      "n_devices": 19,
+      "n_links": 31,
+      "categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "qos_problems",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        },
+        {
+          "category": "authentication_failures",
+          "count": 2
+        }
+      ],
+      "severities": [
+        {
+          "severity": "medium",
+          "count": 24
+        },
+        {
+          "severity": "critical",
+          "count": 7
+        },
+        {
+          "severity": "high",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "seed": "seed202",
+      "available": true,
+      "n_incidents": 36,
+      "n_devices": 19,
+      "n_links": 31,
+      "categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "qos_problems",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        },
+        {
+          "category": "authentication_failures",
+          "count": 2
+        }
+      ],
+      "severities": [
+        {
+          "severity": "medium",
+          "count": 23
+        },
+        {
+          "severity": "critical",
+          "count": 7
+        },
+        {
+          "severity": "high",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "seed": "seed303",
+      "available": true,
+      "n_incidents": 41,
+      "n_devices": 19,
+      "n_links": 31,
+      "categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "qos_problems",
+          "count": 3
+        },
+        {
+          "category": "power_issues",
+          "count": 3
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "authentication_failures",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        }
+      ],
+      "severities": [
+        {
+          "severity": "medium",
+          "count": 27
+        },
+        {
+          "severity": "critical",
+          "count": 8
+        },
+        {
+          "severity": "high",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "seed": "seed404",
+      "available": true,
+      "n_incidents": 36,
+      "n_devices": 19,
+      "n_links": 31,
+      "categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "qos_problems",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        },
+        {
+          "category": "authentication_failures",
+          "count": 2
+        }
+      ],
+      "severities": [
+        {
+          "severity": "medium",
+          "count": 23
+        },
+        {
+          "severity": "critical",
+          "count": 7
+        },
+        {
+          "severity": "high",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "seed": "seed505",
+      "available": true,
+      "n_incidents": 38,
+      "n_devices": 19,
+      "n_links": 31,
+      "categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "qos_problems",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "authentication_failures",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        }
+      ],
+      "severities": [
+        {
+          "severity": "medium",
+          "count": 25
+        },
+        {
+          "severity": "critical",
+          "count": 7
+        },
+        {
+          "severity": "high",
+          "count": 6
+        }
+      ]
+    }
+  ],
+  "category_totals_across_seeds": [
+    {
+      "category": "vlan_mismatch",
+      "count": 18
+    },
+    {
+      "category": "stp_loop",
+      "count": 18
+    },
+    {
+      "category": "routing_instability",
+      "count": 18
+    },
+    {
+      "category": "interface_failure",
+      "count": 18
+    },
+    {
+      "category": "firmware_incompatibility",
+      "count": 18
+    },
+    {
+      "category": "congestion",
+      "count": 18
+    },
+    {
+      "category": "cable_failure",
+      "count": 18
+    },
+    {
+      "category": "acl_misconfiguration",
+      "count": 18
+    },
+    {
+      "category": "qos_problems",
+      "count": 16
+    },
+    {
+      "category": "authentication_failures",
+      "count": 14
+    },
+    {
+      "category": "power_issues",
+      "count": 13
+    },
+    {
+      "category": "intermittent_failures",
+      "count": 13
+    },
+    {
+      "category": "hardware_degradation",
+      "count": 13
+    },
+    {
+      "category": "vsx_split_brain",
+      "count": 12
+    }
+  ],
+  "n_distinct_categories": 14,
+  "rca_predicted_classes_per_seed": {
+    "seed101": [
+      "acl_misconfiguration",
+      "authentication_failures",
+      "cable_failure",
+      "congestion",
+      "firmware_incompatibility",
+      "hardware_degradation",
+      "interface_failure",
+      "intermittent_failures",
+      "power_issues",
+      "qos_problems",
+      "routing_instability",
+      "stp_loop",
+      "vlan_mismatch",
+      "vsx_split_brain"
+    ],
+    "seed202": [
+      "acl_misconfiguration",
+      "authentication_failures",
+      "cable_failure",
+      "congestion",
+      "firmware_incompatibility",
+      "hardware_degradation",
+      "interface_failure",
+      "intermittent_failures",
+      "power_issues",
+      "qos_problems",
+      "routing_instability",
+      "stp_loop",
+      "vlan_mismatch",
+      "vsx_split_brain"
+    ],
+    "seed303": [
+      "acl_misconfiguration",
+      "authentication_failures",
+      "cable_failure",
+      "congestion",
+      "firmware_incompatibility",
+      "hardware_degradation",
+      "interface_failure",
+      "intermittent_failures",
+      "power_issues",
+      "qos_problems",
+      "routing_instability",
+      "stp_loop",
+      "vlan_mismatch",
+      "vsx_split_brain"
+    ],
+    "seed404": [
+      "acl_misconfiguration",
+      "authentication_failures",
+      "cable_failure",
+      "congestion",
+      "firmware_incompatibility",
+      "hardware_degradation",
+      "interface_failure",
+      "intermittent_failures",
+      "power_issues",
+      "qos_problems",
+      "routing_instability",
+      "stp_loop",
+      "vlan_mismatch",
+      "vsx_split_brain"
+    ],
+    "seed505": [
+      "acl_misconfiguration",
+      "authentication_failures",
+      "cable_failure",
+      "congestion",
+      "firmware_incompatibility",
+      "hardware_degradation",
+      "interface_failure",
+      "intermittent_failures",
+      "power_issues",
+      "qos_problems",
+      "routing_instability",
+      "stp_loop",
+      "vlan_mismatch",
+      "vsx_split_brain"
+    ],
+    "v1.1.0-INST": [
+      "acl_misconfiguration",
+      "authentication_failures",
+      "cable_failure",
+      "congestion",
+      "firmware_incompatibility",
+      "hardware_degradation",
+      "interface_failure",
+      "intermittent_failures",
+      "power_issues",
+      "qos_problems",
+      "routing_instability",
+      "stp_loop",
+      "vlan_mismatch",
+      "vsx_split_brain"
+    ]
+  }
+}

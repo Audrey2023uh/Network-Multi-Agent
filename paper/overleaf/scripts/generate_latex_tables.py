@@ -24,6 +24,10 @@ def main() -> None:
 
     methods = [
         ("ECN (proposed)", "ecn_proposed__full"),
+        ("XGBoost", "xgboost__full"),
+        ("CatBoost", "catboost__full"),
+        ("Gradient boosting", "gradient_boosting__full"),
+        ("Balanced RF", "balanced_rf__full"),
         ("Random forest", "random_forest__full"),
         ("Logistic", "logistic__full"),
         ("LightGBM", "lightgbm__full"),

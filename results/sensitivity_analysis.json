@@ -1,0 +1,706 @@
+{
+  "note": "Sensitivity on frozen six seeds only. Fabric-size (#devices) sweeps are NOT measured \u2014 all instances are ~19 devices.",
+  "missing_telemetry": {
+    "clean_proposed_ap": {
+      "mean": 0.11539333781378791,
+      "std": 0.06783659858329148,
+      "n": 6,
+      "ci95_lo": 0.06111275402486427,
+      "ci95_hi": 0.16967392160271155,
+      "values": [
+        0.15192626949265753,
+        0.22434000160896644,
+        0.024191215743998292,
+        0.10370898846914983,
+        0.07920463541764623,
+        0.10898891615030912
+      ]
+    },
+    "missing_10_ap": {
+      "mean": 0.049137744676642704,
+      "std": 0.049148574629411905,
+      "n": 6,
+      "ci95_lo": 0.00981069439710442,
+      "ci95_hi": 0.08846479495618098,
+      "values": [
+        0.1308975663757215,
+        0.02120790189822511,
+        0.028396839764789142,
+        0.015099319292300841,
+        0.01072850848946468,
+        0.08849633223935499
+      ]
+    },
+    "missing_30_ap": {
+      "mean": 0.03339766350983245,
+      "std": 0.042243126958855876,
+      "n": 6,
+      "ci95_lo": -0.00040387784517718905,
+      "ci95_hi": 0.06719920486484209,
+      "values": [
+        0.11801966657626269,
+        0.008928227010020853,
+        0.01716011770369294,
+        0.014546931098235948,
+        0.010149762963609012,
+        0.03158127570717327
+      ]
+    },
+    "drop_missing_10": 0.06625559313714521,
+    "drop_missing_30": 0.08199567430395546
+  },
+  "feature_ablations_T1": {
+    "full": {
+      "mean": 0.11539333781378791,
+      "std": 0.06783659858329148,
+      "n": 6,
+      "ci95_lo": 0.06111275402486427,
+      "ci95_hi": 0.16967392160271155,
+      "values": [
+        0.15192626949265753,
+        0.22434000160896644,
+        0.024191215743998292,
+        0.10370898846914983,
+        0.07920463541764623,
+        0.10898891615030912
+      ]
+    },
+    "no_twin": {
+      "mean": 0.11487407101621287,
+      "std": 0.06862318579593205,
+      "n": 6,
+      "ci95_lo": 0.05996408637296119,
+      "ci95_hi": 0.16978405565946456,
+      "values": [
+        0.15192626949265753,
+        0.22473383075718703,
+        0.04354833091520227,
+        0.11370201866592063,
+        0.04415425189280587,
+        0.11117972437350392
+      ]
+    },
+    "no_nbr": {
+      "mean": 0.11591383002444056,
+      "std": 0.06156573580986977,
+      "n": 6,
+      "ci95_lo": 0.06665098148920338,
+      "ci95_hi": 0.16517667855967771,
+      "values": [
+        0.15192626949265753,
+        0.22471993776130153,
+        0.06400162576895316,
+        0.09768849339466741,
+        0.07900231017056762,
+        0.07814434355849603
+      ]
+    },
+    "telem_only": {
+      "mean": 0.06855961705753612,
+      "std": 0.05155487384131536,
+      "n": 6,
+      "ci95_lo": 0.027307126400373742,
+      "ci95_hi": 0.10981210771469849,
+      "values": [
+        0.0432105053274674,
+        0.022779602888416763,
+        0.011421942589567902,
+        0.14567836743609586,
+        0.09019277230231619,
+        0.09807451180135261
+      ]
+    },
+    "twin_only": {
+      "mean": 0.028252764999281196,
+      "std": 0.01461606478765742,
+      "n": 6,
+      "ci95_lo": 0.016557477412055592,
+      "ci95_hi": 0.0399480525865068,
+      "values": [
+        0.026608910891089108,
+        0.026615424700364775,
+        0.056122517054249074,
+        0.02749550378024036,
+        0.017203644598378545,
+        0.015470588971365311
+      ]
+    }
+  },
+  "class_imbalance_T1_prior": {
+    "mean": 0.009814139308667709,
+    "std": 0.0014522532545477493,
+    "n": 6,
+    "ci95_lo": 0.008652094688027898,
+    "ci95_hi": 0.01097618392930752,
+    "values": [
+      0.009379885356956748,
+      0.009900990099009901,
+      0.012506513809275664,
+      0.008858780614903595,
+      0.009900990099009901,
+      0.008337675872850442
+    ]
+  },
+  "noise_missing_from_v3_gated": {
+    "per_seed": [
+      {
+        "seed": "v1.1.0-INST",
+        "clean": {
+          "ap": 0.10797653341624773,
+          "roc_auc": 0.829085654230163,
+          "brier": 0.062011343169429786,
+          "ece": 0.18742793979289565
+        },
+        "noise": {
+          "ap": 0.015475941179252353,
+          "roc_auc": 0.6447057277982133,
+          "brier": 0.11939789817280234,
+          "ece": 0.24297392737701393
+        },
+        "missing20": {
+          "ap": 0.01814903389782046,
+          "roc_auc": 0.6704873883342091,
+          "brier": 0.11473343563026832,
+          "ece": 0.23328355738849194
+        }
+      },
+      {
+        "seed": "seed101",
+        "clean": {
+          "ap": 0.11955734279280968,
+          "roc_auc": 0.9042609153077328,
+          "brier": 0.186036242017949,
+          "ece": 0.290735732864331
+        },
+        "noise": {
+          "ap": 0.1491249122424398,
+          "roc_auc": 0.9055175638552808,
+          "brier": 0.19848312388278702,
+          "ece": 0.29088405079980256
+        },
+        "missing20": {
+          "ap": 0.01416445196067715,
+          "roc_auc": 0.5845461453036414,
+          "brier": 0.2042951528247786,
+          "ece": 0.2664448304980346
+        }
+      },
+      {
+        "seed": "seed202",
+        "clean": {
+          "ap": 0.1425408796353748,
+          "roc_auc": 0.73202216066482,
+          "brier": 0.019065724685581754,
+          "ece": 0.07557887288254347
+        },
+        "noise": {
+          "ap": 0.07593965061777863,
+          "roc_auc": 0.6710249307479224,
+          "brier": 0.03767584294011755,
+          "ece": 0.10612554288313665
+        },
+        "missing20": {
+          "ap": 0.02915266608973268,
+          "roc_auc": 0.6795567867036011,
+          "brier": 0.0323877387116032,
+          "ece": 0.10137081399271394
+        }
+      },
+      {
+        "seed": "seed303",
+        "clean": {
+          "ap": 0.05269754885986968,
+          "roc_auc": 0.8091688654353562,
+          "brier": 0.014132696617308862,
+          "ece": 0.025484779978998857
+        },
+        "noise": {
+          "ap": 0.060418703870796,
+          "roc_auc": 0.6625989445910291,
+          "brier": 0.017528803358629313,
+          "ece": 0.06319047546667109
+        },
+        "missing20": {
+          "ap": 0.0484239818207808,
+          "roc_auc": 0.8063544415127528,
+          "brier": 0.01623701568124992,
+          "ece": 0.041169177548582146
+        }
+      },
+      {
+        "seed": "seed404",
+        "clean": {
+          "ap": 0.10369349625479213,
+          "roc_auc": 0.7153770025360302,
+          "brier": 0.20659820566752762,
+          "ece": 0.34740393843021566
+        },
+        "noise": {
+          "ap": 0.07234838141129385,
+          "roc_auc": 0.6222552112327581,
+          "brier": 0.2273164706164496,
+          "ece": 0.3604929521028046
+        },
+        "missing20": {
+          "ap": 0.014070263312767582,
+          "roc_auc": 0.47609327642729016,
+          "brier": 0.22494389849217386,
+          "ece": 0.31988043637945507
+        }
+      },
+      {
+        "seed": "seed505",
+        "clean": {
+          "ap": 0.07240967432173978,
+          "roc_auc": 0.6920360110803324,
+          "brier": 0.013074530319174995,
+          "ece": 0.01918965328097979
+        },
+        "noise": {
+          "ap": 0.032257029931525176,
+          "roc_auc": 0.401578947368421,
+          "brier": 0.019480689161961665,
+          "ece": 0.06817997325791259
+        },
+        "missing20": {
+          "ap": 0.0237058543491758,
+          "roc_auc": 0.7236565096952909,
+          "brier": 0.015096041276108228,
+          "ece": 0.03589151392712133
+        }
+      }
+    ]
+  },
+  "fabric_descriptive": [
+    {
+      "available": true,
+      "tables_present": [
+        "device",
+        "failure_incident",
+        "label_anomaly_window"
+      ],
+      "n_incidents": 37,
+      "incident_categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "qos_problems",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        },
+        {
+          "category": "authentication_failures",
+          "count": 2
+        }
+      ],
+      "n_devices": 19,
+      "seed": "v1.1.0-INST"
+    },
+    {
+      "available": true,
+      "tables_present": [
+        "device",
+        "failure_incident",
+        "label_anomaly_window"
+      ],
+      "n_incidents": 37,
+      "incident_categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "qos_problems",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        },
+        {
+          "category": "authentication_failures",
+          "count": 2
+        }
+      ],
+      "n_devices": 19,
+      "seed": "seed101"
+    },
+    {
+      "available": true,
+      "tables_present": [
+        "device",
+        "failure_incident",
+        "label_anomaly_window"
+      ],
+      "n_incidents": 36,
+      "incident_categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "qos_problems",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        },
+        {
+          "category": "authentication_failures",
+          "count": 2
+        }
+      ],
+      "n_devices": 19,
+      "seed": "seed202"
+    },
+    {
+      "available": true,
+      "tables_present": [
+        "device",
+        "failure_incident",
+        "label_anomaly_window"
+      ],
+      "n_incidents": 41,
+      "incident_categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "qos_problems",
+          "count": 3
+        },
+        {
+          "category": "power_issues",
+          "count": 3
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "authentication_failures",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        }
+      ],
+      "n_devices": 19,
+      "seed": "seed303"
+    },
+    {
+      "available": true,
+      "tables_present": [
+        "device",
+        "failure_incident",
+        "label_anomaly_window"
+      ],
+      "n_incidents": 36,
+      "incident_categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "qos_problems",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        },
+        {
+          "category": "authentication_failures",
+          "count": 2
+        }
+      ],
+      "n_devices": 19,
+      "seed": "seed404"
+    },
+    {
+      "available": true,
+      "tables_present": [
+        "device",
+        "failure_incident",
+        "label_anomaly_window"
+      ],
+      "n_incidents": 38,
+      "incident_categories": [
+        {
+          "category": "vlan_mismatch",
+          "count": 3
+        },
+        {
+          "category": "stp_loop",
+          "count": 3
+        },
+        {
+          "category": "routing_instability",
+          "count": 3
+        },
+        {
+          "category": "qos_problems",
+          "count": 3
+        },
+        {
+          "category": "interface_failure",
+          "count": 3
+        },
+        {
+          "category": "firmware_incompatibility",
+          "count": 3
+        },
+        {
+          "category": "congestion",
+          "count": 3
+        },
+        {
+          "category": "cable_failure",
+          "count": 3
+        },
+        {
+          "category": "authentication_failures",
+          "count": 3
+        },
+        {
+          "category": "acl_misconfiguration",
+          "count": 3
+        },
+        {
+          "category": "vsx_split_brain",
+          "count": 2
+        },
+        {
+          "category": "power_issues",
+          "count": 2
+        },
+        {
+          "category": "intermittent_failures",
+          "count": 2
+        },
+        {
+          "category": "hardware_degradation",
+          "count": 2
+        }
+      ],
+      "n_devices": 19,
+      "seed": "seed505"
+    }
+  ],
+  "limitations": [
+    "No topology morphs or device-count sweeps",
+    "Noise/missing20 from v3_gated uses historical gated protocol; regenerate if re-running gated"
+  ],
+  "module_contribution_from_aggregate": {
+    "T1_anomaly": {
+      "digital_twin": 0.0005192667975750104,
+      "neighbor_message_passing": -0.0005204922106526594,
+      "telemetry": 0.0871405728145067
+    },
+    "T2_failure": {
+      "digital_twin": 0.0012788721473743596,
+      "neighbor_message_passing": 0.0012788721473743596,
+      "telemetry": 0.001528064580025735
+    }
+  }
+}
