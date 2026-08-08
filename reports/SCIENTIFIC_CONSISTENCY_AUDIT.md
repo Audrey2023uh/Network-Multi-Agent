@@ -86,7 +86,7 @@ Policy: **do not overwrite** `T1_final_proposed` with harness means.
 
 ## 8. Exact Git commit hash
 
-*(filled after commit/push in the closing step of this audit.)*
+`b9cf14869e2bd721a0e1dd5b048000a3896e23cd` (`main`)
 
 ## 9. Final Overleaf ZIP location
 
