@@ -1705,7 +1705,7 @@
     "rca": "RF + TreeSHAP"
   },
   "manuscript_ready": {
-    "note": "Manuscript updated to final ECN-v3 anchored architecture; Overleaf source under paper/overleaf/.",
+    "note": "Authoritative final T1 = architecture-selection anchored ECN-v3 (T1_final_proposed). aggregate_v3 is the latest full-suite harness for baselines/deep models/ablation matrices and may show a slightly different proposed mean.",
     "protocol": "ECNetBench six-seed temporal 70/15/15; feat_bin = t_start-30min; AUPRC from scores",
     "T1_final_proposed": {
       "name": "ECN-v3 enriched features + anchored fusion (ECNFusionModel)",
@@ -2344,6 +2344,31 @@
           "GAT/GIN with torch_geometric",
           "production live GNN streaming"
         ]
+      }
+    },
+    "publication_provenance": {
+      "authoritative_T1_final": {
+        "source": "results/manuscript_ready_numbers.json -> T1_final_proposed",
+        "supporting": "results/v3_gated/t1_architecture_selection.json",
+        "auprc_mean": 0.11522078115707056,
+        "auprc_ci95_bootstrap": [
+          0.0678984305675343,
+          0.16797282350001838
+        ],
+        "auprc_ci95_parametric": [
+          0.0440084397334875,
+          0.18643312258065362
+        ],
+        "note": "Use bootstrap CI in manuscript prose unless parametric is explicitly named."
+      },
+      "full_suite_harness_rerun": {
+        "source": "results/aggregate_v3.json -> metrics.T1_anomaly.ecn_proposed__full",
+        "auprc_mean": 0.11055333114528722,
+        "note": "Latest run_full_evaluation.py may differ slightly from architecture-selection means due to RNG / fusion path differences. Do not overwrite T1_final_proposed."
+      },
+      "baselines_and_deep_models": {
+        "source": "results/aggregate_v3.json + results/per_seed/*.json",
+        "note": "TabNet, GraphSAGE, XGBoost, etc. come from the full-suite harness."
       }
     },
     "T2_recommended": {
@@ -16506,234 +16531,138 @@
       {
         "task": "T1_anomaly",
         "baseline": "tabnet__full",
-        "pvalue": 0.0625,
+        "wilcoxon_p": 0.0625,
         "cliffs_delta": 0.6666666666666666,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0492403989505298
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0492403989505298
       },
       {
         "task": "T1_anomaly",
         "baseline": "graphsage__full",
-        "pvalue": 0.03125,
+        "wilcoxon_p": 0.03125,
         "cliffs_delta": 0.9444444444444444,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0152485741373552
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0152485741373552
       },
       {
         "task": "T1_anomaly",
         "baseline": "xgboost__full",
-        "pvalue": 0.09375,
+        "wilcoxon_p": 0.09375,
         "cliffs_delta": 0.7222222222222222,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0470578582309668
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0470578582309668
       },
       {
         "task": "T1_anomaly",
         "baseline": "catboost__full",
-        "pvalue": 0.15625,
+        "wilcoxon_p": 0.15625,
         "cliffs_delta": 0.6111111111111112,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0528347846072171
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0528347846072171
       },
       {
         "task": "T1_anomaly",
         "baseline": "lightgbm__full",
-        "pvalue": 0.0625,
+        "wilcoxon_p": 0.0625,
         "cliffs_delta": 0.6111111111111112,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0570107281390755
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0570107281390755
       },
       {
         "task": "T1_anomaly",
         "baseline": "gradient_boosting__full",
-        "pvalue": 0.3125,
+        "wilcoxon_p": 0.21875,
         "cliffs_delta": 0.5,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0730386211151521
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0730386211151521
       },
       {
         "task": "T1_anomaly",
         "baseline": "balanced_rf__full",
-        "pvalue": 0.03125,
+        "wilcoxon_p": 0.03125,
         "cliffs_delta": 0.6666666666666666,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.046742684204501
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.046742684204501
       },
       {
         "task": "T1_anomaly",
         "baseline": "random_forest__full",
-        "pvalue": 0.6875,
+        "wilcoxon_p": 0.6875,
         "cliffs_delta": 0.3888888888888889,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0758381487852462
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0758381487852462
       },
       {
         "task": "T1_anomaly",
         "baseline": "logistic__full",
-        "pvalue": 0.03125,
+        "wilcoxon_p": 0.03125,
         "cliffs_delta": 0.5555555555555556,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0631245203672281
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0631245203672281
       },
       {
         "task": "T1_anomaly",
         "baseline": "isolation_forest__full",
-        "pvalue": 0.03125,
+        "wilcoxon_p": 0.03125,
         "cliffs_delta": 0.6666666666666666,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0574970682067109
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0574970682067109
       },
       {
         "task": "T1_anomaly",
         "baseline": "ewma__full",
-        "pvalue": 0.0625,
+        "wilcoxon_p": 0.0625,
         "cliffs_delta": 0.7777777777777778,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0402854466225632
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0402854466225632
       },
       {
         "task": "T1_anomaly",
         "baseline": "threshold__full",
-        "pvalue": 0.03125,
+        "wilcoxon_p": 0.03125,
         "cliffs_delta": 0.7777777777777778,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0315174862227699
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0315174862227699
       },
       {
         "task": "T1_anomaly",
         "baseline": "mlp_sequence__full",
-        "pvalue": 0.03125,
+        "wilcoxon_p": 0.03125,
         "cliffs_delta": 1.0,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0084164120120299
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0084164120120299
       },
       {
         "task": "T1_anomaly",
         "baseline": "gnn_graphsage_proxy__full",
-        "pvalue": 0.0625,
+        "wilcoxon_p": 0.0625,
         "cliffs_delta": 0.7777777777777778,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0335210296959282
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0335210296959282
       },
       {
         "task": "T1_anomaly",
         "baseline": "majority__full",
-        "pvalue": 0.03125,
+        "wilcoxon_p": 0.03125,
         "cliffs_delta": 1.0,
-        "proposed_ap": 0.1105533311452872,
-        "baseline_ap": 0.0098141393086677
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "tabnet__full",
-        "pvalue": 0.3125,
-        "cliffs_delta": 0.2777777777777778,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0110170086452523
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "graphsage__full",
-        "pvalue": 0.0625,
-        "cliffs_delta": 0.8333333333333334,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0062173698795034
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "xgboost__full",
-        "pvalue": 0.5625,
-        "cliffs_delta": 0.1111111111111111,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0114837765970587
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "catboost__full",
-        "pvalue": 0.6875,
-        "cliffs_delta": 0.1111111111111111,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0116512456727825
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "lightgbm__full",
-        "pvalue": 0.84375,
-        "cliffs_delta": -0.1111111111111111,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0212894112175296
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "gradient_boosting__full",
-        "pvalue": 0.6875,
-        "cliffs_delta": -0.0555555555555555,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0128618232705775
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "balanced_rf__full",
-        "pvalue": 1.0,
-        "cliffs_delta": -0.2222222222222222,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0175760363113937
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "random_forest__full",
-        "pvalue": 0.6875,
-        "cliffs_delta": -0.3333333333333333,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0176102448493631
+        "proposed_ap_mean": 0.1152207811570705,
+        "baseline_ap_mean": 0.0098141393086677
       },
       {
         "task": "T2_failure",
         "baseline": "logistic__full",
-        "pvalue": 0.84375,
+        "wilcoxon_p": 0.84375,
         "cliffs_delta": -0.5,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0380430990636497
+        "proposed_ap_mean": 0.015253811512895,
+        "baseline_ap_mean": 0.0380430990636497
       },
       {
         "task": "T2_failure",
-        "baseline": "isolation_forest__full",
-        "pvalue": 0.6875,
-        "cliffs_delta": -0.0555555555555555,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0216367039496359
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "ewma__full",
-        "pvalue": 0.09375,
-        "cliffs_delta": 0.5555555555555556,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0065617399822284
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "mlp_sequence__full",
-        "pvalue": 0.03125,
-        "cliffs_delta": 0.8333333333333334,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0054372495333795
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "gnn_graphsage_proxy__full",
-        "pvalue": 0.4375,
-        "cliffs_delta": 0.1666666666666666,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0106363170869878
-      },
-      {
-        "task": "T2_failure",
-        "baseline": "majority__full",
-        "pvalue": 0.03125,
-        "cliffs_delta": 1.0,
-        "proposed_ap": 0.015253811512895,
-        "baseline_ap": 0.0055584505819002
+        "baseline": "random_forest__full",
+        "wilcoxon_p": 0.6875,
+        "cliffs_delta": -0.3333333333333333,
+        "proposed_ap_mean": 0.015253811512895,
+        "baseline_ap_mean": 0.0176102448493631
       }
     ],
     "ablation": [

@@ -24,6 +24,10 @@ SKIP_DIR_NAMES = {
     ".cache",
     ".ipynb_checkpoints",
 }
+SKIP_FILE_NAMES = {
+    # Keep identifiable citation metadata out of the double-blind Overleaf ZIP.
+    "CITATION.cff",
+}
 SKIP_SUFFIXES = {
     ".aux",
     ".log",
@@ -54,6 +58,8 @@ def include(path: Path) -> bool:
     if path.is_dir():
         return path.name not in SKIP_DIR_NAMES
     if path.name.startswith("."):
+        return False
+    if path.name in SKIP_FILE_NAMES:
         return False
     if path.suffix.lower() in SKIP_SUFFIXES:
         return False

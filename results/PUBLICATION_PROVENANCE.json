@@ -1,0 +1,25 @@
+{
+  "authoritative_T1_final": {
+    "source": "results/manuscript_ready_numbers.json -> T1_final_proposed",
+    "supporting": "results/v3_gated/t1_architecture_selection.json",
+    "auprc_mean": 0.11522078115707056,
+    "auprc_ci95_bootstrap": [
+      0.0678984305675343,
+      0.16797282350001838
+    ],
+    "auprc_ci95_parametric": [
+      0.0440084397334875,
+      0.18643312258065362
+    ],
+    "note": "Use bootstrap CI in manuscript prose unless parametric is explicitly named."
+  },
+  "full_suite_harness_rerun": {
+    "source": "results/aggregate_v3.json -> metrics.T1_anomaly.ecn_proposed__full",
+    "auprc_mean": 0.11055333114528722,
+    "note": "Latest run_full_evaluation.py may differ slightly from architecture-selection means due to RNG / fusion path differences. Do not overwrite T1_final_proposed."
+  },
+  "baselines_and_deep_models": {
+    "source": "results/aggregate_v3.json + results/per_seed/*.json",
+    "note": "TabNet, GraphSAGE, XGBoost, etc. come from the full-suite harness."
+  }
+}

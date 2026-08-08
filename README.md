@@ -48,8 +48,11 @@ After GitHub Pages is enabled: https://audrey2023uh.github.io/Network-Multi-Agen
 - **RCA:** RF + TreeSHAP
 - **Stacking:** T1 ablation / negative result
 
-Exact manuscript numbers: `results/manuscript_ready_numbers.json`.  
-Architecture selection: `reports/FINAL_ARCHITECTURE_SELECTION.md`.
+Exact manuscript numbers: `results/manuscript_ready_numbers.json` (authoritative final T1).  
+Architecture selection: `reports/FINAL_ARCHITECTURE_SELECTION.md`.  
+Provenance of any harness vs selection mismatch: `results/PUBLICATION_PROVENANCE.json`.
+
+**Important:** `results/aggregate_v3.json` is the latest full-suite harness (baselines / deep models). Its `ecn_proposed__full` mean may differ slightly from the architecture-selection final T1 mean (~0.11522). Do **not** overwrite manuscript-final claims with harness re-run means.
 
 ## Manuscript / Overleaf
 
@@ -76,7 +79,10 @@ python scripts/verify_instances.py
 pytest -q
 
 # Full six-seed evaluation (read-only on benchmark/)
-python evaluation/run_full_evaluation.py
+python -m evaluation.run_full_evaluation
+python -m evaluation.sync_publication_artifacts
+python paper/overleaf/scripts/generate_latex_tables.py
+python paper/overleaf/scripts/regenerate_pub_figures_v3.py
 ```
 
 ## Benchmark instances

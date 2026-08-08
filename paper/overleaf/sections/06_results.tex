@@ -4,7 +4,7 @@
 All numerical claims below are taken from verified artifacts \texttt{results/manuscript\_ready\_numbers.json}, \texttt{results/v3\_gated/t1\_architecture\_selection.json}, and \texttt{results/aggregate\_v3.json} (baselines/T2/RCA), without modifying frozen instances.
 
 \subsection{T1 anomaly and T2 failure prediction}
-Table~\ref{tab:t1t2} summarizes multi-seed mean ranking metrics. On T1, the final ECN-v3 anchored detector achieves mean AUPRC $0.11522078115707056$ (95\% CI $[0.0609,0.1695]$), exceeding random forest ($0.07583814878524626$) and the v2 legacy configuration ($0.05771284608153401$). Mean T1 ROC-AUC is $0.7533587867665612$. Fig.~\ref{fig:baseline} visualizes the same AUPRC means with 95\% confidence intervals for T1 and T2, highlighting the T1 lift of the final head and the T2 telem-logistic recommendation.
+Table~\ref{tab:t1t2} summarizes multi-seed mean ranking metrics. On T1, the final ECN-v3 anchored detector achieves mean AUPRC $0.1152$ (bootstrap 95\% CI $[0.0679,0.1680]$; architecture-selection artifact \texttt{results/manuscript\_ready\_numbers.json}), exceeding random forest ($0.0758$) and the v2 legacy configuration ($0.0577$). Mean T1 ROC-AUC is $0.7534$. Fig.~\ref{fig:baseline} visualizes the same AUPRC means with 95\% confidence intervals for T1 and T2, highlighting the T1 lift of the final head and the T2 telem-logistic recommendation.
 
 \input{tables/tab_t1t2}
 
@@ -21,7 +21,7 @@ Paired Wilcoxon tests and Cliff's $\delta$ (Table~\ref{tab:sig}) show that the T
 
 \input{tables/tab_significance}
 
-Representative ROC and precision--recall curves on the primary frozen instance appear in Fig.~\ref{fig:t1curves}. Curve geometry remains consistent with rare-positive ranking: ROC discrimination is moderate, while precision--recall is challenging for all methods. (Stored per-seed curves include a historical stacking proposed trace for continuity; mean claims use the final anchored artifact.)
+Representative ROC and precision--recall curves on the primary frozen instance appear in Fig.~\ref{fig:t1curves}. Curve geometry remains consistent with rare-positive ranking: ROC discrimination is moderate, while precision--recall is challenging for all methods. Caption and legend identify the final \textbf{anchored} ECN-v3 head; any historical stacking traces in stored JSON are ablations only and are not used for mean claims.
 
 \begin{figure}[!t]
 \centering
@@ -86,4 +86,4 @@ Table~\ref{tab:deep_baselines_v5} reports measured six-seed means for TabNet and
 
 \input{tables/tab_deep_baselines_v5}
 
-On T1, TabNet attains mean AUPRC $0.04924039895052987$ (95\% CI $[0.0213,0.0772]$), below RF ($0.0758$) and far below the manuscript-final ECN-v3 head ($0.1152$). True GraphSAGE attains $0.015248574137355267$ (95\% CI $[0.0059,0.0246]$) with $19$ devices and $54$ directed edges in the twin graph---competitive with neither RF nor ECN on this rare-event ranking task. The historical GNN proxy remains at $0.0335$ and must not be interpreted as message-passing performance. On T2, TabNet ($0.0110$) and GraphSAGE ($0.0062$) also trail telem logistic ($0.0380$). These outcomes support reporting deep baselines for completeness while retaining the evidence-selected ECN-v3 / telem-logistic heads.
+On T1, TabNet attains mean AUPRC $0.0492$ (95\% CI $[0.0213,0.0772]$), below RF ($0.0758$) and far below the manuscript-final ECN-v3 head ($0.1152$). True GraphSAGE attains $0.0152$ (95\% CI $[0.0059,0.0246]$) with $19$ devices and $54$ directed edges in the twin graph---competitive with neither RF nor ECN on this rare-event ranking task. The historical GNN proxy remains at $0.0335$ and must not be interpreted as message-passing performance. On T2, TabNet ($0.0110$) and GraphSAGE ($0.0062$) also trail telem logistic ($0.0380$). These outcomes support reporting deep baselines for completeness while retaining the evidence-selected ECN-v3 / telem-logistic heads.

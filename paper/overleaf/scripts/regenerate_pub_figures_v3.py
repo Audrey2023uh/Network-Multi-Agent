@@ -148,16 +148,27 @@ def load_metrics():
         t2_rf.append(t2["random_forest__full"]["ap"])
         t2_prop_hist.append(t2["ecn_proposed__full"]["ap"])
 
-    def pack(vals):
+    def pack(vals, ci95=None, ci_kind="parametric_normal"):
         a = np.asarray(vals, float)
         m = float(a.mean())
         s = float(a.std(ddof=1)) if len(a) > 1 else 0.0
         half = 1.96 * s / np.sqrt(len(a)) if len(a) > 1 else 0.0
-        return {"mean": m, "std": s, "ci95": [m - half, m + half], "values": list(map(float, a))}
+        parametric = [m - half, m + half]
+        out = {
+            "mean": m,
+            "std": s,
+            "ci95": list(ci95) if ci95 is not None else parametric,
+            "ci95_parametric": parametric,
+            "ci_kind": ci_kind if ci95 is not None else "parametric_normal",
+            "values": list(map(float, a)),
+        }
+        return out
 
+    final_boot = ms["T1_final_proposed"].get("auprc_ci95_bootstrap")
     metrics = {
         "T1": {
-            "ecn_final_anchored": pack(anch),
+            # Manuscript-authoritative CI is bootstrap from architecture selection.
+            "ecn_final_anchored": pack(anch, ci95=final_boot, ci_kind="bootstrap"),
             "ecn_stack_ablation": pack(stack),
             "ecn_v2_legacy": {
                 "mean": 0.05771284608153401,

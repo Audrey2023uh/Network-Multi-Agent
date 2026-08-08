@@ -17,6 +17,6 @@ To our knowledge, this is the first end-to-end twin + multi-agent detection--pre
 \end{enumerate}
 
 \paragraph{Headline results (exact verified means, $n{=}6$).}
-Final ECN-v3 T1 AUPRC $=0.11522078115707056$ versus strongest baseline random forest $=0.07583814878524626$ and versus the prior v2 configuration $=0.05771284608153401$. Nesting-safe stacking on the same enriched features is a \emph{negative} ablation ($0.0997458645152051$). The recommended T2 head is telemetry logistic regression ($0.038043099063649714$). Twin contribution under the final T1 head is near zero ($\approx{+}0.00035$).
+Final ECN-v3 T1 AUPRC $=0.1152$ (bootstrap 95\% CI $[0.0679,0.1680]$) versus strongest baseline random forest $=0.0758$ and versus the prior v2 configuration $=0.0577$. Nesting-safe stacking on the same enriched features is a \emph{negative} ablation ($0.0997$). The recommended T2 head is telemetry logistic regression ($0.0380$). Twin contribution under the final T1 head is near zero ($\approx{+}0.00035$).
 
 The overall architecture is introduced in Fig.~\ref{fig:architecture} (Section~\ref{sec:framework}). Section~\ref{sec:related} situates related work; Sections~\ref{sec:bench}--\ref{sec:framework} detail the benchmark and framework; Sections~\ref{sec:eval}--\ref{sec:results} present protocol and results; Sections~\ref{sec:disc}--\ref{sec:conc} discuss implications, limitations, and conclusions.

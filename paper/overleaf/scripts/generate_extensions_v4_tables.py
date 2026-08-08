@@ -25,7 +25,7 @@ def main() -> None:
     lines = [
         r"\begin{table}[!t]",
         r"\centering",
-        r"\caption{T1 practical ranking proxies (six frozen seeds). Precision@$k$ and FPR at fixed recall are derived from test scores/labels only.}",
+        r"\caption{T1 practical ranking proxies from the full-suite harness (six frozen seeds; AUPRC column uses harness \texttt{ecn\_proposed}, not Table~\ref{tab:t1t2} selection mean). Precision@$k$ and FPR at fixed recall are derived from test scores/labels only.}",
         r"\label{tab:practical_v4}",
         r"{\footnotesize\begin{tabular}{lcccc}",
         r"\toprule",
