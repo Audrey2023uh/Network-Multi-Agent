@@ -45,7 +45,7 @@ def main() -> None:
     lines = [
         r"\begin{table*}[!t]",
         r"\centering",
-        r"\caption{Multi-seed mean detection metrics on T1 (anomaly) and T2 (failure horizon). Entries are means over six frozen instances; AUPRC is reported with 95\% confidence intervals. The ECN T1 row uses the authoritative final selection in \texttt{manuscript\_ready\_numbers.json}; other rows (including TabNet and true GraphSAGE) use the latest \texttt{aggregate\_v3.json} re-run.}",
+        r"\caption{Multi-seed mean detection metrics on T1 (anomaly) and T2 (failure horizon). Entries are means over six frozen instances; AUPRC is reported with 95\% confidence intervals. The ECN T1 AUPRC/ROC use the authoritative final selection in \texttt{manuscript\_ready\_numbers.json}. ECN T2 columns report the multi-agent proposed head (not the recommended telem-logistic operating head; see Logistic row). Other rows (including TabNet and true GraphSAGE) use the latest \texttt{aggregate\_v3.json} re-run.}",
         r"\label{tab:t1t2}",
         r"\renewcommand{\arraystretch}{1.2}",
         r"\setlength{\tabcolsep}{4pt}",
@@ -127,9 +127,13 @@ def main() -> None:
         task_cell = task if task_raw != prev else ""
         prev = task_raw
         base = r["baseline"].replace("_", r"\_")
+        p = r.get("wilcoxon_p", r.get("pvalue"))
+        dlt = r.get("cliffs_delta")
+        prop = r.get("proposed_ap_mean", r.get("proposed_ap"))
+        base_ap = r.get("baseline_ap_mean", r.get("baseline_ap"))
         lines.append(
-            f"{task_cell} & {base} & ${f(r['pvalue'], 3)}$ & ${f(r['cliffs_delta'], 3)}$ & "
-            f"${f(r['proposed_ap'])}$ & ${f(r['baseline_ap'])}$ \\\\"
+            f"{task_cell} & {base} & ${f(p, 3)}$ & ${f(dlt, 3)}$ & "
+            f"${f(prop)}$ & ${f(base_ap)}$ \\\\"
         )
     lines += [r"\bottomrule", r"\end{tabular*}}", r"\end{table*}", ""]
     (out / "tab_significance.tex").write_text("\n".join(lines), encoding="utf-8")
@@ -137,7 +141,7 @@ def main() -> None:
     lines = [
         r"\begin{table}[!t]",
         r"\centering",
-        r"\caption{Calibration quality measured by Brier score (mean over six seeds with 95\% CI). Lower is better.}",
+        r"\caption{Calibration quality measured by Brier score (mean over six seeds with 95\% CI). Lower is better. The T1 ECN-v3 final row uses architecture-selection Brier (\texttt{manuscript\_ready\_numbers.json}); remaining rows use the full-suite harness.}",
         r"\label{tab:cal}",
         r"\renewcommand{\arraystretch}{1.15}",
         r"{\footnotesize\begin{tabular}{llcc}",
@@ -145,6 +149,18 @@ def main() -> None:
         r"Task & Method & Mean & 95\% CI \\",
         r"\midrule",
     ]
+    # Selection Brier CI from architecture-selection per-seed values when available.
+    sel_path = Path(__file__).resolve().parents[3] / "results" / "v3_gated" / "t1_architecture_selection.json"
+    sel_brier_ci = None
+    if sel_path.exists():
+        sel = json.loads(sel_path.read_text(encoding="utf-8"))
+        bvals = [float(r["anchored"]["brier"]) for r in sel.get("per_seed", []) if "anchored" in r]
+        if len(bvals) >= 2:
+            import math
+            m = sum(bvals) / len(bvals)
+            var = sum((x - m) ** 2 for x in bvals) / (len(bvals) - 1)
+            half = 1.96 * math.sqrt(var / len(bvals))
+            sel_brier_ci = (m - half, m + half)
     for task, key, name in [
         ("T1_anomaly", "ecn_proposed__full", "ECN proposed"),
         ("T1_anomaly", "random_forest__full", "Random forest"),
@@ -154,8 +170,14 @@ def main() -> None:
         ("T2_failure", "random_forest__full", "Random forest"),
     ]:
         r = idx[(task, key, "brier")]
+        mean_s, lo_s, hi_s = f(r["mean"]), f(r["ci95_lo"]), f(r["ci95_hi"])
+        if task == "T1_anomaly" and key == "ecn_proposed__full" and t1_final.get("brier_mean") is not None:
+            mean_s = f(t1_final["brier_mean"])
+            name = "ECN-v3 final (selection)"
+            if sel_brier_ci is not None:
+                lo_s, hi_s = f(sel_brier_ci[0]), f(sel_brier_ci[1])
         lines.append(
-            f"{task.replace('_', r'\_')} & {name} & ${f(r['mean'])}$ & $[{f(r['ci95_lo'])},\\,{f(r['ci95_hi'])}]$ \\\\"
+            f"{task.replace('_', r'\_')} & {name} & ${mean_s}$ & $[{lo_s},\\,{hi_s}]$ \\\\"
         )
     lines += [r"\bottomrule", r"\end{tabular}}", r"\end{table}", ""]
     (out / "tab_calibration.tex").write_text("\n".join(lines), encoding="utf-8")
@@ -189,7 +211,7 @@ def main() -> None:
     lines = [
         r"\begin{table}[!t]",
         r"\centering",
-        r"\caption{Estimated module AUPRC contribution, defined as AUPRC(full)${-}$AUPRC(ablated). Positive values indicate improvement when the module is present.}",
+        r"\caption{Estimated module AUPRC contribution from the full-suite harness, defined as AUPRC(full)${-}$AUPRC(ablated). Positive values indicate improvement when the module is present. These harness deltas are distinct from the architecture-selection twin gain under the final head ($\approx{+}0.00035$) shown in Fig.~\ref{fig:modules}.}",
         r"\label{tab:modules}",
         r"\renewcommand{\arraystretch}{1.15}",
         r"{\footnotesize\begin{tabular}{lccc}",

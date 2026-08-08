@@ -6,7 +6,7 @@ Modern enterprise campuses and data-center fabrics are operated under continuous
 This paper addresses that gap with two coupled contributions. First, \textbf{ECNetBench} is a synthetic enterprise cognitive-networking benchmark whose schema, failure taxonomy, and label definitions are designed for leakage-safe supervised learning under AOS-CX-style operational assumptions (inventory, VLAN/ACL/QoS, routing, counters, syslog/alerts, NAE-like analytics, and recovery/impact fields). Second, we implement and evaluate an \textbf{Enterprise Cognitive Network (ECN-v3)}: a Digital Twin graph plus a multi-agent stack (Perception, Anomaly, Prediction, RCA, Impact, Healing) with leakage-safe feature enrichment, \emph{anchored} telemetry-first fusion (\texttt{ECNFusionModel}), and TreeSHAP-explained RCA.
 
 \paragraph{Novelty statement.}
-To our knowledge, this is the first end-to-end twin + multi-agent detection--prediction--RCA--impact--healing decision-support pipeline evaluated on a frozen multi-seed enterprise benchmark under an explicit temporal $70/15/15$ leakage protocol with paired Wilcoxon tests and Cliff's $\delta$ across six independent instances.
+We contribute an integrated twin + multi-agent detection--prediction--RCA--impact--healing \emph{decision-support} pipeline evaluated on a frozen multi-seed enterprise benchmark under an explicit temporal $70/15/15$ leakage protocol with paired Wilcoxon tests and Cliff's $\delta$ across six independent instances. We do not claim absolute historical priority over all related AIOps or digital-twin systems; the novelty is the coupled benchmark, leakage protocol, and evidence-selected fusion evaluation.
 
 \paragraph{Contributions.}
 \begin{enumerate}

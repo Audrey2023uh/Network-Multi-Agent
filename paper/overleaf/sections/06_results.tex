@@ -15,18 +15,18 @@ Table~\ref{tab:t1t2} summarizes multi-seed mean ranking metrics. On T1, the fina
 \label{fig:baseline}
 \end{figure}
 
-On T2, the recommended head is telemetry logistic regression with mean AUPRC $0.038043099063649714$, higher than RF ($0.017610244849363122$). We do not claim that multi-agent fusion improves T2 under ultra-rare positives.
+On T2, the recommended head is telemetry logistic regression with mean AUPRC $0.0380$, higher than RF ($0.0176$). Table~\ref{tab:t1t2}'s ECN T2 columns report the multi-agent proposed head ($\approx 0.0153$), which is \emph{not} the recommended operating head. We do not claim that multi-agent fusion improves T2 under ultra-rare positives.
 
-Paired Wilcoxon tests and Cliff's $\delta$ (Table~\ref{tab:sig}) show that the T1 mean advantage versus random forest is not significant at $\alpha{=}0.05$ ($p{=}0.688$, $\delta{=}{+}0.389$), consistent with $n{=}6$ underpowering. Versus logistic and several weaker baselines, paired $p$-values reach $0.031$. Stacking versus anchored is not significant ($p{=}0.375$).
+Paired Wilcoxon tests and Cliff's $\delta$ (Table~\ref{tab:sig}) show that the T1 mean advantage versus random forest is not significant at $\alpha{=}0.05$ ($p{=}0.688$, $\delta{=}{+}0.389$), consistent with $n{=}6$ underpowering. Versus logistic and several weaker baselines, paired $p$-values reach $0.031$ (exploratory under multiple comparisons; Section~\ref{sec:eval}). Stacking versus anchored is not significant ($p{=}0.375$).
 
 \input{tables/tab_significance}
 
-Representative ROC and precision--recall curves on the primary frozen instance appear in Fig.~\ref{fig:t1curves}. Curve geometry remains consistent with rare-positive ranking: ROC discrimination is moderate, while precision--recall is challenging for all methods. Caption and legend identify the final \textbf{anchored} ECN-v3 head; any historical stacking traces in stored JSON are ablations only and are not used for mean claims.
+Representative ROC and precision--recall curves on the primary frozen instance appear in Fig.~\ref{fig:t1curves}. Curve geometry remains consistent with rare-positive ranking: ROC discrimination is moderate, while precision--recall is challenging for all methods. Legends label the harness \textbf{anchored} ECN-v3 head (\texttt{model\_family=anchored\_v3}); instance-level AP/ROC values need not equal the six-seed selection mean.
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\linewidth]{T1_v1.1.0-INST_roc_pr.pdf}
-\caption{T1 ROC (left) and precision--recall (right) curves on frozen instance v1.1.0-INST for representative detectors. Legend values report ROC-AUC and average precision on this instance.}
+\caption{T1 ROC (left) and precision--recall (right) curves on frozen instance v1.1.0-INST for representative detectors, including the final \textbf{anchored} ECN-v3 head. Legend values report ROC-AUC and average precision on this instance.}
 \label{fig:t1curves}
 \end{figure}
 
@@ -42,31 +42,31 @@ Fig.~\ref{fig:archsel} and Table~\ref{tab:ablation} isolate the sources of the T
 
 \input{tables/tab_ablation}
 
-Table~\ref{tab:modules} and Fig.~\ref{fig:modules} summarize verified contribution deltas. Feature enrichment versus v2 contributes ${+}0.0575$ mean AUPRC. Twin contribution under the final head is near zero (${+}0.0003$). Stacking relative to anchored contributes ${-}0.0155$.
+Table~\ref{tab:modules} and Fig.~\ref{fig:modules} summarize contribution deltas under two complementary definitions. Feature enrichment versus v2 contributes ${+}0.0575$ mean AUPRC (architecture selection). Twin gain under the final head is near zero (${+}0.00035$). Stacking relative to anchored contributes ${-}0.0155$. Separately, the harness module table reports a slightly negative twin ablation delta (${-}0.0043$) under the latest full-suite re-run; both estimates support the same qualitative conclusion that Twin is not the primary T1 ranking driver.
 
 \input{tables/tab_modules}
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=0.78\columnwidth]{module_contribution.pdf}
-\caption{Verified T1 AUPRC deltas: feature enrichment versus v2, twin contribution under the final head, and stacking versus anchored fusion.}
+\caption{Verified T1 AUPRC deltas from architecture selection: feature enrichment versus v2, twin gain under the final head, and stacking versus anchored fusion.}
 \label{fig:modules}
 \end{figure}
 
 \subsection{Calibration and operating points}
-Calibration quality is summarized in Table~\ref{tab:cal}. Final T1 raw Brier is $0.1509$, worse than RF ($0.0227$), motivating optional Beta calibration for probability displays without altering AUPRC ranking. Fig.~\ref{fig:t1cal} shows a reliability diagram on v1.1.0-INST for stored ECN scores.
+Calibration quality is summarized in Table~\ref{tab:cal}. Final T1 raw Brier is $0.1509$ (architecture selection), worse than RF ($0.0227$), motivating optional Beta calibration for probability displays without altering AUPRC ranking. Fig.~\ref{fig:t1cal} shows a reliability diagram on v1.1.0-INST for harness anchored ECN scores.
 
 \input{tables/tab_calibration}
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=0.78\columnwidth]{T1_v1.1.0-INST_calibration.pdf}
-\caption{T1 reliability diagram on instance v1.1.0-INST. The dashed line denotes perfect calibration. Optional Beta calibration is recommended for operator-facing probabilities.}
+\caption{T1 reliability diagram on instance v1.1.0-INST for the anchored ECN-v3 head. The dashed line denotes perfect calibration. Optional Beta calibration is recommended for operator-facing probabilities.}
 \label{fig:t1cal}
 \end{figure}
 
 \subsection{RCA, healing decision support, and cost}
-Table~\ref{tab:rcaheal} reports RCA macro-F1, healing decision-support scores, and cost. Proposed T3 RCA macro-F1 mean is $0.25396825396825395$ using RF with TreeSHAP explanations. Healing with RCA category features reaches macro-F1 $1.0$ on this synthetic setup---an upper bound that is \emph{not} interpreted as operational perfection; the honest \texttt{no\_rca\_cat} setting yields $0.19027777777777777$. Fig.~\ref{fig:t3cm} illustrates a representative T3 confusion matrix on the primary instance.
+Table~\ref{tab:rcaheal} reports RCA macro-F1, healing decision-support scores, and cost. Proposed T3 RCA macro-F1 mean is $0.2540$ using RF with TreeSHAP explanations. Healing with RCA category features reaches macro-F1 $1.0$ on this synthetic setup---an upper bound that is \emph{not} interpreted as operational perfection; the honest \texttt{no\_rca\_cat} setting yields $0.1903$. Fig.~\ref{fig:t3cm} illustrates a representative T3 confusion matrix on the primary instance.
 
 \input{tables/tab_rca_healing_cost}
 

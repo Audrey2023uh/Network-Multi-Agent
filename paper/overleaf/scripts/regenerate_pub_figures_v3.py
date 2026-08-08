@@ -329,7 +329,9 @@ def plot_module_bars(metrics: dict) -> None:
     feat = metrics["T1"]["ecn_final_anchored"]["mean"] - metrics["T1"]["ecn_v2_legacy"]["mean"]
     twin = metrics["T1"]["twin_gain_mean"]
     stack_delta = metrics["T1"]["ecn_stack_ablation"]["mean"] - metrics["T1"]["ecn_final_anchored"]["mean"]
-    labs = ["Feature\nenrichment\n(vs v2)", "Twin\n(full−no_twin)", "Stacking\n(vs anchored)"]
+    # Twin bar uses architecture-selection twin_gain under the final head (≈0),
+    # not the harness full−no_twin delta in Table VII (≈−0.0043).
+    labs = ["Feature\nenrichment\n(vs v2)", "Twin gain\n(final head)", "Stacking\n(vs anchored)"]
     vals = [feat, twin, stack_delta]
     cols = [COLORS["ecn"], COLORS["lr"], COLORS["stack"]]
     fig, ax = plt.subplots(figsize=(3.7, 2.85))
@@ -347,26 +349,42 @@ def plot_module_bars(metrics: dict) -> None:
 
 
 def plot_roc_pr_from_per_seed(seed_name: str = "v1.1.0-INST") -> None:
-    """Replot stored curves. Proposed curve is historical stack run; overlay note in caption.
-    For final architecture manuscript, we emphasize mean bars; curves show baseline geometry.
-    Prefer methods excluding obsolete proposed if mismatched — keep RF/LR/LGBM + historical ECN for context.
+    """Replot stored curves from the latest harness (ecn_proposed = anchored_v3).
+
+    T1: show ECN-v3 anchored head. T2: show recommended telem logistic as the ECN T2 head
+    (multi-agent proposed T2 is not the recommended operating head).
     """
     path = PER / f"{seed_name}.json"
     data = json.loads(path.read_text(encoding="utf-8"))
-    methods = [
-        ("ecn_proposed__full", "ECN (hist. stack)", COLORS["stack"]),
+    t1_methods = [
+        ("ecn_proposed__full", "ECN-v3 (anchored)", COLORS["ecn"]),
         ("random_forest__full", "Random forest", COLORS["rf"]),
         ("logistic__full", "Logistic", COLORS["lr"]),
         ("lightgbm__full", "LightGBM", COLORS["lgbm"]),
         ("isolation_forest__full", "Isolation Forest", COLORS["iforest"]),
     ]
-    for task_key, tag in [("T1_anomaly", "T1"), ("T2_failure", "T2")]:
+    t2_methods = [
+        ("logistic__full", "ECN T2 (telem-LR)", COLORS["ecn"]),
+        ("random_forest__full", "Random forest", COLORS["rf"]),
+        ("lightgbm__full", "LightGBM", COLORS["lgbm"]),
+        ("isolation_forest__full", "Isolation Forest", COLORS["iforest"]),
+        ("ecn_proposed__full", "ECN proposed (not rec.)", COLORS["stack"]),
+    ]
+    for task_key, tag, methods in [
+        ("T1_anomaly", "T1", t1_methods),
+        ("T2_failure", "T2", t2_methods),
+    ]:
         block = data["tasks"][task_key]
         fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.9))
         for key, lab, col in methods:
             m = block.get(key)
             if not m or not m.get("roc_curve"):
                 continue
+            # Prefer curves that match the final T1 family when available.
+            if tag == "T1" and key == "ecn_proposed__full":
+                fam = str(m.get("model_family") or "")
+                if fam and "anchored" not in fam and "stack" in fam:
+                    continue
             roc = m["roc_curve"]
             axes[0].plot(roc["fpr"], roc["tpr"], color=col, label=f"{lab} ({m.get('roc_auc', float('nan')):.3f})")
             pr = m.get("pr_curve")
@@ -395,14 +413,21 @@ def plot_roc_pr_from_per_seed(seed_name: str = "v1.1.0-INST") -> None:
 def plot_cal_cm(seed_name: str = "v1.1.0-INST") -> None:
     path = PER / f"{seed_name}.json"
     data = json.loads(path.read_text(encoding="utf-8"))
-    # Calibration / CM from stored proposed (historical); manuscript discusses final Brier from selection
+    # Calibration / CM from harness anchored proposed (model_family=anchored_v3).
     for task_key, tag in [("T1_anomaly", "T1"), ("T2_failure", "T2")]:
         m = data["tasks"][task_key].get("ecn_proposed__full")
         if m and m.get("calibration"):
             cal = m["calibration"]
             fig, ax = plt.subplots(figsize=(3.35, 3.05))
             ax.plot([0, 1], [0, 1], color="#444444", ls="--", lw=0.9, label="Ideal")
-            ax.plot(cal["mean_predicted"], cal["fraction_positives"], "o-", color=COLORS["ecn"], ms=5, label="ECN scores")
+            ax.plot(
+                cal["mean_predicted"],
+                cal["fraction_positives"],
+                "o-",
+                color=COLORS["ecn"],
+                ms=5,
+                label="ECN-v3 (anchored)",
+            )
             ax.set_xlabel("Mean predicted probability")
             ax.set_ylabel("Fraction of positives")
             ax.set_title(f"{tag} reliability ({seed_name})")
