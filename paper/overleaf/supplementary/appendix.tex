@@ -37,23 +37,23 @@ The Overleaf project is synchronized under \texttt{paper/overleaf/}.
 
 \subsection{Additional figures}
 Per-seed ROC/PR, confusion matrices, and calibration plots for T1/T2/T3 are included
-under \texttt{figures/} as vector PDF and 600\,dpi PNG pairs. T2 curves and the T1
-confusion matrix for the primary instance are shown below; remaining seeds are
+under \texttt{figures/} as vector PDF and 600\,dpi PNG pairs. The primary-instance T2
+curves and T1 confusion matrix appear on the following page; remaining seeds are
 archived for completeness.
 
-\begin{figure*}[!t]
+\begin{figure*}[p]
 \centering
-\includegraphics[width=0.98\textwidth]{T2_v1.1.0-INST_roc_pr.pdf}
+\includegraphics[width=\textwidth]{T2_v1.1.0-INST_roc_pr.pdf}
 \caption{T2 ROC (a) and precision--recall (b) curves on frozen instance
 v1.1.0-INST. The recommended T2 operating head is telemetry logistic regression
 (labeled ECN T2 (telem-LR)); the multi-agent proposed T2 curve is shown only for contrast.}
 \label{fig:t2curves}
 \end{figure*}
 
-\begin{figure}[!t]
+\begin{figure*}[p]
 \centering
-\includegraphics[width=0.85\columnwidth]{T1_v1.1.0-INST_cm.pdf}
+\includegraphics[width=0.55\textwidth]{T1_v1.1.0-INST_cm.pdf}
 \caption{T1 confusion matrix on instance v1.1.0-INST at a validation-tuned threshold
 (threshold unused for AUPRC).}
 \label{fig:t1cm}
-\end{figure}
+\end{figure*}
