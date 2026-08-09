@@ -40,6 +40,9 @@
 
 \begin{document}
 
+% Must be the first citation so IEEEtran.bst disables repeated-author dashes.
+\bstctlcite{IEEEtranBSTCTL:nodash}
+
 \title{A Digital-Twin Multi-Agent Framework for Enterprise Cognitive Networking: ECNetBench and Leakage-Safe Multi-Seed Evaluation}
 
 \author{%
@@ -91,6 +94,8 @@ The authors declare no competing interests.
 \section*{Acknowledgments}
 [Acknowledgments to be completed upon acceptance.]
 
+% Place the References section on its own following page(s).
+\clearpage
 \bibliographystyle{IEEEtran}
 \bibliography{references}
 
