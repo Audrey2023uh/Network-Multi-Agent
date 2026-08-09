@@ -25,9 +25,36 @@ ROOT = Path(__file__).resolve().parents[1]
 PRES = Path(__file__).resolve().parent
 ASSETS = PRES / "assets"
 DIAG = PRES / "diagrams"
+FIG = ROOT / "paper" / "overleaf" / "figures"
 OUT = PRES / "Network_Journal_Presentation.pptx"
 MS = ROOT / "results" / "manuscript_ready_numbers.json"
 FA = ROOT / "results" / "final_architecture.json"
+
+
+def r3(x: float) -> str:
+    """Manuscript-aligned three-decimal presentation."""
+    return f"{float(x):.3f}"
+
+
+def sync_publication_assets() -> None:
+    """Copy latest Overleaf publication PNGs into presentation/assets."""
+    ASSETS.mkdir(parents=True, exist_ok=True)
+    names = [
+        "baseline_auprc_mean_ci.png",
+        "architecture_selection_t1.png",
+        "module_contribution.png",
+        "ablation_auprc_mean_ci.png",
+        "T1_v1.1.0-INST_roc_pr.png",
+        "T2_v1.1.0-INST_roc_pr.png",
+        "T1_v1.1.0-INST_calibration.png",
+        "T1_v1.1.0-INST_cm.png",
+        "T3_v1.1.0-INST_cm.png",
+    ]
+    for name in names:
+        src = FIG / name
+        if not src.exists():
+            raise FileNotFoundError(src)
+        (ASSETS / name).write_bytes(src.read_bytes())
 
 # Palette
 NAVY = RGBColor(0x0B, 0x3A, 0x5B)
@@ -149,7 +176,8 @@ def blank(prs):
 
 
 def build():
-    # Regenerate diagrams
+    # Sync latest manuscript figures, then regenerate architecture diagrams.
+    sync_publication_assets()
     subprocess.check_call([sys.executable, str(PRES / "generate_architecture_diagrams.py")], cwd=str(ROOT))
 
     ms, fa = load_metrics()
@@ -157,8 +185,10 @@ def build():
     t1_rf = ms["T1_baselines"]["random_forest_telem_only_auprc_mean"]
     t1_v2 = ms["T1_vs_v2"]["v2_anchored_legacy_auprc_mean"]
     t1_stack = ms["T1_stacking_ablation"]["auprc_mean"]
-    t2 = 0.038043099063649714
+    t2 = 0.038043099063649714  # recommended telem-logistic T2 head (manuscript)
     twin = ms["T1_final_proposed"]["twin_gain_ap_mean"]
+    # Deep baselines (manuscript Table X / deep baselines table; presentation only)
+    tabnet_t1, graphsage_t1, gnn_proxy_t1 = 0.049, 0.015, 0.034
 
     prs = Presentation()
     prs.slide_width = W
@@ -205,8 +235,9 @@ def build():
         p3 = tb3.text_frame.paragraphs[0]
         set_run(_ensure_run(p3),
                 "Final architecture: leakage-safe features · anchored fusion · TreeSHAP RCA\n"
-                f"Verified T1 AUPRC = {t1:.4f}  |  RF baseline = {t1_rf:.4f}  |  Six frozen seeds",
-                size=14, color=WHITE)
+                f"T1 AUPRC {r3(t1)}  |  RF {r3(t1_rf)}  |  v2 {r3(t1_v2)}  |  Six frozen seeds  |  "
+                "RF paired test non-significant",
+                size=13, color=WHITE)
 
     def s_agenda():
         s = blank(prs)
@@ -272,9 +303,9 @@ def build():
         title_bar(s, "Contributions")
         items = [
             "ECNetBench: frozen multi-seed enterprise benchmark with leakage rules",
-            "ECN-v3: Digital Twin + multi-agent detection–prediction–RCA–impact–healing",
-            "Evidence-selected T1 head: enriched features + anchored fusion (not stacking)",
-            "TreeSHAP RCA and honest ablation / significance reporting",
+            "ECN-v3: Digital Twin + multi-agent detection–prediction–RCA–impact–healing decision support",
+            "Evidence-selected T1 head: enriched features + anchored fusion (stacking is a negative ablation)",
+            "TreeSHAP RCA and honest ablation / significance reporting (RF paired test non-significant)",
             "Reproducible package: checksums, relative paths, Overleaf + presentation sources",
         ]
         bullets(s, Inches(0.7), Inches(1.4), Inches(12), Inches(5.5), items, size=18)
@@ -285,8 +316,8 @@ def build():
         bullets(s, Inches(0.7), Inches(1.4), Inches(12), Inches(5.5), [
             "Network digital twins enable what-if analysis and safe change validation",
             "AIOps surveys emphasize imbalance, drift, and operational metrics beyond accuracy",
-            "Strong tabular detectors remain competitive when features are informative",
-            "GNN proxies included for fairness; ECN uses an explicit twin graph rather than claiming GNN superiority",
+            "Strong tabular detectors (RF, boosting, logistic) remain competitive when features are informative",
+            "Deep baselines include TabNet and true GraphSAGE; a historical GNN proxy (LightGBM) is reported separately",
             "ECNetBench fills the enterprise cognitive NetOps evaluation gap",
         ], size=17)
 
@@ -296,7 +327,7 @@ def build():
         bullets(s, Inches(0.5), Inches(1.35), Inches(6.2), Inches(5.5), [
             "Synthetic enterprise schema under AOS-CX-style assumptions",
             "19 devices / 31 links (primary instance family)",
-            "Tasks: T1 anomaly, T2 failure horizon, T3 RCA, T4 impact, healing",
+            "Tasks: T1 anomaly, T2 failure horizon, T3 RCA, T4 impact, healing decision support",
             "Six frozen instances: v1.1.0-INST + seeds 101–505",
             "Checksum-verified SQLite; read-only evaluation",
         ], size=16)
@@ -347,11 +378,11 @@ def build():
         s = blank(prs)
         title_bar(s, "Leakage-Safe Protocol")
         bullets(s, Inches(0.7), Inches(1.4), Inches(12), Inches(5.5), [
-            "feat_bin = t_start − 30 minutes (features strictly precede labels)",
-            "Expanding / rolling / EMA operators use shift(1) — current bin excluded",
-            "Neighbor instability from previous-bin aggregates",
-            "Baselines use telem_only; proposed uses full enriched twin+telem features",
-            "Verified: temporal split integrity and lag checks on all six seeds",
+            "Features join labels at a 30-minute decision-time offset (features strictly precede labels)",
+            "Rolling / expanding / EMA operators exclude the current bin via a one-step causal shift",
+            "Neighbor instability uses previous-bin aggregates only",
+            "Classical baselines train on telemetry-only matrices; proposed T1 uses enriched twin+telem + anchored fusion",
+            "Temporal 70/15/15 freeze and lag audits on all six frozen instances",
         ], size=17)
 
     def s_temporal():
@@ -380,9 +411,13 @@ def build():
 
     def s_healing():
         s = blank(prs)
-        title_bar(s, "Healing Recommendation Workflow")
+        title_bar(
+            s,
+            "Healing Decision Support",
+            "Recommendations with human approval — not live autonomous switch actuation",
+        )
         add_picture_safe(s, DIAG / "arch_healing_workflow.png",
-                         Inches(0.7), Inches(1.4), width=Inches(11.9))
+                         Inches(0.7), Inches(1.35), width=Inches(11.9))
 
     def s_setup():
         s = blank(prs)
@@ -391,21 +426,22 @@ def build():
             "Six frozen ECNetBench instances (checksum verified)",
             "Temporal freeze 70% / 15% / 15%",
             "Primary metric: AUPRC (scores); thresholds on validation only",
-            "Final T1: ECNFusionModel + v3 leakage-safe features",
-            "T2 recommended head: telemetry logistic regression",
-            "Artifacts: results/manuscript_ready_numbers.json",
+            "Final T1: leakage-safe enriched features + anchored telemetry-first fusion",
+            "T2 recommended operating head: telemetry logistic regression",
+            "Healing evaluated as decision support (human approval), not physical actuation",
         ], size=17)
 
     def s_baselines():
         s = blank(prs)
         title_bar(s, "Baselines")
-        bullets(s, Inches(0.7), Inches(1.4), Inches(12), Inches(5.5), [
-            "Logistic regression, random forest, LightGBM",
-            "Isolation Forest, EWMA, threshold, majority",
-            "MLP sequence proxy and GraphSAGE-style GNN proxy",
-            "All classical baselines trained on telem_only features",
-            "Shared temporal enrichment prevents unequal feature confounding",
-        ], size=17)
+        bullets(s, Inches(0.7), Inches(1.35), Inches(12), Inches(5.6), [
+            "Classical tabular: logistic regression, random forest, LightGBM, XGBoost, CatBoost, gradient boosting, balanced RF",
+            "Classical detectors: Isolation Forest, EWMA, threshold rules, majority class",
+            "Deep tabular: TabNet (telemetry-only)",
+            "True GraphSAGE message-passing GNN over the Digital Twin adjacency",
+            "Historical GNN proxy = LightGBM on a restricted feature subset (not message passing)",
+            "Shared temporal enrichment; classical baselines use telemetry-only feature matrices",
+        ], size=16)
 
     def s_ablation():
         s = blank(prs)
@@ -419,29 +455,29 @@ def build():
         s = blank(prs)
         title_bar(s, "Statistical Validation")
         bullets(s, Inches(0.7), Inches(1.4), Inches(12), Inches(5.5), [
-            f"Final T1 vs RF: Wilcoxon p = 0.688, Cliff δ = +0.389 (mean lift, not significant)",
-            f"Final T1 vs stacking ablation: p = 0.375, δ = +0.111",
-            f"Final T1 vs logistic: p = 0.031, δ = +0.556",
+            f"Final T1 vs RF: Wilcoxon p = 0.688, Cliff δ = +0.389 (mean lift; not statistically significant)",
+            f"Final T1 vs stacking ablation: p = 0.375, δ = +0.111 (not significant)",
+            f"Final T1 vs logistic: p = 0.031, δ = +0.556 (exploratory under multiple comparisons)",
             "Bootstrap 95% CIs on seed means; n = 6 underpowered for many paired claims",
-            "Do not claim universal paired superiority over RF or stacking",
+            "Do not claim statistically significant superiority over RF or stacking",
         ], size=16)
 
     def s_results_main():
         s = blank(prs)
-        title_bar(s, "Main Quantitative Results", "Verified six-seed means")
+        title_bar(s, "Main Quantitative Results", "Verified six-seed means (publication figures)")
         add_picture_safe(s, ASSETS / "baseline_auprc_mean_ci.png",
                          Inches(0.35), Inches(1.2), width=Inches(12.6))
 
     def s_results_numbers():
         s = blank(prs)
-        title_bar(s, "Headline Numbers (Exact Verified Means)")
+        title_bar(s, "Headline Numbers", "Three-decimal manuscript convention; RF paired comparison non-significant")
         rows = [
-            ("T1 ECN-v3 final (anchored)", f"{t1:.6f}"),
-            ("T1 RF telem_only", f"{t1_rf:.6f}"),
-            ("T1 v2 legacy+anchored", f"{t1_v2:.6f}"),
-            ("T1 stacking ablation", f"{t1_stack:.6f}"),
-            ("T2 telem logistic (recommended)", f"{t2:.6f}"),
-            ("Twin gain (final T1)", f"{twin:+.6f}"),
+            ("T1 ECN-v3 final (anchored)", r3(t1)),
+            ("T1 RF telem_only", r3(t1_rf)),
+            ("T1 v2 legacy + anchored", r3(t1_v2)),
+            ("T1 stacking ablation (negative)", r3(t1_stack)),
+            ("T2 telem logistic (recommended)", r3(t2)),
+            ("Twin gain under final T1 head", f"{twin:+.3f}"),
         ]
         for i, (k, v) in enumerate(rows):
             y = 1.35 + i * 0.85
@@ -455,6 +491,17 @@ def build():
             p = tb2.text_frame.paragraphs[0]
             p.alignment = PP_ALIGN.RIGHT
             set_run(_ensure_run(p), v, size=18, bold=True, color=AMBER)
+
+    def s_deep_baselines():
+        s = blank(prs)
+        title_bar(s, "Deep Baselines vs Selected Heads", "TabNet and true GraphSAGE do not overturn ECN-v3 / T2 selections")
+        bullets(s, Inches(0.7), Inches(1.4), Inches(12), Inches(5.5), [
+            f"ECN-v3 final T1 AUPRC {r3(t1)}  |  RF {r3(t1_rf)}",
+            f"TabNet T1 AUPRC {r3(tabnet_t1)} — trails ECN-v3 and RF",
+            f"True GraphSAGE T1 AUPRC {r3(graphsage_t1)} — message-passing baseline",
+            f"Historical GNN proxy (LightGBM) T1 AUPRC {r3(gnn_proxy_t1)} — not message passing",
+            f"Recommended T2 head remains telem logistic ({r3(t2)}); deep models also trail on T2",
+        ], size=17)
 
     def s_curves():
         s = blank(prs)
@@ -478,12 +525,13 @@ def build():
         s = blank(prs)
         title_bar(s, "Discussion")
         bullets(s, Inches(0.7), Inches(1.4), Inches(12), Inches(5.5), [
-            "Feature enrichment is the primary T1 driver (+0.0575 vs v2)",
-            "Anchored fusion preferred: higher mean AUPRC and simpler than stacking",
-            "T2 remains telem-logistic under ultra-rare positives",
-            "Twin contribution under final T1 head is near zero",
-            "Value proposition: reproducible pipeline + honest statistics, not universal detector dominance",
-        ], size=17)
+            "Leakage-safe feature enrichment is the primary T1 driver (+0.058 mean AUPRC vs v2)",
+            "Anchored fusion preferred over stacking (higher mean AUPRC; stacking is a negative ablation)",
+            "Mean T1 advantage vs RF is not statistically significant at n = 6 (p = 0.688)",
+            "TabNet and true GraphSAGE do not overturn the selected T1 head",
+            "T2 remains telem-logistic; twin gain under the final T1 head is near zero",
+            "Value: reproducible benchmark + honest statistics—not universal detector dominance",
+        ], size=16)
 
     def s_limits():
         s = blank(prs)
@@ -491,10 +539,10 @@ def build():
         bullets(s, Inches(0.7), Inches(1.4), Inches(12), Inches(5.5), [
             "Synthetic generator may over-structure causal chains (construct validity)",
             "n = 6 yields wide CIs and underpowered paired tests",
-            "External validity requires production-trace evaluation",
-            "Healing with RCA-category features can be near-oracle—honest ablations required",
-            "No live switch actuation in this study",
-        ], size=17)
+            "External validity requires production-trace evaluation beyond AOS-CX-style assumptions",
+            "Healing with RCA-category features can be near-oracle—honest no-category ablations required",
+            "No live autonomous deployment on physical AOS-CX switches; healing is decision support only",
+        ], size=16)
 
     def s_future():
         s = blank(prs)
@@ -510,12 +558,14 @@ def build():
         s = blank(prs)
         title_bar(s, "Conclusion")
         bullets(s, Inches(0.7), Inches(1.4), Inches(12), Inches(5.5), [
-            f"ECN-v3 final T1 AUPRC {t1:.4f} exceeds RF {t1_rf:.4f} and v2 {t1_v2:.4f} in mean",
-            f"Stacking ablation {t1_stack:.4f} — negative result versus anchored fusion",
-            f"Recommended T2 head: telem logistic {t2:.4f}",
-            "Architecture: leakage-safe features + anchored fusion + TreeSHAP RCA",
+            f"ECN-v3 final T1 AUPRC {r3(t1)} is above RF {r3(t1_rf)} and v2 {r3(t1_v2)} in mean "
+            "(RF paired test non-significant)",
+            f"Stacking ablation {r3(t1_stack)} — negative result versus anchored fusion",
+            f"Recommended T2 head: telem logistic {r3(t2)}",
+            "TabNet and true GraphSAGE do not outperform the selected T1 head",
+            "Architecture: leakage-safe features + anchored fusion + TreeSHAP RCA + healing decision support",
             "Primary contribution: reproducible ECNetBench + complete cognitive NetOps pipeline",
-        ], size=17)
+        ], size=16)
 
     def s_repo():
         s = blank(prs)
@@ -548,7 +598,7 @@ def build():
         s_bench, s_bench_pipe, s_multiseed,
         s_ecn_arch, s_twin, s_agents, s_features, s_leakage, s_temporal,
         s_rca, s_shap, s_healing,
-        s_setup, s_baselines, s_ablation, s_stats,
+        s_setup, s_baselines, s_deep_baselines, s_ablation, s_stats,
         s_results_main, s_results_numbers, s_curves, s_t2_curves, s_cal,
         s_discussion, s_limits, s_future, s_conclusion, s_repo, s_end,
     ]
@@ -601,13 +651,16 @@ def build():
         if not (DIAG / name).exists():
             raise FileNotFoundError(DIAG / name)
 
-    # Numeric consistency checks against manuscript_ready_numbers
+    # Numeric consistency checks against manuscript_ready_numbers (raw) and display rounding
     assert abs(t1 - 0.11522078115707056) < 1e-12
     assert abs(t1_rf - 0.07583814878524626) < 1e-12
+    assert r3(t1) == "0.115" and r3(t1_rf) == "0.076" and r3(t1_v2) == "0.058"
+    assert r3(t1_stack) == "0.100" and r3(t2) == "0.038"
 
     prs.save(str(OUT))
     print("slides", total)
     print("wrote", OUT)
+    print("display", {"T1": r3(t1), "RF": r3(t1_rf), "v2": r3(t1_v2), "stack": r3(t1_stack), "T2": r3(t2)})
     return total
 
 
