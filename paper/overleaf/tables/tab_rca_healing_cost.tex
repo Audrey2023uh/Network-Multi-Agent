@@ -1,17 +1,16 @@
 \begin{table}[!t]
 \centering
-\caption{RCA accuracy, healing decision-support scores, and evaluation wall-clock cost (six seeds). The \texttt{full} healing setting includes RCA category features; \texttt{no\_rca\_cat} is the honest telemetry-oriented baseline.}
+\caption{RCA macro-F1, healing scores, and evaluation wall-clock cost (six seeds).}
 \label{tab:rcaheal}
-\renewcommand{\arraystretch}{1.08}
-\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.1}
 {\footnotesize\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llc}
 \toprule
 Metric & Setting & Mean [95\% CI] \\
 \midrule
-T3 RCA macro-F1 & proposed & $0.2540$ $[0.0901,\,0.4179]$ \\
-Healing macro-F1 & full (w/ RCA cat.) & $1.0000$ $[1.0000,\,1.0000]$ \\
-Healing macro-F1 & no\_rca\_cat & $0.1903$ $[0.0989,\,0.2816]$ \\
-Eval.\ wall time (s/seed) & full suite & $119.69$ $[111.76,\,127.61]$ \\
+T3 RCA macro-F1 & proposed & $0.254$ $[0.090,\,0.418]$ \\
+Healing macro-F1 & with RCA category & $1.000$ $[1.000,\,1.000]$ \\
+Healing macro-F1 & without RCA category & $0.190$ $[0.099,\,0.282]$ \\
+Eval.\ wall time (s/seed) & full suite & $119.7$ $[111.8,\,127.6]$ \\
 \bottomrule
 \end{tabular*}}
 \end{table}

@@ -46,6 +46,10 @@ SKIP_SUFFIXES = {
     ".snm",
     ".vrb",
 }
+SKIP_ROOT_FILES = {
+    "main.pdf",
+    "ECNetBench_ECNv3_Overleaf_Final.zip",
+}
 
 
 def include(path: Path) -> bool:
@@ -60,6 +64,8 @@ def include(path: Path) -> bool:
     if path.name.startswith("."):
         return False
     if path.name in SKIP_FILE_NAMES:
+        return False
+    if path.name in SKIP_ROOT_FILES and path.parent == SRC:
         return False
     if path.suffix.lower() in SKIP_SUFFIXES:
         return False

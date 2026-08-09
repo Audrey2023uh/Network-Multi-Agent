@@ -78,30 +78,30 @@ def style() -> None:
             "font.family": "serif",
             "font.serif": ["Times New Roman", "Times", "Nimbus Roman", "DejaVu Serif"],
             "mathtext.fontset": "stix",
-            "font.size": 8,
-            "axes.labelsize": 8,
-            "axes.titlesize": 8,
-            "xtick.labelsize": 7,
-            "ytick.labelsize": 7,
-            "legend.fontsize": 6.5,
-            "legend.handlelength": 1.4,
-            "legend.borderpad": 0.25,
-            "legend.labelspacing": 0.25,
-            "axes.linewidth": 0.7,
+            "font.size": 9,
+            "axes.labelsize": 9,
+            "axes.titlesize": 9,
+            "xtick.labelsize": 8,
+            "ytick.labelsize": 8,
+            "legend.fontsize": 7.5,
+            "legend.handlelength": 1.5,
+            "legend.borderpad": 0.3,
+            "legend.labelspacing": 0.3,
+            "axes.linewidth": 0.75,
             "axes.spines.top": False,
             "axes.spines.right": False,
-            "lines.linewidth": 1.35,
-            "lines.markersize": 4.0,
-            "xtick.major.width": 0.6,
-            "ytick.major.width": 0.6,
-            "xtick.major.size": 2.5,
-            "ytick.major.size": 2.5,
-            "grid.linewidth": 0.4,
+            "lines.linewidth": 1.5,
+            "lines.markersize": 4.5,
+            "xtick.major.width": 0.65,
+            "ytick.major.width": 0.65,
+            "xtick.major.size": 3.0,
+            "ytick.major.size": 3.0,
+            "grid.linewidth": 0.45,
             "grid.alpha": 0.35,
             "pdf.fonttype": 42,
             "ps.fonttype": 42,
             "savefig.bbox": "tight",
-            "savefig.pad_inches": 0.02,
+            "savefig.pad_inches": 0.03,
             "figure.dpi": 150,
         }
     )
@@ -289,7 +289,7 @@ def plot_baseline_bars(metrics: dict) -> None:
         ("Majority", {"mean": t2_src["majority__full"]["ap"]["mean"], "ci95": t2_src["majority__full"]["ap"]["ci95"]}, "maj"),
     ]
     # Two-column figure width (~7.0 in usable)
-    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.35), constrained_layout=True)
+    fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.65), constrained_layout=True)
     for ax, rows, plab in [(axes[0], t1_rows, "(a)"), (axes[1], t2_rows, "(b)")]:
         means = [r[1]["mean"] for r in rows]
         los = [max(0.0, r[1]["mean"] - r[1]["ci95"][0]) for r in rows]
@@ -325,7 +325,7 @@ def plot_architecture_selection(metrics: dict) -> None:
         ("RF telem_only", metrics["T1"]["random_forest"], "rf"),
     ]
     # Single-column width
-    fig, ax = plt.subplots(figsize=(3.35, 2.35), constrained_layout=True)
+    fig, ax = plt.subplots(figsize=(3.4, 2.55), constrained_layout=True)
     means = [r[1]["mean"] for r in rows]
     los = [max(0.0, r[1]["mean"] - r[1]["ci95"][0]) for r in rows]
     his = [max(0.0, r[1]["ci95"][1] - r[1]["mean"]) for r in rows]
@@ -342,7 +342,7 @@ def plot_architecture_selection(metrics: dict) -> None:
         error_kw={"lw": 0.65, "ecolor": "#222222"},
     )
     ax.set_xticks(x)
-    ax.set_xticklabels([r[0] for r in rows], fontsize=6.5)
+    ax.set_xticklabels([r[0] for r in rows], fontsize=7.5)
     ax.set_ylabel("T1 AUPRC (mean)")
     ax.grid(True, axis="y")
     ax.set_axisbelow(True)
@@ -373,7 +373,7 @@ def plot_ablation_arch(metrics: dict) -> None:
         error_kw={"lw": 0.65, "ecolor": "#222222"},
     )
     ax.set_xticks(x)
-    ax.set_xticklabels([r[0] for r in order], rotation=12, ha="right", fontsize=6.5)
+    ax.set_xticklabels([r[0] for r in order], rotation=12, ha="right", fontsize=7.5)
     ax.set_ylabel("T1 AUPRC (mean)")
     ax.grid(True, axis="y")
     ax.set_axisbelow(True)
@@ -395,7 +395,7 @@ def plot_module_bars(metrics: dict) -> None:
     ax.bar(x, vals, color=cols, edgecolor="black", lw=0.35, width=0.65)
     ax.axhline(0, color="#333333", lw=0.7)
     ax.set_xticks(x)
-    ax.set_xticklabels(labs, fontsize=6.5)
+    ax.set_xticklabels(labs, fontsize=7.5)
     ax.set_ylabel(r"$\Delta$ T1 AUPRC")
     ax.grid(True, axis="y")
     ax.set_axisbelow(True)
@@ -429,7 +429,7 @@ def plot_roc_pr_from_per_seed(seed_name: str = "v1.1.0-INST") -> None:
         ("T2_failure", "T2", t2_methods),
     ]:
         block = data["tasks"][task_key]
-        fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.30), constrained_layout=True)
+        fig, axes = plt.subplots(1, 2, figsize=(7.1, 2.55), constrained_layout=True)
         for key, lab, col in methods:
             m = block.get(key)
             if not m or not m.get("roc_curve"):
@@ -451,14 +451,14 @@ def plot_roc_pr_from_per_seed(seed_name: str = "v1.1.0-INST") -> None:
         axes[0].set_ylim(0, 1)
         axes[0].set_aspect("equal", adjustable="box")
         axes[0].grid(True)
-        axes[0].legend(loc="lower right", frameon=False)
+        axes[0].legend(loc="lower right", frameon=False, fontsize=7)
         _panel_label(axes[0], "(a)")
         axes[1].set_xlabel("Recall")
         axes[1].set_ylabel("Precision")
         axes[1].set_xlim(0, 1)
         axes[1].set_ylim(0, 1)
         axes[1].grid(True)
-        axes[1].legend(loc="upper right", frameon=False)
+        axes[1].legend(loc="upper right", frameon=False, fontsize=7)
         _panel_label(axes[1], "(b)")
         save(fig, f"{tag}_{seed_name}_roc_pr")
 
@@ -471,7 +471,7 @@ def plot_cal_cm(seed_name: str = "v1.1.0-INST") -> None:
         m = data["tasks"][task_key].get("ecn_proposed__full")
         if m and m.get("calibration"):
             cal = m["calibration"]
-            fig, ax = plt.subplots(figsize=(3.2, 2.55), constrained_layout=True)
+            fig, ax = plt.subplots(figsize=(3.35, 2.7), constrained_layout=True)
             ax.plot([0, 1], [0, 1], color="#555555", ls="--", lw=0.75, label="Ideal")
             ax.plot(
                 cal["mean_predicted"],
@@ -527,8 +527,8 @@ def plot_cal_cm(seed_name: str = "v1.1.0-INST") -> None:
         im = ax.imshow(arr, cmap="Blues")
         ax.set_xticks(range(len(short)))
         ax.set_yticks(range(len(short)))
-        ax.set_xticklabels(short, rotation=55, ha="right", fontsize=5.5)
-        ax.set_yticklabels(short, fontsize=5.5)
+        ax.set_xticklabels(short, rotation=45, ha="right", fontsize=6.5)
+        ax.set_yticklabels(short, fontsize=6.5)
         ax.set_xlabel("Predicted")
         ax.set_ylabel("True")
         vmax = float(arr.max()) if arr.size else 1.0
@@ -543,7 +543,7 @@ def plot_cal_cm(seed_name: str = "v1.1.0-INST") -> None:
                     str(v),
                     ha="center",
                     va="center",
-                    fontsize=5.5,
+                    fontsize=6.5,
                     color="white" if arr[i, j] > vmax / 2 else "black",
                 )
         fig.colorbar(im, ax=ax, fraction=0.045, pad=0.03)

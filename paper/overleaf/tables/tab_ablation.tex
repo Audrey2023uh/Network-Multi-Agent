@@ -1,25 +1,23 @@
-% Ablation means below are from the latest full-suite harness (aggregate_v3).
-% They must not be confused with the architecture-selection final T1 mean 0.11522.
 \begin{table}[!t]
 \centering
-\caption{Ablation study of mean AUPRC on T1 and T2 from the latest full-suite harness (six seeds, 95\% CI). The \texttt{full} row is a harness re-run and may differ slightly from the architecture-selection final T1 mean ($0.1152$) reported in Table~\ref{tab:t1t2}.}
+\caption{Ablation mean AUPRC on T1/T2 (six seeds, 95\% CI).}
 \label{tab:ablation}
-\renewcommand{\arraystretch}{1.08}
+\renewcommand{\arraystretch}{1.1}
 \setlength{\tabcolsep}{3.5pt}
 {\footnotesize\begin{tabular}{llcc}
 \toprule
 Task & Ablation & Mean & 95\% CI \\
 \midrule
-T1\_anomaly & full & $0.1106$ & $[0.0416,\,0.1795]$ \\
- & no\_twin & $0.1149$ & $[0.0429,\,0.1869]$ \\
- & no\_nbr & $0.1159$ & $[0.0513,\,0.1805]$ \\
- & telem\_only & $0.0686$ & $[0.0145,\,0.1227]$ \\
- & twin\_only & $0.0283$ & $[0.0129,\,0.0436]$ \\
-T2\_failure & full & $0.0153$ & $[0.0043,\,0.0262]$ \\
- & no\_twin & $0.0140$ & $[0.0028,\,0.0252]$ \\
- & no\_nbr & $0.0140$ & $[0.0028,\,0.0252]$ \\
- & telem\_only & $0.0359$ & $[-0.0066,\,0.0783]$ \\
- & twin\_only & $0.0156$ & $[0.0082,\,0.0230]$ \\
+T1 & full & $0.111$ & $[0.042,\,0.180]$ \\
+ & no\_twin & $0.115$ & $[0.043,\,0.187]$ \\
+ & no\_nbr & $0.116$ & $[0.051,\,0.181]$ \\
+ & telem\_only & $0.069$ & $[0.014,\,0.123]$ \\
+ & twin\_only & $0.028$ & $[0.013,\,0.044]$ \\
+T2 & full & $0.015$ & $[0.004,\,0.026]$ \\
+ & no\_twin & $0.014$ & $[0.003,\,0.025]$ \\
+ & no\_nbr & $0.014$ & $[0.003,\,0.025]$ \\
+ & telem\_only & $0.036$ & $[-0.007,\,0.078]$ \\
+ & twin\_only & $0.016$ & $[0.008,\,0.023]$ \\
 \bottomrule
 \end{tabular}}
 \end{table}

@@ -1,19 +1,18 @@
 \begin{table}[!t]
 \centering
-\caption{Calibration quality measured by Brier score (mean over six seeds with 95\% CI). Lower is better. The T1 ECN-v3 final row uses architecture-selection Brier (\texttt{manuscript\_ready\_numbers.json}); remaining rows use the full-suite harness.}
+\caption{Calibration quality (Brier score; lower is better).}
 \label{tab:cal}
-\renewcommand{\arraystretch}{1.08}
-\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.1}
 {\footnotesize\begin{tabular}{llcc}
 \toprule
 Task & Method & Mean & 95\% CI \\
 \midrule
-T1\_anomaly & ECN-v3 final (selection) & $0.1509$ & $[0.0928,\,0.2090]$ \\
-T1\_anomaly & Random forest & $0.0227$ & $[0.0112,\,0.0342]$ \\
-T1\_anomaly & Logistic & $0.2328$ & $[0.1742,\,0.2915]$ \\
-T2\_failure & ECN proposed & $0.2089$ & $[0.1190,\,0.2987]$ \\
-T2\_failure & Logistic & $0.2577$ & $[0.2079,\,0.3074]$ \\
-T2\_failure & Random forest & $0.0124$ & $[0.0087,\,0.0160]$ \\
+T1 & ECN-v3 (selection) & $0.151$ & $[0.093,\,0.209]$ \\
+T1 & Random forest & $0.023$ & $[0.011,\,0.034]$ \\
+T1 & Logistic & $0.233$ & $[0.174,\,0.292]$ \\
+T2 & ECN proposed & $0.209$ & $[0.119,\,0.299]$ \\
+T2 & Logistic & $0.258$ & $[0.208,\,0.307]$ \\
+T2 & Random forest & $0.012$ & $[0.009,\,0.016]$ \\
 \bottomrule
 \end{tabular}}
 \end{table}

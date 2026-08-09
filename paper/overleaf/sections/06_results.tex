@@ -1,91 +1,88 @@
 \section{Results}
 \label{sec:results}
 
-All numerical claims below are taken from verified artifacts
-\texttt{results/manuscript\_ready\_numbers.json},
-\texttt{results/v3\_gated/}\\\texttt{t1\_architecture\_selection.json},
-and \texttt{results/aggregate\_v3.json} (baselines/T2/RCA), without modifying frozen instances.
+Unless noted, multi-seed means use six frozen instances. Final T1 claims use the architecture-selection anchored head; baselines, deep models, and most ablations use the full-suite harness. Exact floating-point archives are listed in Appendix~\ref{app:supp}.
 
 \subsection{T1 anomaly and T2 failure prediction}
-Table~\ref{tab:t1t2} summarizes multi-seed mean ranking metrics. On T1, the final ECN-v3 anchored detector achieves mean AUPRC $0.1152$ (bootstrap 95\% CI $[0.0679,0.1680]$; architecture-selection artifact \texttt{results/manuscript\_ready\_numbers.json}), exceeding random forest ($0.0758$) and the v2 legacy configuration ($0.0577$). Mean T1 ROC-AUC is $0.7534$. Fig.~\ref{fig:baseline} visualizes the same AUPRC means with 95\% confidence intervals for T1 and T2, highlighting the T1 lift of the final head and the T2 telem-logistic recommendation.
+Table~\ref{tab:t1t2} summarizes ranking metrics. The final ECN-v3 anchored detector achieves mean T1 AUPRC $0.115$ (bootstrap 95\% CI $[0.068,0.168]$), above random forest ($0.076$) and the v2 legacy configuration ($0.058$), with mean T1 ROC-AUC $0.753$. Fig.~\ref{fig:baseline} shows the corresponding AUPRC means with 95\% intervals for T1 and T2.
 
 \input{tables/tab_t1t2}
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=0.98\textwidth]{baseline_auprc_mean_ci.pdf}
-\caption{Multi-seed mean AUPRC with 95\% confidence intervals. (a)~T1 anomaly detection, where ECN-v3 denotes the final anchored head on enriched features. (b)~T2 failure-horizon ranking; the ECN T2 column is the recommended telemetry logistic head.}
+\caption{Multi-seed mean AUPRC with 95\% CI. (a)~T1 (ECN-v3 = final anchored head). (b)~T2 (ECN column = recommended telem-logistic head).}
 \label{fig:baseline}
 \end{figure*}
 
-On T2, the recommended head is telemetry logistic regression with mean AUPRC $0.0380$, higher than RF ($0.0176$). Table~\ref{tab:t1t2}'s ECN T2 columns report the multi-agent proposed head ($\approx 0.0153$), which is \emph{not} the recommended operating head. We do not claim that multi-agent fusion improves T2 under ultra-rare positives.
+On T2, the recommended head is telemetry logistic regression (mean AUPRC $0.038$), higher than RF ($0.018$). The ECN T2 columns in Table~\ref{tab:t1t2} report the multi-agent proposed head ($0.015$), which is \emph{not} the recommended operating head. We do not claim that multi-agent fusion improves T2 under ultra-rare positives.
 
-Representative ROC and precision--recall curves on the primary frozen instance appear in Fig.~\ref{fig:t1curves}. Curve geometry remains consistent with rare-positive ranking: ROC discrimination is moderate, while precision--recall is challenging for all methods. Legends label the harness \textbf{anchored} ECN-v3 head (\texttt{model\_family=anchored\_v3}); instance-level AP/ROC values need not equal the six-seed selection mean.
+Representative ROC and precision--recall curves appear in Fig.~\ref{fig:t1curves}. Discrimination is moderate on ROC, while precision--recall remains challenging for all methods.
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=0.98\textwidth]{T1_v1.1.0-INST_roc_pr.pdf}
-\caption{T1 ROC (a) and precision--recall (b) curves on frozen instance v1.1.0-INST for representative detectors, including the final \textbf{anchored} ECN-v3 head. Legend values report ROC-AUC and average precision on this instance.}
+\caption{T1 ROC (a) and precision--recall (b) on the primary frozen instance, including the final anchored ECN-v3 head. Legend values are instance-level ROC-AUC / average precision.}
 \label{fig:t1curves}
 \end{figure*}
 
-Paired Wilcoxon tests and Cliff's $\delta$ (Table~\ref{tab:sig}) show that the T1 mean advantage versus random forest is not significant at $\alpha{=}0.05$ ($p{=}0.688$, $\delta{=}{+}0.389$), consistent with $n{=}6$ underpowering. Versus logistic and several weaker baselines, paired $p$-values reach $0.031$ (exploratory under multiple comparisons; Section~\ref{sec:eval}). Stacking versus anchored is not significant ($p{=}0.375$).
+Paired Wilcoxon tests and Cliff's $\delta$ (Table~\ref{tab:sig}) show that the T1 mean advantage versus random forest is not significant at $\alpha{=}0.05$ ($p{=}0.688$, $\delta{=}{+}0.389$). Versus logistic and several weaker baselines, paired $p$-values reach $0.031$ (exploratory under multiple comparisons). Stacking versus anchored is not significant ($p{=}0.375$).
 
 \input{tables/tab_significance}
+
 \subsection{Architecture selection and fusion ablation}
-Fig.~\ref{fig:archsel} and Table~\ref{tab:ablation} isolate the sources of the T1 improvement. Leakage-safe feature enrichment accounts for the dominant gain; replacing anchored fusion with stacking on the same enriched features \emph{reduces} mean AUPRC from $0.1152$ to $0.0997$. Accordingly, stacking is reported as an ablation/negative result rather than as the final T1 architecture.
+Fig.~\ref{fig:archsel} and Table~\ref{tab:ablation} isolate T1 sources of improvement. Leakage-safe feature enrichment accounts for the dominant gain; replacing anchored fusion with stacking on the same enriched features reduces mean AUPRC from $0.115$ to $0.100$. Stacking is therefore a negative ablation.
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{architecture_selection_t1.pdf}
-\caption{T1 architecture selection: v2 legacy+anchored, v3+stacking (ablation), v3+anchored (final), and RF telem\_only. Error bars denote 95\% confidence intervals over six seeds.}
+\caption{T1 architecture selection over six seeds (mean AUPRC with 95\% CI).}
 \label{fig:archsel}
 \end{figure}
 
 \input{tables/tab_ablation}
 
-Table~\ref{tab:modules} and Fig.~\ref{fig:modules} summarize contribution deltas under two complementary definitions. Feature enrichment versus v2 contributes ${+}0.0575$ mean AUPRC (architecture selection). Twin gain under the final head is near zero (${+}0.00035$). Stacking relative to anchored contributes ${-}0.0155$. Separately, the harness module table reports a slightly negative twin ablation delta (${-}0.0043$) under the latest full-suite re-run; both estimates support the same qualitative conclusion that Twin is not the primary T1 ranking driver.
+The T1 \texttt{full} ablation row is a full-suite re-run and may differ slightly from the Table~\ref{tab:t1t2} selection mean.
+Table~\ref{tab:modules} and Fig.~\ref{fig:modules} summarize contribution deltas. Feature enrichment versus v2 contributes ${+}0.058$ mean AUPRC. Twin gain under the final head is near zero. Stacking relative to anchored contributes ${-}0.015$. The harness module table reports a slightly negative twin ablation delta (${-}0.004$); both estimates indicate Twin is not the primary T1 ranking driver.
 
 \input{tables/tab_modules}
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=0.92\columnwidth]{module_contribution.pdf}
-\caption{Verified T1 AUPRC deltas from architecture selection: feature enrichment versus v2, twin gain under the final head, and stacking versus anchored fusion.}
+\caption{T1 AUPRC deltas from architecture selection: feature enrichment, twin gain, and stacking versus anchored fusion.}
 \label{fig:modules}
 \end{figure}
 
 \subsection{Calibration and operating points}
-Calibration quality is summarized in Table~\ref{tab:cal}. Final T1 raw Brier is $0.1509$ (architecture selection), worse than RF ($0.0227$), motivating optional Beta calibration for probability displays without altering AUPRC ranking. Fig.~\ref{fig:t1cal} shows a reliability diagram on v1.1.0-INST for harness anchored ECN scores.
+Table~\ref{tab:cal} summarizes calibration. Final T1 raw Brier is $0.151$, worse than RF ($0.023$), motivating optional Beta calibration for probability display without changing AUPRC ranking. Fig.~\ref{fig:t1cal} shows a reliability diagram on v1.1.0-INST.
 
 \input{tables/tab_calibration}
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=0.92\columnwidth]{T1_v1.1.0-INST_calibration.pdf}
-\caption{T1 reliability diagram on instance v1.1.0-INST for the anchored ECN-v3 head. The dashed line denotes perfect calibration. Optional Beta calibration is recommended for operator-facing probabilities.}
+\caption{T1 reliability diagram on the primary frozen instance for the anchored ECN-v3 head.}
 \label{fig:t1cal}
 \end{figure}
 
 \subsection{RCA, healing decision support, and cost}
-Table~\ref{tab:rcaheal} reports RCA macro-F1, healing decision-support scores, and cost. Proposed T3 RCA macro-F1 mean is $0.2540$ using RF with TreeSHAP explanations. Healing with RCA category features reaches macro-F1 $1.0$ on this synthetic setup---an upper bound that is \emph{not} interpreted as operational perfection; the honest \texttt{no\_rca\_cat} setting yields $0.1903$. Fig.~\ref{fig:t3cm} illustrates a representative T3 confusion matrix on the primary instance.
+Table~\ref{tab:rcaheal} reports RCA macro-F1, healing scores, and cost. Proposed T3 RCA macro-F1 is $0.254$ (RF+TreeSHAP). Healing with RCA category features reaches macro-F1 $1.000$ on this synthetic setup---an upper bound, not operational perfection; the honest no-category setting yields $0.190$. Fig.~\ref{fig:t3cm} shows a representative confusion matrix. Full-suite evaluation averages about $119.7$\,s per seed.
 
 \input{tables/tab_rca_healing_cost}
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{T3_v1.1.0-INST_cm.pdf}
-\caption{Representative T3 RCA confusion matrix for the RF+TreeSHAP RCA head on instance v1.1.0-INST.}
+\caption{Representative T3 RCA confusion matrix (RF+TreeSHAP) on the primary frozen instance.}
 \label{fig:t3cm}
 \end{figure}
 
 \subsection{Why simplicity remains preferable}
-At $\sim$1\% positives, enriched telemetry recovers most ranking signal. Anchored fusion is simpler than stacking, improves mean T1 AUPRC on the same features, and remains competitive with RF in mean while acknowledging non-significant paired tests versus RF. With $n{=}6$ seeds, intervals are wide; claims emphasize reproducible mean improvements and architecture honesty rather than universal paired dominance. Deep tabular (TabNet) and true GraphSAGE message passing did not displace RF or ECN-v3 on mean T1 AUPRC under this protocol (Section~\ref{sec:deep_baselines}).
+At $\sim$1\% positives, enriched telemetry recovers most ranking signal. Anchored fusion is simpler than stacking, improves mean T1 AUPRC on the same features, and remains competitive with RF in mean while acknowledging non-significant paired tests. With $n{=}6$, intervals are wide; claims emphasize reproducible mean improvements and architecture honesty rather than universal paired dominance.
 
 \subsection{Deep tabular and true GNN baselines}
 \label{sec:deep_baselines}
-Table~\ref{tab:deep_baselines_v5} reports measured six-seed means for TabNet and true GraphSAGE, alongside the historical GNN proxy and RF. Artifacts: \texttt{results/aggregate\_v3.json} keys \texttt{tabnet\_\_full}, \texttt{graphsage\_\_full}, \texttt{gnn\_graphsage\_proxy\_\_full}; manuscript pointer \texttt{extensions\_v5\_deep\_baselines} in \texttt{results/manuscript\_ready\_numbers.json}.
+Table~\ref{tab:deep_baselines_v5} compares TabNet and true GraphSAGE with the historical GNN proxy and RF. On T1, TabNet ($0.049$) and true GraphSAGE ($0.015$) trail RF ($0.076$) and ECN-v3 ($0.115$). The historical GNN proxy ($0.034$) must not be read as message-passing performance. On T2, both deep models also trail telem logistic ($0.038$).
 
 \input{tables/tab_deep_baselines_v5}
-
-On T1, TabNet attains mean AUPRC $0.0492$ (95\% CI $[0.0213,0.0772]$), below RF ($0.0758$) and far below the manuscript-final ECN-v3 head ($0.1152$). True GraphSAGE attains $0.0152$ (95\% CI $[0.0059,0.0246]$) with $19$ devices and $54$ directed edges in the twin graph---competitive with neither RF nor ECN on this rare-event ranking task. The historical GNN proxy remains at $0.0335$ and must not be interpreted as message-passing performance. On T2, TabNet ($0.0110$) and GraphSAGE ($0.0062$) also trail telem logistic ($0.0380$). These outcomes support reporting deep baselines for completeness while retaining the evidence-selected ECN-v3 / telem-logistic heads.

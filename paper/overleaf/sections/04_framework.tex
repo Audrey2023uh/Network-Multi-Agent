@@ -2,16 +2,14 @@
 \label{sec:framework}
 
 \subsection{Digital Twin}
-The Digital Twin materializes inventory and topology as a typed graph synchronized with telemetry windows. Twin-derived features include residual contrasts (e.g., device resource versus neighbor summaries), structural aggregates, and interface error/discard/carrier deltas constructed with causal shifts. Twin features are optional inputs to agents and are ablated in \texttt{no\_twin} / \texttt{twin\_only} settings.
+The Digital Twin materializes inventory and topology as a typed graph synchronized with telemetry windows. Twin-derived features include residual contrasts (e.g., device resource versus neighbor summaries), structural aggregates, and interface error/discard/carrier deltas constructed with causal shifts. Twin features are optional inputs to agents and are ablated in twin-off / twin-only settings.
 
 \subsection{Leakage-safe feature enrichment (ECN-v3)}
-Beyond legacy aggregates, ECN-v3 adds causal rolling/EMA statistics, second differences, error-burst accumulators, and neighbor-instability proxies. All rolling and expanding operators apply \texttt{shift(1)} so that the current bin is excluded; labels join features at $\texttt{feat\_bin}=t_{\mathrm{start}}-30\,\mathrm{min}$. Isolation studies attribute the T1 gain primarily to this enrichment rather than to fusion complexity.
+Beyond legacy aggregates, ECN-v3 adds causal rolling/EMA statistics, second differences, error-burst accumulators, and neighbor-instability proxies. All rolling and expanding operators exclude the current bin via a one-step causal shift; labels join features at a decision time offset of $30\,\mathrm{min}$ before the labeled window start. Isolation studies attribute the T1 gain primarily to this enrichment rather than to fusion complexity.
 
 \subsection{Multi-agent architecture}
 Fig.~\ref{fig:architecture} depicts the agent workflow. Perception builds leakage-safe feature matrices from telemetry and twin views. Anomaly and Prediction score T1 anomaly windows and T2 failure-horizon risk, respectively. RCA predicts failure category with TreeSHAP explanations (T3); Impact estimates service-impact labels (T4); and Healing recommends remediation classes as \emph{decision support} (TR-AUTO). Actions are not executed on physical switches in this study.
-
-\paragraph{Final fusion head.}
-Architecture selection under the frozen six-seed protocol compares nesting-safe stacking against anchored fusion on the same enriched features. Anchored fusion (\texttt{ECNFusionModel}) constrains the telemetry specialist weight to be at least $0.5$ (or selects telem-only), yielding higher mean T1 AUPRC with a simpler operator-facing interpretation. Stacking (\texttt{ECNStackFusionModel}) is retained as an ablation/negative result. The recommended T2 head is telemetry logistic regression under ultra-rare positives.
+Architecture selection under the frozen six-seed protocol compares nesting-safe stacking against anchored fusion on the same enriched features. Anchored fusion constrains the telemetry specialist weight to be at least $0.5$ (or selects telem-only), yielding higher mean T1 AUPRC with a simpler operator-facing interpretation. Stacking is retained as an ablation (negative result). The recommended T2 head is telemetry logistic regression under ultra-rare positives.
 
 \begin{figure}[!t]
 \centering
@@ -43,4 +41,4 @@ Architecture selection under the frozen six-seed protocol compares nesting-safe 
 \end{figure}
 
 \subsection{Class imbalance and calibration}
-Positive rates are low ($\sim$1\% for T1; lower for T2). Training uses imbalance-aware weighting where applicable (\texttt{scale\_pos\_weight}); Isolation Forest scores are mapped via a train empirical CDF. Thresholds for F1/precision/recall are tuned on validation only and are \emph{not} used for AUPRC. Primary ranking metrics are AUPRC and ROC-AUC; Brier score reports calibration. Optional Beta/Platt calibration may be applied for probability display without changing AUPRC ranking.
+Positive rates are low ($\sim$1\% for T1; lower for T2). Training uses imbalance-aware weighting where applicable; Isolation Forest scores are mapped via a train empirical CDF. Thresholds for F1/precision/recall are tuned on validation only and are \emph{not} used for AUPRC. Primary ranking metrics are AUPRC and ROC-AUC; Brier score reports calibration. Optional Beta/Platt calibration may be applied for probability display without changing AUPRC ranking.
